@@ -1,0 +1,129 @@
+:root {
+    --primary-red: rgb(186, 16, 16);
+    --bg-cream: #EDEBDD;
+    --text-dark: #333;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Libre', 'Times New Roman', serif;
+    background-color: var(--bg-cream);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+.admin-header {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 20px 40px;
+    text-align: center;
+    font-family: 'Playfair Display', 'Baskerville', serif;
+}
+
+.admin-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Upload Section */
+.upload-section {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.primary-btn {
+    background-color: var(--primary-red);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.primary-btn:hover {
+    background-color: #8a0c0c;
+}
+
+.status-text {
+    margin-top: 10px;
+    font-style: italic;
+    color: #555;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.admin-card {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.admin-card-info {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.admin-card-info h4 {
+    margin: 0 0 5px 0;
+    text-transform: capitalize;
+    color: var(--primary-red);
+}
+
+.admin-card-info p {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.delete-btn {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #000;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikole Studio | Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <!-- Load Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header class="admin-header">
+        <h1>Nikole Studio Control Panel</h1>
+        <p>Manage your Gallery Portfolio</p>
+    </header>
+
+    <main class="admin-container">
+        <!-- UPLOAD SECTION --> 
+        <section class="upload-section">
+            <h2>Add New Photo</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="wedding">Wedding</option>
+                        <option value="portrait">Portrait</option>
+                        <option value="product">Product</option>
+                        <option value="events">Events</option>
+                        <option value="studio">Studio/Self Portrait</option>
+                        <option value="graduation">Graduation</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Short Description (Optional)</label>
+                    <input type="text" id="description" placeholder="e.g., Rustic themed wedding shot">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageInput">Select Image</label>
+                    <input type="file" id="imageInput" accept="image/png, image/jpeg, image/jpg" required>
+                </div>
+
+                <button type="submit" id="uploadBtn" class="primary-btn">Upload to Gallery</button>
+                <p id="uploadStatus" class="status-text"></p>
+            </form>
+        </section>
+
+        <!-- GALLERY MANAGEMENT SECTION -->
+        <section class="gallery-management">
+            <h2>Current Gallery</h2>
+            <div id="galleryGrid" class="gallery-grid">
+                <!-- JavaScript will inject photos here -->
+                <p>Loading photos...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

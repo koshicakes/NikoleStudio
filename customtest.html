@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nikole Studio — Setup Planner</title>
+
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Fabric.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand:       #8B1E2D;
+      --brand-lite:  #b5303e;
+      --brand-dim:   rgba(139,30,45,0.10);
+      --ink:         #1a1a1a;
+      --ink-mid:     #5a5a5a;
+      --ink-soft:    #9a9a9a;
+      --surface:     #f7f5f2;
+      --panel:       #ffffff;
+      --border:      #e6e2dd;
+      --radius-card: 13px;
+      --sidebar-w:   330px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--surface);
+      color: var(--ink);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* ─── SIDEBAR ─── */
+    aside {
+      width: var(--sidebar-w);
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 30;
+    }
+
+    .brand {
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 43px; height: 43px;
+      border-radius: 13px;
+      background: var(--brand);
+      color: #fff;
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px;
+      color: var(--ink);
+    }
+
+    .brand-text p { font-size: 11px; color: var(--ink-soft); margin-top: 1px; }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 6px;
+    }
+
+    .tab {
+      flex: 1;
+      height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--ink-mid); }
+    .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+    .sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 14px 20px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+    .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .s-label {
+      font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 16px 0 9px;
+    }
+
+    .s-label:first-child { margin-top: 2px; }
+
+    /* ─── PHOTO GRIDS ─── */
+    .backdrop-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .backdrop-card {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.16s;
+      position: relative;
+      background: var(--surface);
+    }
+
+    .backdrop-card:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .backdrop-card.active { border-color: var(--brand); }
+
+    .backdrop-card.active::after {
+      content: '✓';
+      position: absolute; top: 6px; right: 7px;
+      width: 19px; height: 19px;
+      background: var(--brand); color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .backdrop-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    .backdrop-card .card-name {
+      padding: 5px 8px;
+      font-size: 10px; font-weight: 500;
+      color: var(--ink-mid);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .prop-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .prop-card {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.16s;
+      background: var(--surface);
+    }
+
+    .prop-card:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .prop-card img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .prop-card .card-name {
+      padding: 5px 8px;
+      font-size: 10px; font-weight: 500;
+      color: var(--ink-mid);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #eeebe6 25%, #e5e0da 50%, #eeebe6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.3s infinite;
+      border-radius: var(--radius-card);
+    }
+
+    @keyframes shimmer { 0%{ background-position:200% 0 } 100%{ background-position:-200% 0 } }
+
+    .sk-backdrop { aspect-ratio: 3/4; }
+    .sk-prop     { aspect-ratio: 4/3; }
+
+    .empty-state {
+      text-align: center;
+      padding: 30px 12px;
+      color: var(--ink-soft);
+      font-size: 12px;
+      line-height: 1.7;
+      grid-column: span 2;
+    }
+
+    .empty-state .icon { font-size: 28px; margin-bottom: 6px; }
+
+    /* Chips */
+    .chip-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+
+    .chip {
+      height: 25px; padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 10px; font-weight: 500;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .chip:hover, .chip.active {
+      background: var(--brand-dim);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    /* Toggle */
+    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .toggle-row label { font-size: 11.5px; color: var(--ink-mid); flex: 1; }
+
+    .toggle {
+      width: 34px; height: 19px; border-radius: 999px;
+      background: var(--border);
+      position: relative; cursor: pointer;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+
+    .toggle.on { background: var(--brand); }
+
+    .toggle::after {
+      content: '';
+      position: absolute; left: 2px; top: 2px;
+      width: 15px; height: 15px;
+      border-radius: 50%; background: #fff;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .toggle.on::after { transform: translateX(15px); }
+
+    /* Size grid */
+    .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+
+    .size-btn {
+      height: 41px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px; font-weight: 500;
+      color: var(--ink-mid); cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .size-btn:hover, .size-btn.active {
+      border-color: var(--brand); color: var(--brand); background: var(--brand-dim);
+    }
+
+    /* Control panel */
+    .ctrl-box {
+      background: var(--surface); border-radius: 11px;
+      padding: 11px 13px; margin-bottom: 8px;
+    }
+
+    .slider-row {
+      display: flex; align-items: center; gap: 9px; margin-top: 7px;
+    }
+
+    .slider-row label { font-size: 11px; color: var(--ink-mid); width: 52px; flex-shrink: 0; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--brand); }
+    .slider-row span { font-size: 10px; color: var(--ink-soft); width: 32px; text-align: right; }
+
+    /* Text row */
+    .text-row { display: flex; gap: 7px; margin-top: 8px; }
+
+    .text-row input {
+      flex: 1; height: 34px;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 12px;
+      color: var(--ink); background: var(--panel); outline: none;
+    }
+
+    .text-row input:focus { border-color: var(--brand); }
+
+    .text-row button {
+      height: 34px; padding: 0 14px; border-radius: 8px;
+      background: var(--brand); border: none;
+      color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+
+    /* ─── MAIN ─── */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Banner */
+    #connBanner {
+      display: none;
+      background: #fef9ec;
+      border-bottom: 1px solid #f5dfa0;
+      padding: 7px 20px;
+      font-size: 11px; color: #7c5a0a;
+      align-items: center; gap: 8px;
+    }
+
+    #connBanner.show { display: flex; }
+    #connBanner code { background: rgba(0,0,0,0.07); padding: 1px 5px; border-radius: 4px; }
+
+    header {
+      height: 66px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #272727;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 22px; flex-shrink: 0;
+    }
+
+    .header-left h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 16px; color: #fff;
+    }
+
+    .header-left p { font-size: 10.5px; color: rgba(255,255,255,0.36); margin-top: 2px; }
+
+    .header-actions { display: flex; gap: 6px; }
+
+    .hbtn {
+      height: 35px; padding: 0 13px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.72);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s;
+    }
+
+    .hbtn:hover { background: rgba(255,255,255,0.12); }
+
+    .hbtn-red {
+      background: var(--brand); border-color: var(--brand);
+      color: #fff; font-weight: 600;
+    }
+
+    .hbtn-red:hover { background: var(--brand-lite); }
+
+    /* Workspace */
+    .workspace {
+      flex: 1;
+      background: #111;
+      background-image:
+        radial-gradient(circle at 15% 55%, rgba(139,30,45,0.07) 0%, transparent 55%),
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.022) 0%, transparent 40%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: auto; position: relative;
+    }
+
+    .ws-label {
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 9px; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.14);
+      white-space: nowrap; pointer-events: none;
+    }
+
+    .canvas-shell {
+      background: #1d1d1d; border-radius: 16px;
+      padding: 10px; flex-shrink: 0;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    #editor { display: block; border-radius: 8px; }
+
+    .grid-overlay {
+      position: absolute; inset: 0;
+      pointer-events: none; opacity: 0; transition: opacity 0.3s;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .grid-overlay.visible { opacity: 1; }
+
+    /* Footer */
+    footer {
+      height: 58px;
+      background: var(--panel); border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 18px; flex-shrink: 0;
+    }
+
+    .hints { display: flex; gap: 14px; }
+
+    .hint {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10.5px; color: var(--ink-soft);
+    }
+
+    .hint-key {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px;
+      font-size: 9.5px; font-weight: 600; color: var(--ink-mid);
+    }
+
+    .ftools { display: flex; gap: 5px; }
+
+    .ftool {
+      height: 31px; padding: 0 11px; border-radius: 7px;
+      border: 1px solid var(--border); background: var(--surface);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px; font-weight: 500;
+      color: var(--ink-mid); cursor: pointer; transition: all 0.14s;
+    }
+
+    .ftool:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-dim); }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 70px; right: 18px;
+      background: #1a1a1a; color: #fff;
+      font-size: 12px; font-weight: 500;
+      padding: 9px 15px; border-radius: 9px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.22s; pointer-events: none; z-index: 999;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside>
+  <div class="brand">
+    <div class="brand-icon">N</div>
+    <div class="brand-text">
+      <h1>Nikole Studio</h1>
+      <p>Setup Planner</p>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab('backdrops',this)">Backdrops</div>
+    <div class="tab"        onclick="switchTab('props',this)">Props</div>
+    <div class="tab"        onclick="switchTab('canvas',this)">Canvas</div>
+  </div>
+
+  <div class="sidebar-scroll">
+
+    <!-- ── BACKDROPS TAB ── -->
+    <div class="tab-panel active" id="tab-backdrops">
+      <p class="s-label">Select Backdrop</p>
+
+      <div class="chip-row" id="bdChips">
+        <div class="chip active" onclick="filterBackdrops('All',this)">All</div>
+      </div>
+
+      <div class="backdrop-grid" id="backdropGrid"></div>
+
+      <div class="toggle-row" style="margin-top:14px;">
+        <label>Gradient overlay</label>
+        <div class="toggle" id="gradToggle" onclick="toggleGradient()"></div>
+      </div>
+    </div>
+
+    <!-- ── PROPS TAB ── -->
+    <div class="tab-panel" id="tab-props">
+      <p class="s-label">Prop Library</p>
+
+      <div class="chip-row" id="propChips">
+        <div class="chip active" onclick="filterProps('All',this)">All</div>
+      </div>
+
+      <div class="prop-grid" id="propGrid"></div>
+
+      <p class="s-label" style="margin-top:18px;">Text Label</p>
+      <div class="text-row">
+        <input id="textInput" type="text" placeholder="Type text…">
+        <button onclick="addText()">Add</button>
+      </div>
+    </div>
+
+    <!-- ── CANVAS TAB ── -->
+    <div class="tab-panel" id="tab-canvas">
+      <p class="s-label">Canvas Size</p>
+      <div class="size-grid">
+        <button class="size-btn active" id="sz-s" onclick="preset(900,540,'sz-s')">Small</button>
+        <button class="size-btn"        id="sz-m" onclick="preset(1100,630,'sz-m')">Medium</button>
+        <button class="size-btn"        id="sz-l" onclick="preset(1300,740,'sz-l')">Large</button>
+        <button class="size-btn"        id="sz-e" onclick="preset(1500,820,'sz-e')">Event</button>
+      </div>
+
+      <p class="s-label" style="margin-top:18px;">Selected Object</p>
+      <div id="selectedPanel" style="display:none;">
+        <div class="ctrl-box">
+          <div class="slider-row">
+            <label>Opacity</label>
+            <input type="range" id="opacitySlider" min="0" max="100" value="100" oninput="setOpacity(this.value)">
+            <span id="opacityVal">100%</span>
+          </div>
+          <div class="slider-row">
+            <label>Scale</label>
+            <input type="range" id="scaleSlider" min="20" max="300" value="100" oninput="setScale(this.value)">
+            <span id="scaleVal">100%</span>
+          </div>
+        </div>
+      </div>
+      <p id="noSelMsg" style="font-size:11px;color:var(--ink-soft);padding:4px 2px;">Click a canvas object to adjust it.</p>
+    </div>
+
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+  <div id="connBanner">
+    ⚠️ <strong>Demo mode</strong> — replace <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> to connect your database.
+  </div>
+
+  <header>
+    <div class="header-left">
+      <h2>Creative Studio Composer</h2>
+      <p>Pick a backdrop · Add props · Drag, resize, rotate</p>
+    </div>
+    <div class="header-actions">
+      <button class="hbtn" onclick="toggleGrid()">Grid</button>
+      <button class="hbtn" onclick="clearProps()">Clear Props</button>
+      <button class="hbtn" onclick="duplicateSelected()">Duplicate</button>
+      <button class="hbtn" onclick="deleteSelected()">Delete</button>
+      <button class="hbtn hbtn-red" onclick="downloadImage()">Export PNG</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <div class="ws-label">Studio Preview Area</div>
+    <div class="grid-overlay" id="gridOverlay"></div>
+    <div class="canvas-shell">
+      <canvas id="editor" width="900" height="540"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    <div class="hints">
+      <div class="hint"><span class="hint-key">Del</span> Remove</div>
+      <div class="hint"><span class="hint-key">⌘D</span> Duplicate</div>
+      <div class="hint"><span class="hint-key">⌘Z</span> Undo</div>
+      <div class="hint"><span class="hint-key">Alt+Drag</span> Clone</div>
+    </div>
+    <div class="ftools">
+      <button class="ftool" onclick="bringFront()">↑ Front</button>
+      <button class="ftool" onclick="sendBack()">↓ Back</button>
+      <button class="ftool" onclick="flipH()">↔ Flip</button>
+      <button class="ftool" onclick="rotateLeft()">↺ −15°</button>
+      <button class="ftool" onclick="rotateRight()">↻ +15°</button>
+    </div>
+  </footer>
+</main>
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPT
+═══════════════════════════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════════
+   ①  SUPABASE CONFIG
+   ══════════════════════════════════════════════════
+   Replace the two values below with your Supabase
+   project URL and anon/public key.
+
+   Required table schemas
+   ──────────────────────
+   TABLE: backdrops
+     id          uuid PRIMARY KEY DEFAULT gen_random_uuid()
+     name        text NOT NULL
+     category    text                   -- 'Solid' | 'Textured' | 'Dark' | etc.
+     image_url   text NOT NULL          -- public URL from Supabase Storage
+     created_at  timestamptz DEFAULT now()
+
+   TABLE: props
+     id          uuid PRIMARY KEY DEFAULT gen_random_uuid()
+     name        text NOT NULL
+     category    text                   -- 'Furniture' | 'Decor' | 'Lighting' | etc.
+     image_url   text NOT NULL          -- public URL (transparent PNG preferred)
+     created_at  timestamptz DEFAULT now()
+
+   Storage
+   ──────────────────────
+   Create two public buckets: "backdrops" and "props"
+   Upload images there; use the resulting public URL
+   as image_url in the tables above.
+
+   Row Level Security
+   ──────────────────────
+   For read-only access by clients:
+     CREATE POLICY "Public read" ON backdrops FOR SELECT USING (true);
+     CREATE POLICY "Public read" ON props     FOR SELECT USING (true);
+════════════════════════════════════════════════════ */
+  const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+  const DEMO_MODE = SUPABASE_URL === 'YOUR_SUPABASE_URL';
+  let db = null;
+
+  if (!DEMO_MODE) {
+    db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } else {
+    document.getElementById('connBanner').classList.add('show');
+  }
+
+  /* ══════════════════════════════════════════════════
+     ②  DEMO DATA  (Unsplash placeholders)
+        Replaced entirely once connected to Supabase.
+  ══════════════════════════════════════════════════ */
+  const DEMO_BACKDROPS = [
+    { id:'b1', name:'Classic White',   category:'Solid',    image_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=65' },
+    { id:'b2', name:'Warm Linen',      category:'Solid',    image_url:'https://images.unsplash.com/photo-1511389026070-a14ae610a1be?w=400&q=65' },
+    { id:'b3', name:'Sage Green',      category:'Solid',    image_url:'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&q=65' },
+    { id:'b4', name:'Dusty Rose',      category:'Solid',    image_url:'https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?w=400&q=65' },
+    { id:'b5', name:'Marble',          category:'Textured', image_url:'https://images.unsplash.com/photo-1610374796832-4e70bcbf2000?w=400&q=65' },
+    { id:'b6', name:'Linen Texture',   category:'Textured', image_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=65' },
+    { id:'b7', name:'Midnight Blue',   category:'Dark',     image_url:'https://images.unsplash.com/photo-1531804055935-76f44d7c3621?w=400&q=65' },
+    { id:'b8', name:'Charcoal Studio', category:'Dark',     image_url:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=65' },
+  ];
+
+  const DEMO_PROPS = [
+    { id:'p1',  name:'Wooden Chair',  category:'Furniture', image_url:'https://images.unsplash.com/photo-1503602642458-232111445657?w=300&q=70' },
+    { id:'p2',  name:'Bar Stool',     category:'Furniture', image_url:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=70' },
+    { id:'p3',  name:'Side Table',    category:'Furniture', image_url:'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=300&q=70' },
+    { id:'p4',  name:'Floor Lamp',    category:'Furniture', image_url:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&q=70' },
+    { id:'p5',  name:'Potted Plant',  category:'Decor',     image_url:'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=300&q=70' },
+    { id:'p6',  name:'Bouquet',       category:'Decor',     image_url:'https://images.unsplash.com/photo-1490750967868-88df5691cc11?w=300&q=70' },
+    { id:'p7',  name:'Wall Frame',    category:'Decor',     image_url:'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=300&q=70' },
+    { id:'p8',  name:'Balloon Bunch', category:'Decor',     image_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=300&q=70' },
+    { id:'p9',  name:'Softbox',       category:'Lighting',  image_url:'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=300&q=70' },
+    { id:'p10', name:'Ring Light',    category:'Lighting',  image_url:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=300&q=70' },
+    { id:'p11', name:'Candles',       category:'Seasonal',  image_url:'https://images.unsplash.com/photo-1603905797600-2e4e6e37d0d8?w=300&q=70' },
+    { id:'p12', name:'Gift Box',      category:'Seasonal',  image_url:'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=300&q=70' },
+  ];
+
+  /* ══════════════════════════════════════════════════
+     ③  DATA LAYER
+  ══════════════════════════════════════════════════ */
+  async function fetchBackdrops() {
+    if (DEMO_MODE) return DEMO_BACKDROPS;
+    const { data, error } = await db
+      .from('backdrops')
+      .select('id, name, category, image_url')
+      .order('category')
+      .order('name');
+    if (error) { console.error(error); return DEMO_BACKDROPS; }
+    return data;
+  }
+
+  async function fetchProps() {
+    if (DEMO_MODE) return DEMO_PROPS;
+    const { data, error } = await db
+      .from('props')
+      .select('id, name, category, image_url')
+      .order('category')
+      .order('name');
+    if (error) { console.error(error); return DEMO_PROPS; }
+    return data;
+  }
+
+  /* ══════════════════════════════════════════════════
+     ④  RENDER HELPERS
+  ══════════════════════════════════════════════════ */
+  let allBackdrops = [], allProps = [];
+
+  function skeletons(gridId, n, skClass) {
+    document.getElementById(gridId).innerHTML =
+      Array.from({ length: n }, () => `<div class="skeleton ${skClass}"></div>`).join('');
+  }
+
+  function buildChips(items, containerId, filterFn) {
+    const cats = ['All', ...new Set(items.map(i => i.category).filter(Boolean).sort())];
+    document.getElementById(containerId).innerHTML = cats.map((c, i) =>
+      `<div class="chip ${i === 0 ? 'active' : ''}" onclick="${filterFn}('${c}',this)">${c}</div>`
+    ).join('');
+  }
+
+  function renderBackdrops(items) {
+    const g = document.getElementById('backdropGrid');
+    if (!items.length) {
+      g.innerHTML = `<div class="empty-state"><div class="icon">🖼️</div>No backdrops found.</div>`;
+      return;
+    }
+    g.innerHTML = items.map(b => `
+      <div class="backdrop-card" onclick="selectBackdrop('${b.image_url}',this)" title="${b.name}">
+        <img src="${b.image_url}" alt="${b.name}" loading="lazy"
+             onerror="this.style.cssText='background:#e5e0da;min-height:120px';this.removeAttribute('src')">
+        <div class="card-name">${b.name}</div>
+      </div>`).join('');
+  }
+
+  function renderProps(items) {
+    const g = document.getElementById('propGrid');
+    if (!items.length) {
+      g.innerHTML = `<div class="empty-state"><div class="icon">📦</div>No props found.</div>`;
+      return;
+    }
+    g.innerHTML = items.map(p => `
+      <div class="prop-card" onclick="addImageToCanvas('${p.image_url}','${p.name}')" title="${p.name}">
+        <img src="${p.image_url}" alt="${p.name}" loading="lazy"
+             onerror="this.style.cssText='background:#e5e0da;min-height:80px';this.removeAttribute('src')">
+        <div class="card-name">${p.name}</div>
+      </div>`).join('');
+  }
+
+  function filterBackdrops(cat, el) {
+    document.querySelectorAll('#bdChips .chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderBackdrops(cat === 'All' ? allBackdrops : allBackdrops.filter(b => b.category === cat));
+  }
+
+  function filterProps(cat, el) {
+    document.querySelectorAll('#propChips .chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderProps(cat === 'All' ? allProps : allProps.filter(p => p.category === cat));
+  }
+
+  async function loadSidebar() {
+    skeletons('backdropGrid', 6, 'sk-backdrop');
+    skeletons('propGrid',     8, 'sk-prop');
+    [allBackdrops, allProps] = await Promise.all([fetchBackdrops(), fetchProps()]);
+    buildChips(allBackdrops, 'bdChips',   'filterBackdrops');
+    buildChips(allProps,     'propChips', 'filterProps');
+    renderBackdrops(allBackdrops);
+    renderProps(allProps);
+  }
+
+  /* ══════════════════════════════════════════════════
+     ⑤  FABRIC CANVAS
+  ══════════════════════════════════════════════════ */
+  const canvas = new fabric.Canvas('editor', { preserveObjectStacking: true });
+
+  let currentW = 900, currentH = 540;
+  let gradEnabled = false;
+  let gridVisible = false;
+  let history = [];
+  let backdropImg = null;
+
+  /* Base room layers */
+  const wall = new fabric.Rect({
+    left: 0, top: 0,
+    width: currentW, height: currentH,
+    fill: '#d6d1cb',
+    selectable: false, evented: false, name: 'wall'
+  });
+
+  const floor = new fabric.Rect({
+    left: 0, top: currentH * 0.72,
+    width: currentW, height: currentH * 0.28,
+    fill: '#c4b8a4',
+    selectable: false, evented: false, name: 'floor'
+  });
+
+  canvas.add(wall, floor);
+  canvas.renderAll();
+  saveHistory();
+
+  /* ── Select backdrop ── */
+  function selectBackdrop(url, cardEl) {
+    document.querySelectorAll('.backdrop-card').forEach(c => c.classList.remove('active'));
+    cardEl.classList.add('active');
+
+    if (backdropImg) { canvas.remove(backdropImg); backdropImg = null; }
+
+    fabric.Image.fromURL(url, img => {
+      const maxH = currentH * 0.78;
+      const maxW = currentW * 0.54;
+      img.scaleToHeight(maxH);
+      if (img.getScaledWidth() > maxW) img.scaleToWidth(maxW);
+
+      img.set({
+        left: (currentW - img.getScaledWidth()) / 2,
+        top: 0,
+        name: 'backdropImg',
+        shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.2)', blur: 32, offsetX: 0, offsetY: 6 })
+      });
+
+      backdropImg = img;
+      canvas.insertAt(img, 1); // slot 0=wall, 1=backdrop, 2+=props
+      canvas.renderAll();
+      saveHistory();
+      toast('Backdrop applied');
+    }, { crossOrigin: 'anonymous' });
+  }
+
+  /* ── Add prop ── */
+  function addImageToCanvas(url, name) {
+    fabric.Image.fromURL(url, img => {
+      const maxW = currentW * 0.26;
+      const maxH = currentH * 0.48;
+      if (img.width > maxW)  img.scaleToWidth(maxW);
+      if (img.getScaledHeight() > maxH) img.scaleToHeight(maxH);
+
+      img.set({
+        left: currentW / 2 - img.getScaledWidth() / 2,
+        top:  currentH * 0.42 - img.getScaledHeight() / 2,
+        name: name,
+        shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.16)', blur: 20, offsetX: 0, offsetY: 5 })
+      });
+
+      canvas.add(img);
+      canvas.setActiveObject(img);
+      canvas.renderAll();
+      saveHistory();
+      toast(`${name} added`);
+    }, { crossOrigin: 'anonymous' });
+  }
+
+  /* ── Gradient overlay ── */
+  function toggleGradient() {
+    gradEnabled = !gradEnabled;
+    document.getElementById('gradToggle').classList.toggle('on', gradEnabled);
+    wall.set({ fill: gradEnabled
+      ? new fabric.Gradient({ type: 'linear',
+          coords: { x1: 0, y1: 0, x2: 0, y2: currentH },
+          colorStops: [{ offset: 0, color: 'rgba(0,0,0,0)' }, { offset: 1, color: 'rgba(0,0,0,0.25)' }] })
+      : '#d6d1cb'
+    });
+    canvas.renderAll();
+  }
+
+  /* ── Canvas size presets ── */
+  function preset(w, h, btnId) {
+    currentW = w; currentH = h;
+    canvas.setWidth(w); canvas.setHeight(h);
+    wall.set({ width: w, height: h });
+    floor.set({ width: w, top: h * 0.72, height: h * 0.28 });
+    if (backdropImg) {
+      backdropImg.set({ left: (w - backdropImg.getScaledWidth()) / 2 });
+    }
+    canvas.renderAll();
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(btnId).classList.add('active');
+    toast('Canvas resized');
+  }
+
+  /* ── Text label ── */
+  function addText() {
+    const val = document.getElementById('textInput').value.trim();
+    if (!val) return;
+    const t = new fabric.IText(val, {
+      left: currentW / 2 - 80, top: currentH * 0.07,
+      fontFamily: 'DM Serif Display, serif',
+      fontSize: 34, fill: '#1a1a1a',
+      shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.12)', blur: 6 })
+    });
+    canvas.add(t);
+    canvas.setActiveObject(t);
+    canvas.renderAll();
+    document.getElementById('textInput').value = '';
+    saveHistory();
+  }
+
+  /* ── Selection panel ── */
+  canvas.on('selection:created', onSel);
+  canvas.on('selection:updated', onSel);
+  canvas.on('selection:cleared', () => {
+    document.getElementById('selectedPanel').style.display = 'none';
+    document.getElementById('noSelMsg').style.display = 'block';
+  });
+
+  function onSel() {
+    const o = canvas.getActiveObject();
+    if (!o) return;
+    document.getElementById('selectedPanel').style.display = 'block';
+    document.getElementById('noSelMsg').style.display = 'none';
+    document.getElementById('opacitySlider').value = Math.round((o.opacity || 1) * 100);
+    document.getElementById('opacityVal').textContent = Math.round((o.opacity || 1) * 100) + '%';
+    const sc = Math.round((o.scaleX || 1) * 100);
+    document.getElementById('scaleSlider').value = Math.min(300, sc);
+    document.getElementById('scaleVal').textContent = sc + '%';
+  }
+
+  function setOpacity(v) {
+    const o = canvas.getActiveObject();
+    if (o) { o.set({ opacity: v / 100 }); canvas.renderAll(); }
+    document.getElementById('opacityVal').textContent = v + '%';
+  }
+
+  function setScale(v) {
+    const o = canvas.getActiveObject();
+    if (o) { o.scale(v / 100); canvas.renderAll(); }
+    document.getElementById('scaleVal').textContent = v + '%';
+  }
+
+  /* ── Toolbar actions ── */
+  const PROTECTED = ['wall', 'floor', 'backdropImg'];
+
+  function deleteSelected() {
+    const o = canvas.getActiveObject();
+    if (o && !PROTECTED.includes(o.name)) {
+      canvas.remove(o); canvas.renderAll(); saveHistory();
+    }
+  }
+
+  function duplicateSelected() {
+    const o = canvas.getActiveObject();
+    if (!o) return;
+    o.clone(cl => {
+      cl.set({ left: o.left + 22, top: o.top + 22 });
+      canvas.add(cl); canvas.setActiveObject(cl);
+      canvas.renderAll(); saveHistory();
+    });
+    toast('Duplicated');
+  }
+
+  function bringFront()  { const o=canvas.getActiveObject(); if(o){canvas.bringToFront(o);canvas.renderAll();} }
+  function sendBack()    { const o=canvas.getActiveObject(); if(o){canvas.sendBackwards(o);canvas.renderAll();} }
+  function flipH()       { const o=canvas.getActiveObject(); if(o){o.set({flipX:!o.flipX});canvas.renderAll();} }
+  function rotateLeft()  { const o=canvas.getActiveObject(); if(o){o.set({angle:(o.angle||0)-15});canvas.renderAll();} }
+  function rotateRight() { const o=canvas.getActiveObject(); if(o){o.set({angle:(o.angle||0)+15});canvas.renderAll();} }
+
+  function toggleGrid() {
+    gridVisible = !gridVisible;
+    document.getElementById('gridOverlay').classList.toggle('visible', gridVisible);
+  }
+
+  function clearProps() {
+    if (!confirm('Remove all props? (Backdrop stays)')) return;
+    canvas.getObjects().filter(o => !PROTECTED.includes(o.name)).forEach(o => canvas.remove(o));
+    canvas.renderAll(); saveHistory(); toast('Props cleared');
+  }
+
+  function downloadImage() {
+    const a = document.createElement('a');
+    a.download = 'nikole-studio-setup.png';
+    a.href = canvas.toDataURL({ format: 'png', quality: 1 });
+    a.click(); toast('Exported!');
+  }
+
+  /* ── Undo ── */
+  function saveHistory() {
+    history.push(JSON.stringify(canvas));
+    if (history.length > 30) history.shift();
+  }
+
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey||e.ctrlKey) && e.key==='z') {
+      e.preventDefault();
+      if (history.length > 1) {
+        history.pop();
+        canvas.loadFromJSON(history[history.length - 1], () => canvas.renderAll());
+      }
+    }
+    if ((e.metaKey||e.ctrlKey) && e.key==='d') { e.preventDefault(); duplicateSelected(); }
+    if (e.key==='Delete'||e.key==='Backspace') {
+      const a=canvas.getActiveObject();
+      if (a && !(a instanceof fabric.IText && a.isEditing)) deleteSelected();
+    }
+  });
+
+  // Alt+drag = clone
+  canvas.on('mouse:down', opt => {
+    if (opt.e.altKey) {
+      const o = canvas.getActiveObject();
+      if (o) o.clone(cl => {
+        cl.set({ left: o.left + 20, top: o.top + 20 });
+        canvas.add(cl); canvas.setActiveObject(cl); canvas.renderAll();
+      });
+    }
+  });
+
+  /* ── Tab switcher ── */
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  /* ── Toast ── */
+  let toastT;
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  /* ══ BOOT ══ */
+  loadSidebar();
+</script>
+</body>
+</html>

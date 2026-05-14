@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking | Nikole Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+<base target="_blank">
+</head>
+<body>
+<nav>
+    <a href="home.html" class="logo" aria-label="Nikole Studio Home"><img src="nikole red no bg.png" alt="Nikole Studio"></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="setup.html">Customize the Space</a>
+        <a href="contact.html">Contact</a>
+        <a href="booking.html" class="is-active nav-cta">Booking</a>
+    </div>
+</nav>
+
+<main>
+ 
+
+    <section class="page-section booking-section">
+        <div class="booking-shell">
+            <div class="section-head booking-page-head">
+                <p class="eyebrow">Session Request</p>
+                <h2 class="section-title">Book your date and time</h2>
+                <p class="section-description">Fully booked dates are disabled. Partially booked dates only show the remaining time slots.</p>
+            </div>
+
+            <section class="booking-policy-mustread" id="booking-policy" aria-labelledby="mustread-policy-title">
+                <div>
+                    <p class="eyebrow">Must Read</p>
+                    <h2 id="mustread-policy-title">Booking Policy</h2>
+                    <p>Please review these notes before sending your request so the studio can reserve, prepare, and confirm your session smoothly.</p>
+                </div>
+                <ul class="mustread-list">
+                    <li>Your slot is not final until Nikole Studio reviews your request and sends a confirmation.</li>
+                    <li>Fully booked dates are unavailable in the calendar, while partially booked dates show only remaining time slots.</li>
+                    <li>Please arrive on time. Late arrival may shorten the session depending on the next scheduled booking.</li>
+                    <li>Rescheduling requests should be made at least 48 hours before the appointment.</li>
+                    <li>Backdrop, prop, outfit, HMUA, and event coverage notes should be included in the request when relevant.</li>
+                    <li>Personal information is handled according to the <a href="privacy.html">Nikole Studio Privacy Policy</a>.</li>
+                </ul>
+            </section>
+
+            <form id="booking-form" class="booking-request" novalidate>
+                <section class="booking-card booking-intake-card" aria-labelledby="details-title">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Details</p>
+                        <h2 id="details-title">Client & session details</h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input id="firstName" name="firstName" type="text" placeholder="Ana" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input id="lastName" name="lastName" type="text" placeholder="Santos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input id="email" name="email" type="email" placeholder="ana@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone / Messenger Contact</label>
+                            <input id="phone" name="phone" type="text" placeholder="+63 917 000 0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="sessionCategory">Session Type *</label>
+                            <select id="sessionCategory" name="sessionCategory" required>
+                                <option value="">Choose a session</option>
+                                <option value="Peekaboo Sessions">Peekaboo Sessions</option>
+                                <option value="Bump & Bliss Sessions">Bump & Bliss Sessions</option>
+                                <option value="Event Photo & Video Packages">Event Photo & Video Packages</option>
+                                <option value="Self Portrait Packages">Self Portrait Packages</option>
+                                <option value="Mini Session Portrait Packages">Mini Session Portrait Packages</option>
+                                <option value="Mini Session Family Packages">Mini Session Family Packages</option>
+                                <option value="Snuggle Sessions">Snuggle Sessions</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Package *</label>
+                            <select id="package" name="package" required>
+                                <option value="">Choose a package</option>
+                            </select>
+                        </div>
+                        <div class="form-group full" id="backdrop-field">
+                            <label for="backdrop">Preferred Backdrop</label>
+                            <select id="backdrop" name="backdrop">
+                                <option value="">No preference</option>
+                                <option value="Soft Neutral">Soft Neutral</option>
+                                <option value="Dark Drama">Dark Drama</option>
+                                <option value="Golden Glow">Golden Glow</option>
+                                <option value="Fine Art">Fine Art</option>
+                            </select>
+                        </div>
+                        <input id="setupDesignData" name="setupDesignData" type="hidden">
+                    </div>
+                </section>
+
+                <section class="booking-card booking-calendar-card" aria-labelledby="schedule-title">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Schedule</p>
+                        <h2 id="schedule-title">Pick an available slot</h2>
+                    </div>
+
+                    <div class="calendar-board">
+                        <div class="calendar-panel">
+                            <div class="calendar-toolbar">
+                                <button type="button" class="calendar-nav" id="prevMonth" aria-label="Previous month">‹</button>
+                                <h3 id="calendarMonth">May 2026</h3>
+                                <button type="button" class="calendar-nav" id="nextMonth" aria-label="Next month">›</button>
+                            </div>
+
+                            <div class="calendar-weekdays" aria-hidden="true">
+                                <span>S</span>
+                                <span>M</span>
+                                <span>T</span>
+                                <span>W</span>
+                                <span>T</span>
+                                <span>F</span>
+                                <span>S</span>
+                            </div>
+
+                            <div class="calendar-days" id="calendarDays" role="grid" aria-label="Booking calendar"></div>
+
+                            <div class="calendar-legend">
+                                <span><i class="legend-dot available"></i>Available</span>
+                                <span><i class="legend-dot partial"></i>Few slots left</span>
+                                <span><i class="legend-dot booked"></i>Booked</span>
+                            </div>
+                        </div>
+
+                        <div class="time-panel">
+                            <div class="selected-day-card">
+                                <span>Selected Date</span>
+                                <strong id="selectedDateLabel">Choose a date</strong>
+                                <small>TIME ZONE: MANILA (GMT+08:00)</small>
+                            </div>
+                            <div class="time-slots" id="timeSlots" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <input id="date" name="date" type="hidden" required>
+                    <input id="time" name="time" type="hidden" required>
+                </section>
+
+                <section class="booking-card booking-notes-card">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Final Notes</p>
+                        <h2>Prepare the studio flow</h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label for="notes">Special Requests</label>
+                            <textarea id="notes" name="notes" placeholder="Describe your vision, mood, styling, package notes, or any references."></textarea>
+                        </div>
+                        <div class="form-group full policy-group">
+                            <label class="checkbox-field"><input id="policyAccept" type="checkbox" required> I have read and agree to Nikole Studio's <a href="#booking-policy">booking policy</a> and <a href="privacy.html">privacy policy</a>.</label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-action" type="submit">Request Booking</button>
+                        <p class="description">Your selected date and time are saved in the form fields for database connection.</p>
+                    </div>
+                </section>
+            </form>
+
+            <aside class="booking-side-panel">
+                <div class="sidebar-card booking-summary-box">
+                    <p class="section-kicker">Booking Summary</p>
+                    <div class="info-row"><span class="info-label">Package</span><span class="info-value" id="summary-package">Not selected</span></div>
+                    <div class="info-row"><span class="info-label">Date</span><span class="info-value" id="summary-date">Choose a date</span></div>
+                    <div class="info-row"><span class="info-label">Time</span><span class="info-value" id="summary-time">Choose a time</span></div>
+                    <div class="info-row"><span class="info-label">Backdrop</span><span class="info-value" id="summary-backdrop">Open to recommendation</span></div>
+                </div>
+
+                <div class="sidebar-card setup-design-card" id="setupDesignCard" hidden>
+                    <p class="section-kicker">Saved Setup</p>
+                    <img id="setupDesignPreview" alt="Saved studio setup preview">
+                    <div class="info-row"><span class="info-label">Status</span><span class="info-value" id="summary-setup">Applied to booking</span></div>
+                    <a href="setup.html">Edit setup</a>
+                </div>
+
+                <div class="sidebar-card booking-policy-card">
+                    <p class="section-kicker">Policy reminder</p>
+                    <ul class="policy-list">
+                        <li>Choose only one available time slot before submitting.</li>
+                        <li>Wait for studio confirmation before considering the booking final.</li>
+                        <li>Read the <a href="privacy.html">privacy policy</a> before sending personal details.</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <p class="section-kicker">Need help?</p>
+                    <div class="info-row"><span class="info-label">Messenger</span><span class="info-value"><a href="https://m.me/nikolestudio" target="_blank" rel="noopener">Chat now</a></span></div>
+                    <div class="info-row"><span class="info-label">Tip</span><span class="info-value">Send a mood board before booking.</span></div>
+                </div>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+    <p>&copy; 2026 Nikole Studio.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="base.js"></script>
+<script src="booking.js"></script>
+</body>
+</html>

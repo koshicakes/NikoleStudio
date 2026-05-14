@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Nikole Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav>
+    <a href="home.html" class="logo" aria-label="Nikole Studio Home"><img src="nikole red no bg.png" alt="Nikole Studio"></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html" class="is-active">Services</a>
+        <a href="setup.html">Customize the Space</a>
+        <a href="contact.html">Contact</a>
+        <a href="booking.html" class="nav-cta">Booking</a>
+    </div>
+</nav>
+
+<main>
+ 
+    <section class="page-section packages-page">
+        <div class="section-head">
+            <p class="eyebrow">Service Packages</p>
+            <h2 class="section-title">Packages grouped by session category</h2>
+            <p class="section-description">Choose the main package that fits your shoot, then book the specific offer you want to reserve.</p>
+        </div>
+
+        <div class="package-jump" aria-label="Package categories">
+            <a href="#self-portrait">Self Portrait</a>
+            <a href="#mini-portrait">Mini Portrait</a>
+            <a href="#family">Family</a>
+            <a href="#pre-birthday">Pre-Birthday</a>
+            <a href="#maternity">Maternity</a>
+            <a href="#newborn">Newborn</a>
+            <a href="#event">Event Photo & Video</a>
+        </div>
+
+        <div id="packageSections" class="package-sections" aria-live="polite"></div>
+    </section>
+</main>
+
+<footer class="page-footer">
+    <p>&copy; 2026 Nikole Studio.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="base.js"></script>
+<script src="services.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+/* ===== STATIC TESTIMONIAL CARDS ===== */
+
+.testimonials-static {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+.testimonials-heading {
+    font-family: 'Libre Baskerville', 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--maroon-deep);
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+/* GRID FIX */
+.testimonials-grid-cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 32px;
+
+    align-items: stretch;
+}
+
+/* CARD */
+.testimonial-card-item {
+    background: #ffffff;
+
+    border: 1px solid rgba(122, 28, 42, 0.06);
+    border-radius: 24px;
+
+    padding: 34px 32px 30px;
+
+    min-height: 420px;
+
+    box-shadow: 0 8px 28px rgba(74, 13, 23, 0.04);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card-item:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 18px 45px rgba(74, 13, 23, 0.08);
+}
+
+.card-stars {
+    color: #FFD700;
+
+    font-size: 18px;
+    letter-spacing: 3px;
+
+    line-height: 1;
+}
+
+/* REVIEW TEXT */
+.card-quote {
+    flex: 1;
+
+    font-size: 15px;
+    line-height: 1.9;
+
+    color: var(--text-dark);
+
+    font-style: italic;
+
+    margin: 22px 0 34px;
+}
+
+/* REVIEWER */
+.card-reviewer {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-top: auto;
+}
+
+.reviewer-avatar {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    background: var(--maroon-deep);
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 600;
+    font-size: 20px;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    flex-shrink: 0;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.reviewer-info strong {
+    font-size: 15px;
+    font-weight: 600;
+
+    color: var(--maroon-deep);
+}
+
+.reviewer-info span {
+    font-size: 13px;
+
+    color: var(--text-muted);
+}
+
+/* ===== FACEBOOK REVIEW HEADER ===== */
+
+.facebook-badge-large {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 42px;
+}
+
+.facebook-badge-large svg {
+    flex-shrink: 0;
+}
+
+.facebook-badge-large h2 {
+    margin: 0;
+
+    font-family: 'Libre Baskerville', 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 400;
+
+    color: var(--maroon-deep);
+
+    line-height: 1;
+}
+
+.facebook-badge-large span {
+    display: inline-block;
+    transform: translateY(1px);
+}
+
+/* CTA BUTTON */
+
+.testimonials-cta {
+    margin-top: 50px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.fb-reviews-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #1877f2;
+    color: white;
+
+    padding: 14px 28px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+    font-size: 15px;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    box-shadow: 0 8px 22px rgba(24,119,242,0.25);
+}
+
+.fb-reviews-btn:hover {
+    background: #1666d9;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 26px rgba(24,119,242,0.32);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1100px) {
+
+    .testimonials-grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .testimonials-static {
+        text-align: center;
+    }
+
+    .testimonials-grid-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .facebook-badge-large {
+        justify-content: center;
+    }
+
+    .facebook-badge-large h2 {
+        font-size: 24px;
+    }
+
+    .testimonial-card-item {
+        min-height: auto;
+    }
+
+    .testimonials-heading {
+        text-align: center;
+    }
+}
