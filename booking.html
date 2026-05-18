@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking | Nikole Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <!-- FIX: removed <base target="_blank"> — it was breaking all nav links and the #booking-policy anchor.
+         External links that need a new tab now use target="_blank" rel="noopener" individually. -->
+    <style>
+        /* ── Booking success modal ─────────────────────────────── */
+        .booking-success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9000;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+        .booking-success-overlay.is-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .booking-success-modal {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 8px 40px rgba(0,0,0,.18);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .success-modal-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #e8f5ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+        .success-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: #1a1a1a;
+        }
+        .success-ref-block {
+            background: #f5f3ef;
+            border: 1px dashed #c9a96e;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .success-ref-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        .success-ref-code {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            color: #1a1a1a;
+            font-family: monospace;
+        }
+        .success-copy-btn {
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .45rem .9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .15s;
+        }
+        .success-copy-btn:hover { background: #333; }
+        .success-details {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+            border-left: 3px solid #e0d5c5;
+            padding-left: .9rem;
+        }
+        .success-notice {
+            background: #fff8ec;
+            border: 1px solid #f0d89a;
+            border-radius: 10px;
+            padding: .9rem 1rem;
+            font-size: 0.85rem;
+            color: #5a4a1a;
+            line-height: 1.6;
+        }
+        .success-notice strong { color: #3a2e00; }
+        .success-modal-actions {
+            display: flex;
+            gap: .75rem;
+            flex-wrap: wrap;
+        }
+        .success-messenger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: #0084ff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: .65rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .15s;
+        }
+        .success-messenger-btn:hover { background: #006dd9; }
+        .success-close-btn {
+            background: transparent;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            padding: .65rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: border-color .15s, color .15s;
+        }
+        .success-close-btn:hover { border-color: #999; color: #222; }
+        .form-error-message {
+            color: #b91c1c;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: .6rem 1rem;
+            font-size: .875rem;
+            margin-top: .5rem;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="home.html" class="logo" aria-label="Nikole Studio Home"><img src="nikole red no bg.png" alt="Nikole Studio"></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="setup.html">Customize the Space</a>
+        <a href="contact.html">Contact</a>
+        <a href="booking.html" class="is-active nav-cta">Booking</a>
+    </div>
+</nav>
+
+<main>
+
+    <section class="page-section booking-section">
+        <div class="booking-shell">
+            <div class="section-head booking-page-head">
+                <p class="eyebrow">Session Request</p>
+                <h2 class="section-title">Book your date and time</h2>
+                <p class="section-description">Fully booked dates are disabled. Partially booked dates only show the remaining time slots.</p>
+            </div>
+
+           <section class="booking-policy-mustread" id="booking-policy" aria-labelledby="general-guidelines-title">
+    <div>
+        <p class="eyebrow">Nikole Studio</p>
+        <h2 id="general-guidelines-title">General Guidelines</h2>
+        <p>
+            Please review these guidelines before sending your request so the
+            studio can reserve, prepare, and confirm your session smoothly.
+        </p>
+    </div>
+
+    <div class="policy-content">
+
+        <div class="policy-group">
+            <h3>Companions &amp; Footwear</h3>
+            <ul class="mustread-list">
+                <li>A maximum of 2–3 companions is allowed, except for family portraits.</li>
+                <li>Shoes and slippers must be removed upon entering the studio.</li>
+            </ul>
+        </div>
+
+        <div class="policy-group">
+            <h3>Shoot Time &amp; Parking</h3>
+            <ul class="mustread-list">
+                <li>The duration of the photoshoot depends on your package and may range from 30 minutes to 3 hours.</li>
+                <li>Please be patient during your scheduled session.</li>
+                <li>Parking is available outside the studio for cars and motorcycles.</li>
+                <li>Please inform us at least 1 hour before arrival if you are bringing a vehicle.</li>
+            </ul>
+        </div>
+
+        <div class="policy-group">
+            <h3>Design &amp; Theme Changes</h3>
+            <ul class="mustread-list">
+                <li>No changes to the theme/design are allowed on the appointment day.</li>
+                <li>Customized theme/design changes are only permitted up to 7 days before your appointment.</li>
+            </ul>
+        </div>
+
+        <div class="policy-group">
+            <h3>Late Arrivals &amp; Cancellations</h3>
+            <ul class="mustread-list">
+                <li>Grace Period: 15 minutes.</li>
+                <li>Late Fee: 20–30 minutes late — P250 added to your total.</li>
+                <li>More than 30 minutes late — Appointment is canceled and downpayment is forfeited.</li>
+                <li>No Show — Appointment is automatically canceled and downpayment is forfeited.</li>
+                <li>Cancellation — A P300 compensation fee applies to last-minute cancellations.</li>
+            </ul>
+
+            </div>
+            <div class="policy-group">
+            <h3>Rescheduling Policy</h3>
+            <ul class="mustread-list">
+                <li>Reschedule at least 48 hours (2 days) before your appointment — A P150 rescheduling fee will be charged.</li>
+                <li>Rescheduling less than 48 hours before the appointment — Downpayment is forfeited.</li>
+                <li>Rescheduling Limit — The new appointment must be within 10 days of the original date, or the downpayment is forfeited.</li>
+            </ul>
+       
+            <h4>How to Reschedule</h4>
+            <ul class="mustread-list">
+                <li>Message us as soon as possible with your preferred new date and time.</li>
+            </ul>
+
+            <h4>Emergency Cases</h4>
+            <ul class="mustread-list">
+                <li>Contact us immediately and provide proof of your reason.</li>
+            </ul>
+        </div>
+
+        <div class="policy-group">
+            <h3>Booking Confirmation</h3>
+            <ul class="mustread-list">
+                <li>Your slot is not final until Nikole Studio reviews your request and sends a confirmation.</li>
+            </ul>
+        </div>
+
+        <div class="policy-group">
+            <h3>Privacy Policy</h3>
+            <ul class="mustread-list">
+                <li>
+                    Personal information is handled according to the
+                    <!-- FIX: added target="_blank" rel="noopener" individually instead of relying on <base> -->
+                    <a href="privacy.html" target="_blank" rel="noopener">Nikole Studio Privacy Policy</a>.
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+            <form id="booking-form" class="booking-request" novalidate>
+                <section class="booking-card booking-intake-card" aria-labelledby="details-title">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Details</p>
+                        <h2 id="details-title">Client & session details</h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input id="firstName" name="firstName" type="text" placeholder="Ana" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input id="lastName" name="lastName" type="text" placeholder="Santos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input id="email" name="email" type="email" placeholder="ana@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone / Messenger Contact *</label>
+                            <input id="phone" name="phone" type="tel" placeholder="09XXXXXXXXX" inputmode="numeric" pattern="09[0-9]{9}" required aria-describedby="phone-error">
+                            <p class="field-error" id="phone-error" aria-live="polite"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="sessionCategory">Session Type *</label>
+                            <select id="sessionCategory" name="sessionCategory" required>
+                                <option value="">Choose a session</option>
+                                <option value="Peekaboo Sessions">Peekaboo Sessions</option>
+                                <option value="Bump & Bliss Sessions">Bump &amp; Bliss Sessions</option>
+                                <option value="Event Photo & Video Packages">Event Photo &amp; Video Packages</option>
+                                <option value="Self Portrait Packages">Self Portrait Packages</option>
+                                <option value="Mini Session Portrait Packages">Mini Session Portrait Packages</option>
+                                <option value="Mini Session Family Packages">Mini Session Family Packages</option>
+                                <option value="Snuggle Sessions">Snuggle Sessions</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Package *</label>
+                            <select id="package" name="package" required>
+                                <option value="">Choose a package</option>
+                            </select>
+                        </div>
+                        <div class="form-group full" id="backdrop-field" style="display:none;">
+                            <label for="backdrop">Preferred Backdrop</label>
+                            <select id="backdrop" name="backdrop">
+                                <option value="">No preference</option>
+                                <option value="Soft Neutral">Soft Neutral</option>
+                                <option value="Dark Drama">Dark Drama</option>
+                                <option value="Golden Glow">Golden Glow</option>
+                                <option value="Fine Art">Fine Art</option>
+                            </select>
+                        </div>
+                        <input id="setupDesignData" name="setupDesignData" type="hidden">
+                    </div>
+                </section>
+
+                <section class="booking-card booking-calendar-card" aria-labelledby="schedule-title">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Schedule</p>
+                        <h2 id="schedule-title">Pick an available slot</h2>
+                    </div>
+
+                    <div class="calendar-board">
+                        <div class="calendar-panel">
+                            <div class="calendar-toolbar">
+                                <button type="button" class="calendar-nav" id="prevMonth" aria-label="Previous month">‹</button>
+                                <h3 id="calendarMonth">May 2026</h3>
+                                <button type="button" class="calendar-nav" id="nextMonth" aria-label="Next month">›</button>
+                            </div>
+
+                            <div class="calendar-weekdays" aria-hidden="true">
+                                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                            </div>
+
+                            <div class="calendar-days" id="calendarDays" role="grid" aria-label="Booking calendar"></div>
+
+                            <div class="calendar-legend">
+                                <span><i class="legend-dot available"></i>Available</span>
+                                <span><i class="legend-dot partial"></i>Few slots left</span>
+                                <span><i class="legend-dot booked"></i>Booked</span>
+                            </div>
+                        </div>
+
+                        <div class="time-panel">
+                            <div class="selected-day-card">
+                                <span>Selected Date</span>
+                                <strong id="selectedDateLabel">Choose a date</strong>
+                                <small>TIME ZONE: MANILA (GMT+08:00)</small>
+                            </div>
+                            <div class="time-slots" id="timeSlots" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <input id="date" name="date" type="hidden" required>
+                    <input id="time" name="time" type="hidden" required>
+                </section>
+
+                <section class="booking-card booking-notes-card">
+                    <div class="booking-card-head">
+                        <p class="eyebrow">Final Notes</p>
+                        <h2>Prepare the studio flow</h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label for="notes">Special Requests</label>
+                            <textarea id="notes" name="notes" placeholder="Describe your vision, mood, styling, package notes, or any references."></textarea>
+                        </div>
+                        <div class="form-group full policy-group">
+                            <label class="checkbox-field">
+                                <input id="policyAccept" type="checkbox" required>
+                                I have read and agree to Nikole Studio's <a href="#booking-policy">booking policy</a> and
+                                <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <p id="formError" class="form-error-message" aria-live="assertive" hidden></p>
+                        <button class="btn-action" type="submit">Request Booking</button>
+                        <p class="cooldown-message" id="bookingCooldownMessage" aria-live="polite" hidden></p>
+                        <!-- FIX: replaced dev-note placeholder text with a client-facing 24-hour notice -->
+                        <p class="description">
+                            After submitting, you'll receive a reference code. If you don't get an email confirmation within 24 hours,
+                            send your reference code to our <a href="https://m.me/nikolestudio" target="_blank" rel="noopener">Messenger</a>.
+                        </p>
+                    </div>
+                </section>
+            </form>
+
+            <aside class="booking-side-panel">
+                <div class="sidebar-card booking-summary-box">
+                    <p class="section-kicker">Booking Summary</p>
+                    <div class="info-row"><span class="info-label">Package</span><span class="info-value" id="summary-package">Not selected</span></div>
+                    <div class="info-row"><span class="info-label">Date</span><span class="info-value" id="summary-date">Choose a date</span></div>
+                    <div class="info-row"><span class="info-label">Time</span><span class="info-value" id="summary-time">Choose a time</span></div>
+                    <div class="info-row"><span class="info-label">Backdrop</span><span class="info-value" id="summary-backdrop">Open to recommendation</span></div>
+                </div>
+
+                <div class="sidebar-card setup-design-card" id="setupDesignCard" hidden>
+                    <p class="section-kicker">Saved Setup</p>
+                    <img id="setupDesignPreview" alt="Saved studio setup preview">
+                    <div class="info-row"><span class="info-label">Status</span><span class="info-value" id="summary-setup">Applied to booking</span></div>
+                    <a href="setup.html">Edit setup</a>
+                </div>
+
+                <div class="sidebar-card booking-policy-card">
+                    <p class="section-kicker">Policy reminder</p>
+                    <ul class="policy-list">
+                        <li>Choose only one available time slot before submitting.</li>
+                        <li>Wait for studio confirmation before considering the booking final.</li>
+                        <li>Read the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a> before sending personal details.</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <p class="section-kicker">Need help?</p>
+                    <div class="info-row"><span class="info-label">Messenger</span><span class="info-value"><a href="https://m.me/nikolestudio" target="_blank" rel="noopener">Chat now</a></span></div>
+                    <div class="info-row"><span class="info-label">Tip</span><span class="info-value">Send a mood board before booking.</span></div>
+                </div>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+    <p>&copy; 2026 Nikole Studio.</p>
+</footer>
+
+<!-- ── Booking success modal ──────────────────────────────────────── -->
+<div class="booking-success-overlay" id="bookingSuccessOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+    <div class="booking-success-modal">
+        <div class="success-modal-icon" aria-hidden="true">✅</div>
+        <h2 class="success-modal-title" id="successModalTitle">Booking request received!</h2>
+
+        <div class="success-ref-block">
+            <div>
+                <div class="success-ref-label">Your reference code</div>
+                <div class="success-ref-code" id="successRefCode">NKL---------</div>
+            </div>
+            <button class="success-copy-btn" id="successCopyBtn" type="button">Copy</button>
+        </div>
+
+        <div class="success-details" id="successDetails"></div>
+
+        <div class="success-notice">
+            <strong>Expect an email confirmation within 24 hours.</strong>
+            If you don't hear from us, please send your reference code to our Messenger so we can look up your booking right away.
+        </div>
+
+        <div class="success-modal-actions">
+            <a class="success-messenger-btn" id="successMessengerLink" href="https://m.me/nikolestudio" target="_blank" rel="noopener">
+                Message the Studio
+            </a>
+            <button class="success-close-btn" id="successCloseBtn" type="button">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="base.js"></script>
+<script src="booking.js"></script>
+</body>
+</html>

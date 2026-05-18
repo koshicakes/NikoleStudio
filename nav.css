@@ -1,0 +1,312 @@
+/* Synced with the navbar design from nikole_studio.html */
+:root {
+    --nav-red: var(--red-main, rgb(186, 16, 16));
+    --nav-red-dark: var(--red-deep, rgb(140, 10, 10));
+    --nav-white: #ffffff;
+    --nav-charcoal: var(--text-dark, #2c2c2c);
+    --nav-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --nav-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body > nav:not(.nav),
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 80px;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-120%);
+    transition: var(--nav-transition);
+}
+
+body > nav:not(.nav).nav-visible,
+body > nav:not(.nav).nav-open,
+.navbar.nav-visible,
+.navbar.nav-open,
+.navbar.scrolled {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+body > nav:not(.nav).nav-scrolled,
+.navbar.scrolled {
+    height: 70px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--nav-shadow);
+}
+
+body > nav:not(.nav).nav-hidden:not(.nav-open) {
+    transform: translateY(-120%);
+}
+
+body > nav:not(.nav) > .logo,
+.navbar > .logo,
+.logo-text {
+    display: inline-flex;
+    align-items: center;
+    color: var(--nav-white);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: none;
+    transition: var(--nav-transition);
+}
+
+.logo span,
+.logo-text span {
+    color: var(--nav-red);
+}
+
+body > nav:not(.nav).nav-scrolled > .logo,
+body > nav:not(.nav).nav-scrolled .logo-text,
+.navbar.scrolled .logo,
+.navbar.scrolled .logo-text {
+    color: var(--nav-charcoal);
+}
+
+body > nav:not(.nav) > .logo img,
+.navbar > .logo img {
+    width: auto;
+    max-width: min(190px, 44vw);
+    height: 56px;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.24));
+    transition: var(--nav-transition);
+}
+
+body > nav:not(.nav).nav-scrolled > .logo img,
+.navbar.scrolled > .logo img {
+    height: 50px;
+    filter: none;
+}
+
+body > nav:not(.nav) > .nav-links,
+.navbar > .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+}
+
+body > nav:not(.nav) > .nav-links a,
+.navbar > .nav-links a {
+    position: relative;
+    margin: 0;
+    color: var(--nav-white);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    line-height: 1;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: uppercase;
+    opacity: 1;
+    transition: var(--nav-transition);
+}
+
+body > nav:not(.nav).nav-scrolled > .nav-links a,
+.navbar.scrolled > .nav-links a {
+    color: var(--nav-charcoal);
+}
+
+body > nav:not(.nav) > .nav-links a::after,
+.navbar > .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background: var(--nav-red);
+    transition: var(--nav-transition);
+}
+
+body > nav:not(.nav) > .nav-links a:hover,
+body > nav:not(.nav) > .nav-links a.is-active,
+.navbar > .nav-links a:hover,
+.navbar > .nav-links a.is-active,
+body > nav:not(.nav).nav-scrolled > .nav-links a:hover,
+.navbar.scrolled > .nav-links a:hover {
+    color: var(--nav-red);
+}
+
+body > nav:not(.nav) > .nav-links a:hover::after,
+body > nav:not(.nav) > .nav-links a.is-active::after,
+.navbar > .nav-links a:hover::after,
+.navbar > .nav-links a.is-active::after {
+    width: 100%;
+}
+
+body > nav:not(.nav) > .nav-links a.nav-cta,
+.navbar > .nav-links a.nav-cta {
+    padding: 12px 28px;
+    color: var(--nav-white) !important;
+    background: var(--nav-red);
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+body > nav:not(.nav) > .nav-links a.nav-cta::after,
+.navbar > .nav-links a.nav-cta::after {
+    display: none;
+}
+
+body > nav:not(.nav) > .nav-links a.nav-cta:hover,
+.navbar > .nav-links a.nav-cta:hover {
+    color: var(--nav-white) !important;
+    background: var(--nav-red-dark);
+    box-shadow: 0 5px 20px rgba(186, 16, 16, 0.3);
+    transform: translateY(-2px);
+}
+
+body > nav:not(.nav) > .nav-toggle,
+.navbar > .nav-toggle,
+.mobile-menu-btn {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--nav-white);
+    cursor: pointer;
+    z-index: 1002;
+    transition: var(--nav-transition);
+}
+
+body > nav:not(.nav) > .nav-toggle,
+.navbar > .nav-toggle {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body > nav:not(.nav) > .nav-toggle span,
+.navbar > .nav-toggle span {
+    width: 100%;
+    height: 3px;
+    display: block;
+    border-radius: 999px;
+    background: currentColor;
+    filter: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-menu-btn {
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+body > nav:not(.nav).nav-scrolled > .nav-toggle,
+body > nav:not(.nav).nav-scrolled > .mobile-menu-btn,
+.navbar.scrolled .nav-toggle,
+.navbar.scrolled .mobile-menu-btn {
+    color: var(--nav-charcoal);
+}
+
+body > nav:not(.nav).nav-open > .nav-toggle span:nth-child(1),
+.navbar.nav-open > .nav-toggle span:nth-child(1) {
+    transform: translateY(13.5px) rotate(45deg);
+}
+
+body > nav:not(.nav).nav-open > .nav-toggle span:nth-child(2),
+.navbar.nav-open > .nav-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+body > nav:not(.nav).nav-open > .nav-toggle span:nth-child(3),
+.navbar.nav-open > .nav-toggle span:nth-child(3) {
+    transform: translateY(-13.5px) rotate(-45deg);
+}
+
+@media (max-width: 960px) {
+    body > nav:not(.nav),
+    .navbar {
+        height: 76px;
+        padding: 0 6%;
+    }
+
+    body > nav:not(.nav) > .nav-toggle,
+    .navbar > .nav-toggle,
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    body > nav:not(.nav) > .nav-links,
+    .navbar > .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(340px, 84vw);
+        height: 100vh;
+        padding: 110px 30px 40px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 24px;
+        background: rgba(255, 255, 255, 0.98);
+        border-left: 1px solid rgba(44, 44, 44, 0.08);
+        box-shadow: -12px 0 40px rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transform: translateX(110%);
+        transition: transform 0.35s ease;
+        z-index: 1001;
+    }
+
+    body > nav:not(.nav).nav-open > .nav-links,
+    .navbar.nav-open > .nav-links,
+    .navbar > .nav-links.active {
+        transform: translateX(0);
+    }
+
+    body > nav:not(.nav) > .nav-links a,
+    .navbar > .nav-links a {
+        width: 100%;
+        padding: 10px 0;
+        color: var(--nav-charcoal);
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+
+    body > nav:not(.nav) > .nav-links a.nav-cta,
+    .navbar > .nav-links a.nav-cta {
+        width: auto;
+        padding: 13px 26px;
+    }
+
+    body.nav-open {
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 520px) {
+    body > nav:not(.nav) > .logo,
+    .navbar > .logo,
+    .logo-text {
+        font-size: 1.45rem;
+    }
+
+    body > nav:not(.nav) > .logo img,
+    .navbar > .logo img {
+        height: 46px;
+    }
+}

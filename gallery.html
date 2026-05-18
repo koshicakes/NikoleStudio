@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse Nikole Studio's gallery of portrait sessions, family photos, maternity shoots, and newborn stories. Soft light, clean styling, and timeless studio mood.">
+    <title>Gallery | Nikole Studio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav>
+    <a href="home.html" class="logo" aria-label="Nikole Studio Home"><img src="nikole red no bg.png" alt="Nikole Studio"></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="gallery.html" class="is-active">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="setup.html">Customize the Space</a>
+        <a href="contact.html">Contact</a>
+        <a href="booking.html" class="nav-cta">Booking</a>
+    </div>
+</nav>
+
+<main>
+    <section class="hero-minimal">
+        <div class="hero-minimal-inner">
+            <span class="hero-minimal-eyebrow">Gallery</span>
+            <h1 class="hero-minimal-title">A curated look inside Nikole Studio.</h1>
+            <p class="hero-minimal-description">Explore portrait sessions, birthday concepts, and couple stories captured with soft light, clean styling, and a timeless studio mood.</p>
+            <div class="hero-minimal-actions">
+                <a href="#gallery-grid" class="btn-minimal-primary">Browse Collections</a>
+                <a href="booking.html" class="btn-minimal-secondary">Book a Session</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <p class="eyebrow">Collections</p>
+            <h2>Choose a gallery</h2>
+        </div>
+
+        <div class="gallery-filters" aria-label="Gallery filters">
+            <button class="filter-btn active" type="button" data-filter="all">All</button>
+            <button class="filter-btn" type="button" data-filter="Self Portrait Packages">Self Portrait</button>
+            <button class="filter-btn" type="button" data-filter="Mini Session Portrait Packages">Mini Portrait</button>
+            <button class="filter-btn" type="button" data-filter="Mini Session Family Packages">Family</button>
+            <button class="filter-btn" type="button" data-filter="Peekaboo Sessions">Peekaboo</button>
+            <button class="filter-btn" type="button" data-filter="Bump & Bliss Sessions">Bump & Bliss</button>
+            <button class="filter-btn" type="button" data-filter="Snuggle Sessions">Snuggle</button>
+            <button class="filter-btn" type="button" data-filter="Event Photo & Video Packages">Events</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Photos loaded dynamically from Supabase -->
+        </div>
+    </section>
+</main>
+
+<footer class="page-footer">
+    <p>&copy; 2026 Nikole Studio.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="base.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+/* =========================
+   responsive.css
+========================= */
+
+@media (max-width: 1024px) {
+
+    .studio-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 70px;
+    }
+
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    section {
+        padding: 70px 6%;
+    }
+
+    .studio-collage {
+        width: 280px;
+        height: 340px;
+    }
+
+    .gallery-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

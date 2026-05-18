@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize the Space | Nikole Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="setup.css">
+</head>
+<body class="setup-page">
+
+<nav>
+    <a href="home.html" class="logo" aria-label="Nikole Studio Home">
+        <img src="nikole red no bg.png" alt="Nikole Studio">
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="setup.html" class="is-active">Customize the Space</a>
+        <a href="contact.html">Contact</a>
+        <a href="booking.html" class="nav-cta">Booking</a>
+    </div>
+</nav>
+
+<main class="setup-main">
+    <section class="setup-planner" aria-labelledby="setup-title">
+        <aside class="setup-sidebar" aria-label="Setup options">
+            <div class="setup-brand-card">
+                <div class="setup-brand-mark" aria-hidden="true">N</div>
+                <div>
+                    <p class="setup-kicker">Nikole Studio</p>
+                    <h1 id="setup-title">Setup Planner</h1>
+                </div>
+            </div>
+
+            <div class="setup-tabs" role="tablist" aria-label="Planner controls">
+                <button type="button" class="setup-tab active" data-tab="backdrops" role="tab" aria-selected="true" aria-controls="tab-backdrops">Backdrops</button>
+                <button type="button" class="setup-tab" data-tab="props" role="tab" aria-selected="false" aria-controls="tab-props">Props</button>
+                <button type="button" class="setup-tab" data-tab="canvas" role="tab" aria-selected="false" aria-controls="tab-canvas">Canvas</button>
+            </div>
+
+            <div class="setup-sidebar-scroll">
+                <div class="setup-panel active" id="tab-backdrops" role="tabpanel">
+                    <p class="setup-label">Select Backdrop</p>
+                    <div class="chip-row" id="bdChips"></div>
+                    <div class="backdrop-grid" id="backdropGrid" aria-live="polite"></div>
+
+                    <div class="backdrop-actions">
+                        <div class="toggle-row">
+                            <label for="gradToggle">Gradient overlay</label>
+                            <button type="button" class="toggle" id="gradToggle" aria-pressed="false"></button>
+                        </div>
+                        <button type="button" class="panel-action-btn" id="removeBackdropBtn">Remove Backdrop</button>
+                    </div>
+                </div>
+
+                <div class="setup-panel" id="tab-props" role="tabpanel" hidden>
+                    <p class="setup-label">Prop Library</p>
+                    <div class="chip-row" id="propChips"></div>
+                    <div class="prop-grid" id="propGrid" aria-live="polite"></div>
+                </div>
+
+                <div class="setup-panel" id="tab-canvas" role="tabpanel" hidden>
+                    <p class="setup-label">Canvas Size</p>
+                    <div class="size-grid">
+                        <button type="button" class="size-btn active" id="sz-s" data-width="900" data-height="540">Small</button>
+                        <button type="button" class="size-btn" id="sz-m" data-width="1100" data-height="630">Medium</button>
+                        <button type="button" class="size-btn" id="sz-l" data-width="1300" data-height="740">Large</button>
+                        <button type="button" class="size-btn" id="sz-e" data-width="1500" data-height="820">Event</button>
+                    </div>
+
+                    <p class="setup-label selected-label">Selected Object</p>
+                    <div id="selectedPanel" class="selected-panel" hidden>
+                        <div class="ctrl-box">
+                            <div class="slider-row">
+                                <label for="opacitySlider">Opacity</label>
+                                <input type="range" id="opacitySlider" min="0" max="100" value="100">
+                                <span id="opacityVal">100%</span>
+                            </div>
+                            <div class="slider-row">
+                                <label for="scaleSlider">Scale</label>
+                                <input type="range" id="scaleSlider" min="20" max="300" value="100">
+                                <span id="scaleVal">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="noSelMsg" class="selection-empty">Select an object on the canvas.</p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="setup-composer" aria-label="Studio setup composer">
+            <header class="composer-header">
+                <div class="composer-copy">
+                    <p class="setup-kicker">Creative Studio Composer</p>
+                    <h2>Build your look</h2>
+                </div>
+                <div class="header-actions" aria-label="Canvas actions">
+                    <button type="button" class="tool-btn" id="clearBtn">Clear Props</button>
+                    <button type="button" class="tool-btn" id="duplicateBtn">Duplicate</button>
+                    <button type="button" class="tool-btn" id="deleteBtn">Delete</button>
+                    <button type="button" class="tool-btn tool-btn-primary" id="saveDesignBtn">Save Design</button>
+                </div>
+            </header>
+
+            <div class="workspace">
+                <div class="canvas-shell">
+                    <canvas id="editor" width="900" height="540"></canvas>
+                </div>
+            </div>
+
+            <div class="composer-footer">
+                <div class="canvas-hints" aria-label="Keyboard shortcuts">
+                    <span><kbd>Del</kbd> Remove</span>
+                    <span><kbd>Ctrl+D</kbd> Duplicate</span>
+                    <span><kbd>Ctrl+Z</kbd> Undo</span>
+                    <span><kbd>Alt+Drag</kbd> Clone</span>
+                </div>
+                <div class="footer-tools" aria-label="Layer and transform tools">
+                    <button type="button" class="mini-tool" id="frontBtn">Front</button>
+                    <button type="button" class="mini-tool" id="backBtn">Back</button>
+                    <button type="button" class="mini-tool" id="flipBtn">Flip</button>
+                    <button type="button" class="mini-tool" id="rotateLeftBtn">-15</button>
+                    <button type="button" class="mini-tool" id="rotateRightBtn">+15</button>
+                    <a class="mini-tool mini-tool-link" id="bookSetupLink" href="booking.html">Book Setup</a>
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
+
+<footer class="page-footer">
+    <p>&copy; 2026 Nikole Studio</p>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="base.js"></script>
+<script src="setup.js"></script>
+
+</body>
+</html>

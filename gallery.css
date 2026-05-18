@@ -1,0 +1,441 @@
+/* =========================
+   GALLERY PAGE – ILUMINA STYLE
+========================= */
+.gallery-section {
+    padding: 100px 6% 120px;
+    background: var(--off-white);
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.gallery-header h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    color: var(--maroon-deep);
+    margin-top: 12px;
+}
+
+
+.hero-portrait-pro {
+    padding: 120px 6% 80px;
+    background: var(--off-white);
+    text-align: center;
+}
+
+.hero-portrait-pro-inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--maroon-main);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.hero-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 400;
+    font-family: 'Libre Baskerville', serif;
+    color: var(--maroon-deep);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    opacity: 0.85;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    display: inline-block;
+    background: var(--maroon-main);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--maroon-main);
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--maroon-main);
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--maroon-main);
+    padding: 12px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--maroon-main);
+}
+
+.btn-secondary:hover {
+    background: var(--maroon-main);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-portrait-pro {
+        padding: 80px 6% 60px;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* FILTER BUTTONS */
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 56px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid rgba(122, 28, 42, 0.3);
+    padding: 8px 24px;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--maroon-deep);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--maroon-main);
+    color: white;
+    border-color: var(--maroon-main);
+}
+
+
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #e8e2db;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+}
+
+/* OVERLAY (appears on hover) */
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 24px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    text-align: left;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.gallery-overlay p {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+/* Category page grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.category-gallery-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.category-gallery-card:hover img {
+    transform: scale(1.02);
+}
+
+/* Category hero */
+.category-hero {
+    min-height: 420px;
+}
+.category-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) auto;
+    gap: 36px;
+    align-items: center;
+}
+.category-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+.meta-pill {
+    background: rgba(250, 243, 236, 0.9);
+    color: var(--maroon-deep);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .category-hero-inner {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+    .gallery-filters {
+        gap: 8px;
+    }
+    .filter-btn {
+        padding: 6px 18px;
+        font-size: 0.8rem;
+    }
+}
+
+/* =========================
+   MINIMALIST ELEGANT HERO
+========================= */
+.hero-minimal {
+    padding: 140px 6% 100px;
+    background: var(--off-white);
+    text-align: center;
+}
+
+.hero-minimal-inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.hero-minimal-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: var(--maroon-main);
+    margin-bottom: 1.8rem;
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+.hero-minimal-title {
+    font-size: clamp(38px, 7vw, 68px);
+    font-weight: 350;
+    font-family: 'Playfair Display', serif;
+    color: var(--maroon-deep);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+}
+
+.hero-minimal-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    max-width: 540px;
+    margin: 0 auto 2.2rem;
+    font-weight: 350;
+    opacity: 0.75;
+}
+
+.btn-minimal-primary,
+.btn-minimal-secondary {
+    display: inline-block;
+    padding: 10px 28px;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    font-weight: 400;
+}
+
+.btn-minimal-primary {
+    background: transparent;
+    color: var(--maroon-deep);
+    border: 1px solid var(--maroon-deep);
+}
+
+.btn-minimal-primary:hover {
+    background: var(--maroon-deep);
+    color: white;
+}
+
+.btn-minimal-secondary {
+    background: transparent;
+    color: var(--text-dark);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.btn-minimal-secondary:hover {
+    border-color: var(--maroon-deep);
+    color: var(--maroon-deep);
+}
+
+.hero-minimal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .hero-minimal {
+        padding: 100px 6% 70px;
+    }
+    .hero-minimal-title {
+        font-size: 2.2rem;
+    }
+    .hero-minimal-description {
+        font-size: 0.9rem;
+    }
+}
+
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;            /* or 12px if you want rounded, up to you */
+    cursor: pointer;
+    background-color: #e8e5df;   /* placeholder bg while image loads */
+           /* portrait ratio – you can change or remove */
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: transform;
+}
+
+.gallery-card:hover img {
+    transform: scale(1.04);
+}
+
+/* Dark overlay (appears on hover, covers whole card) */
+.gallery-card__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(53, 53, 53, 0.25);  /* subtle dark tint */
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gallery-card:hover .gallery-card__overlay {
+    opacity: 1;
+}
+
+/* Always‑visible label at the bottom */
+.gallery-card__label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+}
+
+.gallery-card__label h4 {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    color: #fff;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Make the grid responsive the same way you now have */
+/* Already defined in your CSS, just ensure it applies to .gallery-grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .hero-minimal {
+        padding: 100px 6% 80px; 
+}
+}
