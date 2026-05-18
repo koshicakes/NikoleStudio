@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const setupDesignPreview = document.querySelector('#setupDesignPreview');
     const summarySetup     = document.querySelector('#summary-setup');
     const submitBtn        = form.querySelector('button[type="submit"]');
+<<<<<<< HEAD
     const phoneInput       = document.querySelector('#phone');
     const phoneError       = document.querySelector('#phone-error');
     const cooldownMessage  = document.querySelector('#bookingCooldownMessage');
@@ -120,13 +121,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         const rand = Math.random().toString(36).slice(2, 8).toUpperCase();
         return 'NKL-' + date + '-' + ts + rand;
     }
+=======
+
+    let savedSetupDesign = null;
+    let dbPackages = [];       // packages from Supabase
+    let bookedSlotsMap = {};   // { 'YYYY-MM-DD': ['9:00 AM', ...] }
+
+    const allSlots = ['9:00 AM', '10:00 AM', '11:30 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
     // ── Supabase helpers ──────────────────────────────────────────
     async function fetchPackages() {
         try {
             const { data, error } = await nikoleDB
                 .from('packages')
+<<<<<<< HEAD
                 .select('package_id, name, price, service_type, is_active, session_duration_min')
+=======
+                .select('package_id, name, price, service_type, is_active')
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 .eq('is_active', true)
                 .order('package_id');
             if (error) throw error;
@@ -139,15 +152,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function fetchBookedSlots() {
         try {
+<<<<<<< HEAD
             const { data, error } = await nikoleDB
                 .from('bookings')
                 .select('booking_date, booking_time, service_type, session_duration_min')
+=======
+            // Fetch all confirmed/pending bookings to block those slots
+            const { data, error } = await nikoleDB
+                .from('bookings')
+                .select('booking_date, booking_time')
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 .in('status', ['pending', 'confirmed']);
             if (error) throw error;
 
             bookedSlotsMap = {};
             (data || []).forEach(row => {
                 if (!row.booking_date) return;
+<<<<<<< HEAD
                 const key = row.booking_date.slice(0, 10);
                 const isEvent = (row.service_type || '').toLowerCase().includes('event');
                 if (isEvent) {
@@ -165,12 +186,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (typeof window.setNikoleBookedSlots === 'function') {
                 window.setNikoleBookedSlots(bookedSlotsMap);
             }
+=======
+                const key = row.booking_date.slice(0, 10); // 'YYYY-MM-DD'
+                if (!bookedSlotsMap[key]) bookedSlotsMap[key] = [];
+                if (row.booking_time) bookedSlotsMap[key].push(row.booking_time);
+            });
+
+            // Expose globally so dashboard can call window.setNikoleBookedSlots
+            window.setNikoleBookedSlots(bookedSlotsMap);
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         } catch (err) {
             console.warn('Could not load booked slots:', err.message);
         }
     }
 
     async function submitBooking(formData) {
+<<<<<<< HEAD
         const bookingDate  = formData.get('date');
         const bookingTime  = formData.get('time');
         const serviceType  = formData.get('sessionCategory') || '';
@@ -383,12 +414,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         el.hidden = false;
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(() => { el.hidden = true; }, 6000);
+=======
+        const { error } = await nikoleDB.from('bookings').insert({
+            customer_name : formData.get('firstName') + ' ' + formData.get('lastName'),
+            email         : formData.get('email'),
+            contact_number: formData.get('phone') || null,
+            service_type  : formData.get('sessionCategory') || null,
+            package_id    : formData.get('packageId') || null,
+            booking_date  : formData.get('date'),
+            booking_time  : formData.get('time'),
+            canvas_design : formData.get('backdrop') || null,
+            notes         : formData.get('notes') || null,
+            policy_agreed : true,
+            status        : 'pending'
+        });
+        if (error) throw error;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     }
 
     // ── Package rendering ─────────────────────────────────────────
     function renderPackages(serviceType, preferredPackage = '') {
         packageSelect.innerHTML = '<option value="">Choose a package</option>';
 
+<<<<<<< HEAD
+=======
+        // Filter from DB packages first; fall back to static list
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         const filtered = dbPackages.filter(p =>
             !serviceType || (p.service_type && p.service_type.toLowerCase() === serviceType.toLowerCase())
         );
@@ -398,11 +449,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const opt = document.createElement('option');
                 opt.value = p.package_id;
                 opt.dataset.name = p.name;
+<<<<<<< HEAD
                 if (p.session_duration_min) opt.dataset.duration = p.session_duration_min;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 opt.textContent = p.name + (p.price ? '  —  ₱' + Number(p.price).toLocaleString() : '');
                 packageSelect.appendChild(opt);
             });
         } else {
+<<<<<<< HEAD
+=======
+            // Static fallback (same as original)
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             const staticOptions = {
                 'Peekaboo Sessions': ['Tiny Triumphs','Pre-Birthday Mini','Smash & Giggles'],
                 'Bump & Bliss Sessions': ['Mommy Glow','Little Miracle','Baby Bliss Plan'],
@@ -422,6 +480,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (preferredPackage) {
+<<<<<<< HEAD
+=======
+            // Try match by name
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             const matchByName = Array.from(packageSelect.options).find(o => o.dataset.name === preferredPackage);
             if (matchByName) {
                 packageSelect.value = matchByName.value;
@@ -447,6 +509,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const pad = v => String(v).padStart(2,'0');
     const toDateKey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+<<<<<<< HEAD
     // Parse date key as LOCAL time — never use new Date(isoString) directly,
     // as ISO strings parse as UTC midnight which shows the previous day in UTC+8.
     const parseDateKey = k => { const [y,m,d] = k.split('-').map(Number); return new Date(y,m-1,d); };
@@ -482,6 +545,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const isFullyBooked = key => isEventBlockedDay(key) || getAvailableSlotsForDate(key).length === 0;
+=======
+    const parseDateKey = k => { const [y,m,d] = k.split('-').map(Number); return new Date(y,m-1,d); };
+    const formatLongDate = k => parseDateKey(k).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+    const getBookedSlots  = key => bookedSlotsMap[key] || [];
+    const getRemainingSlots = key => allSlots.filter(s => !getBookedSlots(key).includes(s));
+    const isFullyBooked   = key => getRemainingSlots(key).length === 0;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
     window.setNikoleBookedSlots = (map) => {
         bookedSlotsMap = map || {};
@@ -495,6 +566,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const renderCalendar = () => {
         calendarDays.innerHTML = '';
         calendarMonth.textContent = visibleMonth.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+<<<<<<< HEAD
         const year  = visibleMonth.getFullYear();
         const month = visibleMonth.getMonth();
         const firstDay    = new Date(year, month, 1).getDay();
@@ -504,17 +576,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
         if (prevMonth) prevMonth.disabled = isCurrentMonth;
 
+=======
+        const year = visibleMonth.getFullYear();
+        const month = visibleMonth.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month+1, 0).getDate();
+
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         for (let i = 0; i < firstDay; i++) calendarDays.appendChild(document.createElement('span'));
 
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(year, month, day);
+<<<<<<< HEAD
             const key  = toDateKey(date);
             const available = getAvailableSlotsForDate(key);
             const btn  = document.createElement('button');
+=======
+            const key = toDateKey(date);
+            const remaining = getRemainingSlots(key);
+            const btn = document.createElement('button');
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             btn.type = 'button';
             btn.className = 'calendar-day';
             btn.textContent = String(day);
             btn.dataset.date = key;
+<<<<<<< HEAD
             btn.setAttribute('aria-label', `${formatLongDate(key)}, ${available.length} slots`);
 
             if (key === selectedDate)        btn.classList.add('is-selected');
@@ -528,6 +614,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btn.addEventListener('click', () => {
                 selectedDate = key; selectedTime = ''; selectedSlotWindow = '';
+=======
+            btn.setAttribute('aria-label', `${formatLongDate(key)}, ${remaining.length} slots`);
+
+            if (key === selectedDate)        btn.classList.add('is-selected');
+            if (toDateKey(today) === key)    btn.classList.add('is-today');
+            if (remaining.length > 0 && remaining.length < allSlots.length) btn.classList.add('is-partial');
+
+            if (date < today || remaining.length === 0) {
+                btn.disabled = true;
+                btn.classList.add(remaining.length === 0 ? 'is-booked' : 'is-muted');
+            }
+
+            btn.addEventListener('click', () => {
+                selectedDate = key; selectedTime = '';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 dateInput.value = key; timeInput.value = '';
                 renderCalendar(); renderTimeSlots(); updateSummary();
             });
@@ -535,9 +636,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+<<<<<<< HEAD
     // Tracks which available slot window the customer clicked (e.g. "10:00 AM")
     let selectedSlotWindow = '';
 
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     const renderTimeSlots = () => {
         timeSlots.innerHTML = '';
         if (!selectedDate) {
@@ -546,6 +650,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         selectedDateLabel.textContent = formatLongDate(selectedDate);
+<<<<<<< HEAD
 
         if (isEventPackage()) {
             timeInput.value = 'Whole Day';
@@ -555,11 +660,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         const remaining = getRemainingSlots(selectedDate);
         if (!remaining.length) {
             timeSlots.innerHTML = '<p class="slot-empty">This date is fully booked.</p>';
             return;
         }
+<<<<<<< HEAD
 
         // ── Step 1: show available slot windows ──
         const slotHeader = document.createElement('p');
@@ -642,6 +750,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         pickerRow.appendChild(select);
         pickerRow.appendChild(confirmLabel);
         timeSlots.appendChild(pickerRow);
+=======
+        remaining.forEach(slot => {
+            const btn = document.createElement('button');
+            btn.type = 'button'; btn.className = 'time-slot'; btn.textContent = slot;
+            if (slot === selectedTime) btn.classList.add('is-selected');
+            btn.addEventListener('click', () => {
+                selectedTime = slot; timeInput.value = slot;
+                renderTimeSlots(); updateSummary();
+            });
+            timeSlots.appendChild(btn);
+        });
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     };
 
     const updateSummary = () => {
@@ -661,8 +781,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!design?.image) return;
             savedSetupDesign = design;
             if (setupDesignPreview) setupDesignPreview.src = design.image;
+<<<<<<< HEAD
             if (setupDesignCard)    setupDesignCard.hidden = false;
             if (setupDesignData)    setupDesignData.value = JSON.stringify({
+=======
+            if (setupDesignCard) setupDesignCard.hidden = false;
+            if (setupDesignData) setupDesignData.value = JSON.stringify({
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 image: design.image, backdrop: design.backdrop || '',
                 savedAt: design.savedAt || '', width: design.width || '', height: design.height || ''
             });
@@ -679,6 +804,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // ── Event listeners ───────────────────────────────────────────
+<<<<<<< HEAD
     sessionCategory.addEventListener('change', () => {
         selectedSlotWindow = '';
         selectedTime = '';
@@ -736,10 +862,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+=======
+    sessionCategory.addEventListener('change', () => renderPackages(sessionCategory.value));
+    packageSelect.addEventListener('change', updateSummary);
+    backdropSelect.addEventListener('change', updateSummary);
+    prevMonth.addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth()-1, 1);
+        renderCalendar();
+    });
+    nextMonth.addEventListener('click', () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth()+1, 1);
+        renderCalendar();
+    });
+
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     // ── Form submit → Supabase ────────────────────────────────────
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+<<<<<<< HEAD
         if (updateCooldownState()) return;
         if (!validatePhone(true)) { phoneInput.focus(); return; }
         if (!selectedDate || !selectedTime) {
@@ -751,6 +892,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (!policyCheckbox.checked) {
             showFormError('Please accept the booking policy before submitting.'); return;
+=======
+        if (!selectedDate || !selectedTime) {
+            alert('Please choose an available date and time slot before submitting.');
+            return;
+        }
+        if (!policyCheckbox.checked) {
+            alert('Please accept the booking policy before submitting.');
+            return;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
         if (!form.checkValidity()) { form.reportValidity(); return; }
 
@@ -762,6 +912,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const fd = new FormData(form);
             fd.set('date', selectedDate);
             fd.set('time', selectedTime);
+<<<<<<< HEAD
             fd.set('phone', normalizeContactNumber(fd.get('phone')));
 
             const selOpt = packageSelect.options[packageSelect.selectedIndex];
@@ -803,12 +954,39 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (err) {
             showFormError('Booking failed: ' + err.message + ' — Please contact us via Messenger.');
+=======
+
+            // Attach selected package_id
+            const selOpt = packageSelect.options[packageSelect.selectedIndex];
+            fd.set('packageId', selOpt ? selOpt.value : '');
+
+            await submitBooking(fd);
+
+            // Success — redirect or show message
+            submitBtn.textContent = 'Booking Sent!';
+            submitBtn.style.background = '#4a7c59';
+            form.reset();
+            localStorage.removeItem('nikoleSetupDesign');
+            selectedDate = ''; selectedTime = '';
+            renderCalendar(); renderTimeSlots(); updateSummary();
+            await fetchBookedSlots(); // refresh calendar with new booking
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                submitBtn.style.background = '';
+            }, 5000);
+
+        } catch (err) {
+            alert('Booking failed: ' + err.message + '\n\nPlease contact us via Messenger.');
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         }
     });
 
     // ── Init ──────────────────────────────────────────────────────
+<<<<<<< HEAD
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Loading…'; }
     if (timeSlots) timeSlots.innerHTML = '<p class="slot-empty">Loading availability…</p>';
     await fetchPackages();
@@ -818,6 +996,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (getCooldownUntil() > Date.now()) {
         cooldownTimer = setInterval(updateCooldownState, 1000);
     }
+=======
+    await fetchPackages();
+    await fetchBookedSlots();
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
     const selectedService = params.get('service');
     const selectedPackage = params.get('package');

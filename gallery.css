@@ -17,7 +17,13 @@
     margin-top: 12px;
 }
 
+<<<<<<< HEAD
 
+=======
+/* =========================
+   PORTRAIT PRO HERO – SIMPLE & ELEGANT
+========================= */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 .hero-portrait-pro {
     padding: 120px 6% 80px;
     background: var(--off-white);
@@ -142,7 +148,18 @@
     border-color: var(--maroon-main);
 }
 
+<<<<<<< HEAD
 
+=======
+/* MASONRY‑STYLE GRID (auto rows, no fixed heights) */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
 .gallery-item {
     position: relative;
@@ -368,7 +385,11 @@
     border-radius: 0;            /* or 12px if you want rounded, up to you */
     cursor: pointer;
     background-color: #e8e5df;   /* placeholder bg while image loads */
+<<<<<<< HEAD
            /* portrait ratio – you can change or remove */
+=======
+    aspect-ratio: 2 / 3;        /* portrait ratio – you can change or remove */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     display: block;
     text-decoration: none;
     color: inherit;
@@ -434,8 +455,16 @@
     margin: 0 auto;
 }
 
+<<<<<<< HEAD
 @media (max-width: 480px) {
     .hero-minimal {
         padding: 100px 6% 80px; 
 }
+=======
+/* Optional: if you want a fixed 3‑column on large screens like DeepSeek */
+@media (min-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 }

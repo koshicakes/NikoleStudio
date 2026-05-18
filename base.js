@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 
 document.addEventListener('DOMContentLoaded', () => {
   
+=======
+// base.js – Run on every page
+
+document.addEventListener('DOMContentLoaded', () => {
+    /* =========================
+       FLOATING MESSENGER
+    ========================= */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     document.querySelectorAll('.messenger-float').forEach((element) => element.remove());
 
     if (!document.querySelector('.studio-messenger-float')) {
@@ -19,7 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
         footerText.insertAdjacentHTML('beforeend', ' <span class="footer-separator">|</span> <a class="privacy-footer-link" href="privacy.html">Privacy Policy</a>');
     }
 
+<<<<<<< HEAD
    
+=======
+    /* =========================
+       NAVIGATION
+    ========================= */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     const nav = document.querySelector('nav');
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -64,13 +79,23 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNavState();
     window.addEventListener('scroll', updateNavState, { passive: true });
 
+<<<<<<< HEAD
   
+=======
+    /* =========================
+       LIGHTBOX
+    ========================= */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
     const lightboxClose = document.getElementById('lightboxClose');
 
     if (lightbox && lightboxImage && lightboxClose) {
+<<<<<<< HEAD
 
+=======
+        // Attach to all collage items
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         document.querySelectorAll('.collage-item').forEach((item) => {
             item.addEventListener('click', () => {
                 const img = item.querySelector('img');
@@ -102,7 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+<<<<<<< HEAD
 
+=======
+    /* =========================
+       COLLAGE REVEAL (IntersectionObserver)
+    ========================= */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     const collageItems = document.querySelectorAll('.collage-item');
     if (collageItems.length) {
         const observer = new IntersectionObserver((entries) => {

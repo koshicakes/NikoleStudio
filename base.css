@@ -1,8 +1,14 @@
 :root {
    --red-darkest:  #4A0505;
+<<<<<<< HEAD
     --red-deep:     #6B0808;
     --red-main:     rgb(186, 16, 16);
     --red-rich:     #D61E1E;
+=======
+--red-deep:     #6B0808;
+--red-main:     rgb(186, 16, 16);
+--red-rich:     #D61E1E;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     --maroon-darkest: var(--red-darkest);
     --maroon-deep: var(--red-deep);
     --maroon-main: var(--red-main);
@@ -59,7 +65,11 @@ p {
     color: var(--text-muted);
 }
 
+<<<<<<< HEAD
 
+=======
+/* Buttons (shared base) */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 .btn-center,
 .btn-action {
     display: inline-flex;
@@ -128,7 +138,11 @@ p {
 }
 
 .btn-center:hover {
+<<<<<<< HEAD
     color: var(--text-dark); 
+=======
+    color: var(--text-dark); /* adjusted from undefined --black */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     transform: translateY(-3px);
 }
 
@@ -259,7 +273,11 @@ p {
     line-height: 1.7;
 }
 
+<<<<<<< HEAD
 
+=======
+/* Lightbox */
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 .lightbox {
     position: fixed;
     inset: 0;

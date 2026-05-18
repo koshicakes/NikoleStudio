@@ -326,8 +326,11 @@
             min-height: 100vh;
             opacity: 0;
             transition: opacity 0.6s ease;
+<<<<<<< HEAD
             width: 100%;
             overflow-x: hidden;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         .app-container.visible { opacity: 1; }
@@ -451,8 +454,11 @@
             padding: 2.5rem;
             min-height: 100vh;
             position: relative;
+<<<<<<< HEAD
             min-width: 0;
             max-width: calc(100vw - 280px);
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         .main-content::before {
@@ -471,7 +477,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+<<<<<<< HEAD
             gap: 1.25rem;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             margin-bottom: 2.5rem;
             position: relative;
             z-index: 1;
@@ -496,6 +505,7 @@
             display: flex;
             gap: 0.75rem;
             align-items: center;
+<<<<<<< HEAD
             justify-content: flex-end;
             flex-wrap: wrap;
             min-width: 0;
@@ -506,6 +516,11 @@
             min-width: min(100%, 220px);
             flex: 1 1 220px;
         }
+=======
+        }
+
+        .search-box { position: relative; }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
         .search-box input {
             background: var(--bg-secondary);
@@ -513,8 +528,12 @@
             border-radius: 999px;
             padding: 0.625rem 1rem 0.625rem 2.5rem;
             color: var(--text-primary);
+<<<<<<< HEAD
             width: 100%;
             max-width: 320px;
+=======
+            width: 280px;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             font-size: 0.875rem;
             transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
             font-family: inherit;
@@ -523,7 +542,11 @@
         .search-box input:focus {
             outline: none;
             border-color: var(--accent);
+<<<<<<< HEAD
             width: 100%;
+=======
+            width: 320px;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
@@ -540,7 +563,11 @@
 
         .stats-grid {
             display: grid;
+<<<<<<< HEAD
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+=======
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             gap: 1.5rem;
             margin-bottom: 2.5rem;
             position: relative;
@@ -619,7 +646,10 @@
             transition: box-shadow 0.35s ease;
             position: relative;
             z-index: 1;
+<<<<<<< HEAD
             min-width: 0;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         .content-section:hover {
@@ -632,8 +662,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+<<<<<<< HEAD
             gap: 1rem;
             flex-wrap: wrap;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         .section-title {
@@ -651,7 +684,10 @@
 
         .filter-tabs {
             display: flex;
+<<<<<<< HEAD
             flex-wrap: wrap;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             gap: 0.5rem;
             padding: 1rem 2rem;
             border-bottom: 1px solid var(--border);
@@ -693,6 +729,7 @@
             font-size: 0.7rem;
         }
 
+<<<<<<< HEAD
         .table-container {
             width: 100%;
             max-width: 100%;
@@ -703,6 +740,12 @@
         table {
             width: 100%;
             min-width: 820px;
+=======
+        .table-container { overflow-x: auto; }
+
+        table {
+            width: 100%;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             border-collapse: collapse;
             font-size: 0.875rem;
         }
@@ -726,7 +769,10 @@
             border-bottom: 1px solid var(--border);
             color: var(--text-primary);
             vertical-align: middle;
+<<<<<<< HEAD
             overflow-wrap: anywhere;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         tbody tr { transition: background 0.3s ease; }
@@ -745,11 +791,16 @@
         }
 
         .status-pending { background: var(--warning-bg); color: var(--warning); }
+<<<<<<< HEAD
         .status-confirmed { background: var(--accent-glow); color: var(--accent); }
         .status-completed { background: var(--success-bg); color: var(--success); }
         .status-published { background: var(--success-bg); color: var(--success); }
         .status-rejected { background: var(--danger-bg); color: var(--danger); }
         .status-cancelled { background: var(--danger-bg); color: var(--danger); }
+=======
+        .status-completed { background: var(--success-bg); color: var(--success); }
+        .status-rejected { background: var(--danger-bg); color: var(--danger); }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
         .status-dot {
             width: 6px;
@@ -759,6 +810,7 @@
         }
 
         .status-pending .status-dot { background: var(--warning); }
+<<<<<<< HEAD
         .status-confirmed .status-dot { background: var(--accent); }
         .status-completed .status-dot { background: var(--success); }
         .status-published .status-dot { background: var(--success); }
@@ -772,6 +824,12 @@
             flex-wrap: wrap;
             min-width: 128px;
         }
+=======
+        .status-completed .status-dot { background: var(--success); }
+        .status-rejected .status-dot { background: var(--danger); }
+
+        .action-btns { display: flex; gap: 0.5rem; align-items: center; }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         .status-select {
             padding: 0.3rem 0.5rem;
             font-size: 0.72rem;
@@ -1108,8 +1166,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+<<<<<<< HEAD
             gap: 1rem;
             flex-wrap: wrap;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             padding: 1.25rem 2rem;
             border-top: 1px solid var(--border);
         }
@@ -1309,6 +1370,7 @@
 
         .toggle.active::after { transform: translateX(20px); }
 
+<<<<<<< HEAD
                 /* Sidebar Collapse Styles */
         .sidebar {
             transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
@@ -1418,19 +1480,31 @@
             .top-actions { flex: 1 1 320px; }
             table { min-width: 780px; }
             th, td { padding-left: 1.25rem; padding-right: 1.25rem; }
+=======
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .menu-toggle { display: flex; }
+            .form-row { grid-template-columns: 1fr; }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: 1fr; }
             .top-bar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+<<<<<<< HEAD
             .top-actions { width: 100%; justify-content: stretch; }
             .top-actions .btn { width: 100%; }
             .search-box { width: 100%; flex-basis: 100%; }
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             .search-box input { width: 100%; }
             .search-box input:focus { width: 100%; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); padding: 1rem; }
             .auth-card { padding: 2rem; }
             .page-title { font-size: 1.6rem; }
+<<<<<<< HEAD
             .main-content { padding: 1rem; }
             .content-section { border-radius: 12px; }
             .section-header, .filter-tabs, .pagination { padding-left: 1rem; padding-right: 1rem; }
@@ -1448,12 +1522,17 @@
             .pagination-info { width: 100%; }
             .toast-container { left: 0.75rem; right: 0.75rem; }
             .toast { min-width: 0; width: 100%; }
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
     </style>
 <base target="_blank">
 <base target="_blank">
+<<<<<<< HEAD
 <base target="_blank">
 <base target="_blank">
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 </head>
 <body>
 
@@ -1525,9 +1604,12 @@
                 <button class="btn btn-primary" onclick="signUp()" id="signUpBtn">
                     <i class="fas fa-user-plus"></i> Create Account
                 </button>
+<<<<<<< HEAD
                 <p style="font-size:0.78rem;color:#9a7a7a;text-align:center;margin-top:.75rem;">
                     New accounts start as <strong>View Only</strong>. Contact the studio admin to request editor access.
                 </p>
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 <div class="auth-footer">
                     By signing up, you agree to studio access policies
                 </div>
@@ -1573,6 +1655,7 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
+<<<<<<< HEAD
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
                     <div>
                         <h2>Nikole</h2>
@@ -1605,6 +1688,29 @@
                     <span>Design Assets</span>
                 </a>
                 <a class="nav-item" onclick="switchTab('settings', event)" id="settingsNav" style="display:none;">
+=======
+                <h2>Nikole</h2>
+                <span>Photography Studio</span>
+            </div>
+            <nav class="nav-menu">
+                <a class="nav-item active" onclick="switchTab('booking')">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Sessions</span>
+                </a>
+                <a class="nav-item" onclick="switchTab('gallery')">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery</span>
+                </a>
+                <a class="nav-item" onclick="switchTab('packages')">
+                    <i class="fas fa-gem"></i>
+                    <span>Packages</span>
+                </a>
+                <a class="nav-item" onclick="switchTab('canvas_asset')">
+                    <i class="fas fa-paint-brush"></i>
+                    <span>Design Assets</span>
+                </a>
+                <a class="nav-item" onclick="switchTab('settings')" id="settingsNav" style="display:none;">
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
@@ -1661,7 +1767,11 @@
                     </div>
                     <div class="stat-card rejected">
                         <div class="stat-icon"><i class="fas fa-calendar-times"></i></div>
+<<<<<<< HEAD
                         <div class="stat-value" id="cancelledCount">0</div>
+=======
+                        <div class="stat-value" id="rejectedCount">0</div>
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                         <div class="stat-label">Cancelled / Declined</div>
                     </div>
                     <div class="stat-card total">
@@ -1685,10 +1795,17 @@
 
                 <div class="content-section">
                     <div class="filter-tabs">
+<<<<<<< HEAD
                         <button class="filter-tab active" onclick="filterByStatus('all', event)">All <span class="badge" id="badgeAll">0</span></button>
                         <button class="filter-tab" onclick="filterByStatus('pending', event)">Upcoming <span class="badge" id="badgePending">0</span></button>
                         <button class="filter-tab" onclick="filterByStatus('completed', event)">Completed <span class="badge" id="badgeCompleted">0</span></button>
                         <button class="filter-tab" onclick="filterByStatus('cancelled', event)">Cancelled <span class="badge" id="badgeCancelled">0</span></button>
+=======
+                        <button class="filter-tab active" onclick="filterByStatus('all')">All <span class="badge" id="badgeAll">0</span></button>
+                        <button class="filter-tab" onclick="filterByStatus('pending')">Upcoming <span class="badge" id="badgePending">0</span></button>
+                        <button class="filter-tab" onclick="filterByStatus('completed')">Completed <span class="badge" id="badgeCompleted">0</span></button>
+                        <button class="filter-tab" onclick="filterByStatus('rejected')">Cancelled <span class="badge" id="badgeRejected">0</span></button>
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                     </div>
                     <div class="table-container">
                         <table>
@@ -1698,15 +1815,24 @@
                                     <th>Client</th>
                                     <th>Contact</th>
                                     <th>Session Date</th>
+<<<<<<< HEAD
                                     <th>Time</th>
                                     <th>Package</th>
                                     <th>Status</th>
                                     <th>Reference Code</th>
+=======
+                                    <th>Package</th>
+                                    <th>Status</th>
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="bookingTableBody">
+<<<<<<< HEAD
                                 <tr><td colspan="9" class="empty-state"><div class="loading-spinner"></div></td></tr>
+=======
+                                <tr><td colspan="7" class="empty-state"><div class="loading-spinner"></div></td></tr>
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                             </tbody>
                         </table>
                     </div>
@@ -1717,6 +1843,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <!-- Reviews View -->
             <div id="view-reviews" class="tab-content" style="display:none;">
                 <div class="top-bar">
@@ -1764,6 +1891,8 @@
                 </div>
             </div>
 
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             <!-- Portfolio View -->
             <div id="view-gallery" class="tab-content" style="display:none;">
                 <div class="top-bar">
@@ -1847,12 +1976,19 @@
                                     <th>Pax</th>
                                     <th>Cover</th>
                                     <th>Status</th>
+<<<<<<< HEAD
                                     <th>Reference Code</th>
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="packageTableBody">
+<<<<<<< HEAD
                                 <tr><td colspan="9" class="empty-state"><div class="loading-spinner"></div></td></tr>
+=======
+                                <tr><td colspan="7" class="empty-state"><div class="loading-spinner"></div></td></tr>
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                             </tbody>
                         </table>
                     </div>
@@ -1884,6 +2020,7 @@
                     <button class="quick-action-btn" onclick="filterAssetType('background')">
                         <i class="fas fa-image"></i> Backgrounds
                     </button>
+<<<<<<< HEAD
                     <button class="quick-action-btn" onclick="filterAssetType('chair')">
                         <i class="fas fa-chair"></i> Chairs
                     </button>
@@ -1898,6 +2035,13 @@
                     </button>
                     <button class="quick-action-btn" onclick="filterAssetType('decor')">
                         <i class="fas fa-palette"></i> Decor
+=======
+                    <button class="quick-action-btn" onclick="filterAssetType('frame')">
+                        <i class="fas fa-border-all"></i> Frames
+                    </button>
+                    <button class="quick-action-btn" onclick="filterAssetType('overlay')">
+                        <i class="fas fa-adjust"></i> Overlays
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                     </button>
                 </div>
 
@@ -2021,7 +2165,11 @@
         let currentStatusFilter = 'all';
         let galleryCategoryFilter = 'all';
         let assetTypeFilter = 'all';
+<<<<<<< HEAD
         let dataStore = { booking: [], gallery: [], packages: [], reviews: [], canvas_asset: [] };
+=======
+        let dataStore = { booking: [], gallery: [], packages: [], canvas_asset: [] };
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         let editingId = null;
         let currentPage = 1;
         const itemsPerPage = 10;
@@ -2064,6 +2212,7 @@ const tableSchemas = {
             { name: 'booking_date', label: 'Booking Date', type: 'date', required: true },
 
             {
+<<<<<<< HEAD
                 name: 'booking_time',
                 label: 'Booking Time',
                 type: 'text',
@@ -2072,6 +2221,8 @@ const tableSchemas = {
             },
 
             {
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 name: 'status',
                 label: 'Booking Status',
                 type: 'select',
@@ -2084,6 +2235,20 @@ const tableSchemas = {
                 ]
             },
 
+<<<<<<< HEAD
+=======
+            {
+                name: 'policy_agreed',
+                label: 'Policy Agreed',
+                type: 'select',
+                required: true,
+                options: [
+                    { value: 'true', label: 'Yes' },
+                    { value: 'false', label: 'No' }
+                ]
+            },
+
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             { name: 'canvas_design', label: 'Canvas Design', type: 'textarea', required: false },
             { name: 'notes', label: 'Notes', type: 'textarea', required: false }
         ]
@@ -2151,6 +2316,7 @@ const tableSchemas = {
             { name: 'pax', label: 'Pax', type: 'text', required: false },
 
             {
+<<<<<<< HEAD
                 name: 'session_duration_min',
                 label: 'Session Duration (minutes)',
                 type: 'number',
@@ -2160,6 +2326,8 @@ const tableSchemas = {
             },
 
             {
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 name: 'price',
                 label: 'Price',
                 type: 'number',
@@ -2229,6 +2397,7 @@ const tableSchemas = {
                 accept: 'image/*'
             }
         ]
+<<<<<<< HEAD
     },
 
     reviews: {
@@ -2253,6 +2422,8 @@ const tableSchemas = {
                 ]
             }
         ]
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     }
 };
 
@@ -2380,7 +2551,11 @@ function initSupabase(silent = false) {
                     options: {
                         data: {
                             full_name: name,
+<<<<<<< HEAD
                             role: 'viewer' // Default role for new users — admin must grant elevated access
+=======
+                            role: 'editor' // Default role for new users
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                         }
                     }
                 });
@@ -2481,7 +2656,10 @@ function initSupabase(silent = false) {
             await loadAllData();
             setupRealtime();
             setupAuthListener();
+<<<<<<< HEAD
             restoreSidebarState();
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         function updateRoleBasedUI() {
@@ -2549,11 +2727,18 @@ function initSupabase(silent = false) {
             }
         }
 
+<<<<<<< HEAD
 const dbTableMap = {
     booking: 'bookings',
     gallery: 'gallery',
     packages: 'packages',
     reviews: 'reviews',
+=======
+        const dbTableMap = {
+    booking: 'bookings',
+    gallery: 'gallery',
+    packages: 'packages',
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     canvas_asset: 'canvas_assets'
 };  
 
@@ -2567,7 +2752,10 @@ const dbTableMap = {
                 loadData('booking'),
                 loadData('gallery'),
                 loadData('packages'),
+<<<<<<< HEAD
                 loadData('reviews'),
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 loadData('canvas_asset')
             ]);
         }
@@ -2587,12 +2775,19 @@ const dbTableMap = {
                 renderTable(table);
                 if (table === 'booking') updateBookingStats();
                 if (table === 'gallery') document.getElementById('galleryCount').textContent = dataStore.gallery.length;
+<<<<<<< HEAD
                 if (table === 'reviews') document.getElementById('reviewsCount').textContent = dataStore.reviews.length;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 if (table === 'packages') {
                     const packageField = tableSchemas.booking.fields.find(f => f.name === 'package_id');
                     if (packageField) {
                         packageField.options = dataStore.packages.map(p => ({
+<<<<<<< HEAD
                             value: p.package_id.toString(),
+=======
+                            value: (p.package_id || p.id).toString(),
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                             label: p.name + ' (₱' + p.price + ')'
                         }));
                     }
@@ -2603,7 +2798,11 @@ const dbTableMap = {
         }
 
         function setupRealtime() {
+<<<<<<< HEAD
             const tables = ['booking', 'gallery', 'packages', 'reviews', 'canvas_asset'];
+=======
+            const tables = ['booking', 'gallery', 'packages', 'canvas_asset'];
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             tables.forEach(table => {
                 const tableName = dbTableMap[table];
                 supabaseClient
@@ -2619,6 +2818,7 @@ const dbTableMap = {
                 dataStore[table].unshift(payload.new);
                 showToast('New ' + table.slice(0, -1) + ' added', 'info');
             } else if (payload.eventType === 'UPDATE') {
+<<<<<<< HEAD
                 const pkCol = table === 'packages' ? 'package_id' : 'id';
                 const pkVal = payload.new[pkCol];
                 const idx = dataStore[table].findIndex(item => (item[pkCol] || item.id) === pkVal);
@@ -2627,16 +2827,27 @@ const dbTableMap = {
             } else if (payload.eventType === 'DELETE') {
                 const delPkCol = table === 'packages' ? 'package_id' : 'id';
                 dataStore[table] = dataStore[table].filter(item => (item[delPkCol] || item.id) !== payload.old[delPkCol]);
+=======
+                const idx = dataStore[table].findIndex(item => item.id === payload.new.id);
+                if (idx !== -1) dataStore[table][idx] = payload.new;
+                showToast(table.slice(0, -1) + ' updated', 'info');
+            } else if (payload.eventType === 'DELETE') {
+                dataStore[table] = dataStore[table].filter(item => item.id !== payload.old.id);
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 showToast(table.slice(0, -1) + ' deleted', 'info');
             }
             renderTable(table);
             if (table === 'booking') updateBookingStats();
             if (table === 'gallery') document.getElementById('galleryCount').textContent = dataStore.gallery.length;
+<<<<<<< HEAD
             if (table === 'reviews') document.getElementById('reviewsCount').textContent = dataStore.reviews.length;
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         function updateBookingStats() {
             const bookings = dataStore.booking;
+<<<<<<< HEAD
             const pending   = bookings.filter(b => b.status === 'pending').length;
             const confirmed = bookings.filter(b => b.status === 'confirmed').length;
             const completed = bookings.filter(b => b.status === 'completed').length;
@@ -2658,6 +2869,21 @@ const dbTableMap = {
             if (badgeConfirmed) badgeConfirmed.textContent = confirmed;
             const confirmedCount = document.getElementById('confirmedCount');
             if (confirmedCount) confirmedCount.textContent = confirmed;
+=======
+            const pending = bookings.filter(b => b.status === 'pending').length;
+            const completed = bookings.filter(b => b.status === 'completed').length;
+            const rejected = bookings.filter(b => b.status === 'rejected').length;
+            const total = bookings.length;
+
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('rejectedCount').textContent = rejected;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('badgeAll').textContent = total;
+            document.getElementById('badgePending').textContent = pending;
+            document.getElementById('badgeCompleted').textContent = completed;
+            document.getElementById('badgeRejected').textContent = rejected;
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         // ==================== RENDER FUNCTIONS ====================
@@ -2665,7 +2891,10 @@ const dbTableMap = {
             if (table === 'booking') renderBookings();
             else if (table === 'gallery') renderGallery();
             else if (table === 'packages') renderPackages();
+<<<<<<< HEAD
             else if (table === 'reviews') renderReviews();
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             else if (table === 'canvas_asset') renderAssets();
         }
 
@@ -2685,9 +2914,13 @@ const dbTableMap = {
                     (b.email && b.email.toLowerCase().includes(search)) ||
                     (b.contact_number && b.contact_number.includes(search)) ||
                     (b.service_type && b.service_type.toLowerCase().includes(search)) ||
+<<<<<<< HEAD
                     (b.canvas_design && b.canvas_design.toLowerCase().includes(search)) ||
                     // FIX: also searchable by booking reference code
                     (b.booking_reference && b.booking_reference.toLowerCase().includes(search))
+=======
+                    (b.canvas_design && b.canvas_design.toLowerCase().includes(search))
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 );
             }
 
@@ -2703,13 +2936,18 @@ const dbTableMap = {
             renderPagination(totalPages);
 
             if (pageItems.length === 0) {
+<<<<<<< HEAD
                 tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-calendar-alt"></i><h3>No sessions found</h3><p>' + (search ? 'Try adjusting your search' : 'Book your first photo session') + '</p></div></td></tr>';
+=======
+                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-calendar-alt"></i><h3>No sessions found</h3><p>' + (search ? 'Try adjusting your search' : 'Book your first photo session') + '</p></div></td></tr>';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 return;
             }
 
             tbody.innerHTML = pageItems.map(booking => {
                 const pkg = dataStore.packages.find(p => (p.package_id || p.id) == booking.package_id);
                 const statusClass = 'status-' + (booking.status || 'pending');
+<<<<<<< HEAD
                 const date = (() => {
                     if (!booking.booking_date) return '-';
                     const [y, m, d] = booking.booking_date.slice(0, 10).split('-').map(Number);
@@ -2718,6 +2956,9 @@ const dbTableMap = {
                 const isStale = booking.status === 'pending' && booking.created_at &&
                     (Date.now() - new Date(booking.created_at).getTime()) > 86400000;
                 const staleBadge = isStale ? '<span title="Pending over 24h" style="margin-left:5px;background:#fff3cd;color:#856404;border:1px solid #ffc107;border-radius:4px;font-size:0.68rem;font-weight:700;padding:1px 5px;">&#9888; 24h+</span>' : '';
+=======
+                const date = booking.booking_date ? new Date(booking.booking_date).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 const sessionTypeIcon = {
                     'Peekaboo Sessions': 'fa-birthday-cake',
                     'Bump & Bliss Sessions': 'fa-baby',
@@ -2731,10 +2972,14 @@ const dbTableMap = {
                 const actions = isEditor ?
                     '<div class="action-btns"><button class="btn-action" onclick="editItem(\'booking\', ' + booking.id + ')" title="Edit Session"><i class="fas fa-edit"></i></button><select class="status-select" onchange="updateBookingStatus(' + booking.id + ', this.value)" title="Change Status"><option value="pending"' + (booking.status==='pending'?' selected':'') + '>Pending</option><option value="confirmed"' + (booking.status==='confirmed'?' selected':'') + '>Confirm</option><option value="completed"' + (booking.status==='completed'?' selected':'') + '>Complete</option><option value="cancelled"' + (booking.status==='cancelled'?' selected':'') + '>Cancel</option></select><button class="btn-action delete" onclick="deleteItem(\'booking\', ' + booking.id + ')" title="Delete"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
+<<<<<<< HEAD
                 const timeDisplay = booking.booking_time ? escapeHtml(booking.booking_time) : '-';
                 return '<tr class="fade-in"><td><span style="font-family:var(--font-display); font-weight:600;">#' + booking.id + '</span></td><td><div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:36px;height:36px;border-radius:50%;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;color:var(--accent);"><i class="fas ' + icon + '"></i></div><div><strong>' + escapeHtml(booking.customer_name || '-') + '</strong><div style="font-size:0.75rem;color:var(--text-muted);text-transform:capitalize;">' + (booking.service_type || 'Session') + '</div></div></div></td><td>' + escapeHtml(booking.email || '-') + '<br><span style="font-size:0.75rem;color:var(--text-muted);">' + (booking.contact_number || '-') + '</span></td><td>' + date + '</td><td><span style="font-size:0.875rem;font-weight:500;color:var(--text-primary);">' + timeDisplay + '</span></td><td><span class="badge badge-gold">' + (pkg ? escapeHtml(pkg.name) : 'Custom') + '</span></td><td><span class="status-badge ' + statusClass + '"><span class="status-dot"></span> ' + (booking.status === 'pending' ? 'Upcoming' : booking.status === 'completed' ? 'Completed' : booking.status === 'confirmed' ? 'Confirmed' : 'Cancelled') + '</span>' + staleBadge + '</td>' +
                 (booking.booking_reference ? '<td><div style="display:flex;align-items:center;gap:8px;"><span style="font-family:monospace;font-size:0.82rem;background:var(--accent-glow);padding:5px 10px;border-radius:6px;color:var(--accent);font-weight:700;border:1px solid rgba(122,28,42,0.12);">' + booking.booking_reference + '</span><button class="btn-action" onclick="copyToClipboard(\'' + booking.booking_reference + '\')" title="Copy Code" style="width:28px;height:28px;"><i class="fas fa-copy"></i></button></div></td>' : '<td><span style="color:var(--text-muted);font-size:0.75rem;">—</span></td>') +
                 '<td>' + actions + '</td></tr>';
+=======
+                return '<tr class="fade-in"><td><span style="font-family:var(--font-display); font-weight:600;">#' + booking.id + '</span></td><td><div style="display:flex;align-items:center;gap:0.75rem;"><div style="width:36px;height:36px;border-radius:50%;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;color:var(--accent);"><i class="fas ' + icon + '"></i></div><div><strong>' + escapeHtml(booking.customer_name || '-') + '</strong><div style="font-size:0.75rem;color:var(--text-muted);text-transform:capitalize;">' + (booking.service_type || 'Session') + '</div></div></div></td><td>' + escapeHtml(booking.email || '-') + '<br><span style="font-size:0.75rem;color:var(--text-muted);">' + (booking.contact_number || '-') + '</span></td><td>' + date + '</td><td><span class="badge badge-gold">' + (pkg ? escapeHtml(pkg.name) : 'Custom') + '</span></td><td><span class="status-badge ' + statusClass + '"><span class="status-dot"></span> ' + (booking.status === 'pending' ? 'Upcoming' : booking.status === 'completed' ? 'Completed' : booking.status === 'confirmed' ? 'Confirmed' : 'Cancelled') + '</span></td><td>' + actions + '</td></tr>';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             }).join('');
         }
 
@@ -2779,7 +3024,11 @@ const dbTableMap = {
                 );
             }
             if (items.length === 0) {
+<<<<<<< HEAD
                 tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-gem"></i><h3>No packages found</h3><p>' + (search ? 'Try adjusting your search' : 'Create your first session package') + '</p></div></td></tr>';
+=======
+                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-gem"></i><h3>No packages found</h3><p>' + (search ? 'Try adjusting your search' : 'Create your first session package') + '</p></div></td></tr>';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 return;
             }
             tbody.innerHTML = items.map(pkg => {
@@ -2791,6 +3040,7 @@ const dbTableMap = {
             }).join('');
         }
 
+<<<<<<< HEAD
         function renderReviews() {
             const tbody = document.getElementById('reviewTableBody');
             if (!tbody) return;
@@ -2828,6 +3078,8 @@ const dbTableMap = {
             }).join('');
         }
 
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         function renderAssets() {
             const tbody = document.getElementById('assetTableBody');
             let items = [...dataStore.canvas_asset];
@@ -2855,7 +3107,11 @@ const dbTableMap = {
                 const actions = isEditor ?
                     '<div class="action-btns"><button class="btn-action" onclick="editItem(\'canvas_asset\', ' + asset.id + ')" title="Edit Asset"><i class="fas fa-edit"></i></button><button class="btn-action delete" onclick="deleteItem(\'canvas_asset\', ' + asset.id + ')" title="Delete Asset"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
+<<<<<<< HEAD
                 return '<tr class="fade-in"><td><img src="' + (asset.image_url || 'https://via.placeholder.com/56') + '" class="thumbnail" onerror="this.src=\'https://via.placeholder.com/56?text=?\'" alt=""></td><td><strong>' + escapeHtml(asset.name || '-') + '</strong></td><td><span class="badge badge-purple"><i class="fas ' + icon + '" style="margin-right:4px;"></i>' + (asset.asset_type ? asset.asset_type.charAt(0).toUpperCase() + asset.asset_type.slice(1) : '-') + '</span></td><td>' + (asset.created_at ? new Date(asset.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-') + '</td><td>' + actions + '</td></tr>';
+=======
+                return '<tr class="fade-in"><td><img src="' + (asset.image_url || 'https://via.placeholder.com/56') + '" class="thumbnail" onerror="this.src=\'https://via.placeholder.com/56?text=?\'" alt=""></td><td><strong>' + escapeHtml(asset.name || '-') + '</strong></td><td><span class="badge badge-purple"><i class="fas ' + icon + '" style="margin-right:4px;"></i>' + (asset.asset_type ? asset.asset_type.charAt(0).toUpperCase() + asset.asset_type.slice(1) : '-') + '</span></td><td>' + escapeHtml(asset.asset_type || '-') + '</td><td>' + (asset.created_at ? new Date(asset.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-') + '</td><td>' + actions + '</td></tr>';
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             }).join('');
         }
 
@@ -2880,11 +3136,19 @@ const dbTableMap = {
         }
 
         // ==================== FILTER FUNCTIONS ====================
+<<<<<<< HEAD
         function filterByStatus(status, evt) {
             currentStatusFilter = status;
             currentPage = 1;
             document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
             evt.target.closest('.filter-tab').classList.add('active');
+=======
+        function filterByStatus(status) {
+            currentStatusFilter = status;
+            currentPage = 1;
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.filter-tab').classList.add('active');
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             renderBookings();
         }
 
@@ -2901,17 +3165,29 @@ const dbTableMap = {
         function filterBookings() { currentPage = 1; renderBookings(); }
         function filterGallery() { renderGallery(); }
         function filterPackages() { renderPackages(); }
+<<<<<<< HEAD
         function filterReviews() { renderReviews(); }
         function filterAssets() { renderAssets(); }
 
         // ==================== TAB SWITCHING ====================
         function switchTab(tab, evt) {
+=======
+        function filterAssets() { renderAssets(); }
+
+        // ==================== TAB SWITCHING ====================
+        function switchTab(tab) {
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             currentTab = tab;
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
             document.getElementById('view-' + tab).style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+<<<<<<< HEAD
             evt.currentTarget.classList.add('active');
             if (dataStore[tab] && dataStore[tab].length === 0) loadData(tab);
+=======
+            event.currentTarget.classList.add('active');
+            if (dataStore[tab].length === 0) loadData(tab);
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
         }
 
         // ==================== MODAL FUNCTIONS ====================
@@ -3136,7 +3412,11 @@ const dbTableMap = {
             }
 
             const pkCol = table === 'packages' ? 'package_id' : 'id';
+<<<<<<< HEAD
             const item = dataStore[table].find(i => (i[pkCol] || i.id) === id);
+=======
+            const item = dataStore[table].find(i => (i.package_id || i.id) === id);
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             const name = item ? (item.customer_name || item.name || item.title || 'this item') : 'this item';
             if (!confirm('Are you sure you want to remove "' + name + '"? This action cannot be undone.')) return;
             try {
@@ -3152,6 +3432,7 @@ const dbTableMap = {
         // ==================== BOOKING STATUS UPDATE ====================
         async function updateBookingStatus(id, status) {
             try {
+<<<<<<< HEAD
                 let updateData = { status };
 
                 // Auto-generate reference code if missing (for legacy bookings)
@@ -3273,6 +3554,17 @@ const dbTableMap = {
                 await loadData('reviews');
             } catch (err) {
                 showToast('Review update failed: ' + err.message, 'error');
+=======
+                const { error } = await supabaseClient
+                    .from('bookings')
+                    .update({ status })
+                    .eq('id', id);
+                if (error) throw error;
+                showToast('Status updated to ' + status, 'success');
+                await loadData('booking');
+            } catch (err) {
+                showToast('Update failed: ' + err.message, 'error');
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             }
         }
 
@@ -3329,6 +3621,7 @@ const dbTableMap = {
             return div.innerHTML;
         }
 
+<<<<<<< HEAD
         function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
         showToast('Reference code copied to clipboard', 'success');
@@ -3405,6 +3698,11 @@ function toggleSidebar() {
         showToast('Booking confirmed but email failed: ' + err.message, 'warning');
     }
 }   
+=======
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
     </script>
 </body>
 </html>

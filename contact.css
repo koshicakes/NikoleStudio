@@ -259,6 +259,7 @@
     min-width: 190px;
 }
 
+<<<<<<< HEAD
 .review-form-card {
     scroll-margin-top: 110px;
 }
@@ -267,6 +268,8 @@
     min-height: 48px;
 }
 
+=======
+>>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 @media (max-width: 1024px) {
     .contacts-grid {
         grid-template-columns: 1fr;
