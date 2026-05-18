@@ -8,9 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
-<<<<<<< HEAD
-    <!-- FIX: removed <base target="_blank"> — it was breaking all nav links and the #booking-policy anchor.
-         External links that need a new tab now use target="_blank" rel="noopener" individually. -->
+
     <style>
         /* ── Booking success modal ─────────────────────────────── */
         .booking-success-overlay {
@@ -155,9 +153,8 @@
             margin-top: .5rem;
         }
     </style>
-=======
+
 <base target="_blank">
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 </head>
 <body>
 <nav>
@@ -178,10 +175,8 @@
 </nav>
 
 <main>
-<<<<<<< HEAD
-=======
- 
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
+
+
 
     <section class="page-section booking-section">
         <div class="booking-shell">
@@ -191,7 +186,7 @@
                 <p class="section-description">Fully booked dates are disabled. Partially booked dates only show the remaining time slots.</p>
             </div>
 
-<<<<<<< HEAD
+
            <section class="booking-policy-mustread" id="booking-policy" aria-labelledby="general-guidelines-title">
     <div>
         <p class="eyebrow">Nikole Studio</p>
@@ -280,7 +275,7 @@
 
     </div>
 </section>
-=======
+
             <section class="booking-policy-mustread" id="booking-policy" aria-labelledby="mustread-policy-title">
                 <div>
                     <p class="eyebrow">Must Read</p>
@@ -296,7 +291,6 @@
                     <li>Personal information is handled according to the <a href="privacy.html">Nikole Studio Privacy Policy</a>.</li>
                 </ul>
             </section>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 
             <form id="booking-form" class="booking-request" novalidate>
                 <section class="booking-card booking-intake-card" aria-labelledby="details-title">
@@ -319,27 +313,21 @@
                             <input id="email" name="email" type="email" placeholder="ana@email.com" required>
                         </div>
                         <div class="form-group">
-<<<<<<< HEAD
                             <label for="phone">Phone / Messenger Contact *</label>
                             <input id="phone" name="phone" type="tel" placeholder="09XXXXXXXXX" inputmode="numeric" pattern="09[0-9]{9}" required aria-describedby="phone-error">
                             <p class="field-error" id="phone-error" aria-live="polite"></p>
-=======
                             <label for="phone">Phone / Messenger Contact</label>
                             <input id="phone" name="phone" type="text" placeholder="+63 917 000 0000">
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                         </div>
                         <div class="form-group">
                             <label for="sessionCategory">Session Type *</label>
                             <select id="sessionCategory" name="sessionCategory" required>
                                 <option value="">Choose a session</option>
                                 <option value="Peekaboo Sessions">Peekaboo Sessions</option>
-<<<<<<< HEAD
                                 <option value="Bump & Bliss Sessions">Bump &amp; Bliss Sessions</option>
                                 <option value="Event Photo & Video Packages">Event Photo &amp; Video Packages</option>
-=======
                                 <option value="Bump & Bliss Sessions">Bump & Bliss Sessions</option>
                                 <option value="Event Photo & Video Packages">Event Photo & Video Packages</option>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                                 <option value="Self Portrait Packages">Self Portrait Packages</option>
                                 <option value="Mini Session Portrait Packages">Mini Session Portrait Packages</option>
                                 <option value="Mini Session Family Packages">Mini Session Family Packages</option>
@@ -352,11 +340,8 @@
                                 <option value="">Choose a package</option>
                             </select>
                         </div>
-<<<<<<< HEAD
                         <div class="form-group full" id="backdrop-field" style="display:none;">
-=======
                         <div class="form-group full" id="backdrop-field">
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                             <label for="backdrop">Preferred Backdrop</label>
                             <select id="backdrop" name="backdrop">
                                 <option value="">No preference</option>
@@ -385,9 +370,7 @@
                             </div>
 
                             <div class="calendar-weekdays" aria-hidden="true">
-<<<<<<< HEAD
                                 <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
-=======
                                 <span>S</span>
                                 <span>M</span>
                                 <span>T</span>
@@ -395,7 +378,6 @@
                                 <span>T</span>
                                 <span>F</span>
                                 <span>S</span>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                             </div>
 
                             <div class="calendar-days" id="calendarDays" role="grid" aria-label="Booking calendar"></div>
@@ -433,20 +415,16 @@
                             <textarea id="notes" name="notes" placeholder="Describe your vision, mood, styling, package notes, or any references."></textarea>
                         </div>
                         <div class="form-group full policy-group">
-<<<<<<< HEAD
                             <label class="checkbox-field">
                                 <input id="policyAccept" type="checkbox" required>
                                 I have read and agree to Nikole Studio's <a href="#booking-policy">booking policy</a> and
                                 <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.
                             </label>
-=======
                             <label class="checkbox-field"><input id="policyAccept" type="checkbox" required> I have read and agree to Nikole Studio's <a href="#booking-policy">booking policy</a> and <a href="privacy.html">privacy policy</a>.</label>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                         </div>
                     </div>
 
                     <div class="form-actions">
-<<<<<<< HEAD
                         <p id="formError" class="form-error-message" aria-live="assertive" hidden></p>
                         <button class="btn-action" type="submit">Request Booking</button>
                         <p class="cooldown-message" id="bookingCooldownMessage" aria-live="polite" hidden></p>
@@ -455,10 +433,8 @@
                             After submitting, you'll receive a reference code. If you don't get an email confirmation within 24 hours,
                             send your reference code to our <a href="https://m.me/nikolestudio" target="_blank" rel="noopener">Messenger</a>.
                         </p>
-=======
                         <button class="btn-action" type="submit">Request Booking</button>
                         <p class="description">Your selected date and time are saved in the form fields for database connection.</p>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                     </div>
                 </section>
             </form>
@@ -484,11 +460,8 @@
                     <ul class="policy-list">
                         <li>Choose only one available time slot before submitting.</li>
                         <li>Wait for studio confirmation before considering the booking final.</li>
-<<<<<<< HEAD
                         <li>Read the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a> before sending personal details.</li>
-=======
                         <li>Read the <a href="privacy.html">privacy policy</a> before sending personal details.</li>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                     </ul>
                 </div>
 
@@ -505,7 +478,6 @@
 <footer class="page-footer">
     <p>&copy; 2026 Nikole Studio.</p>
 </footer>
-<<<<<<< HEAD
 
 <!-- ── Booking success modal ──────────────────────────────────────── -->
 <div class="booking-success-overlay" id="bookingSuccessOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
@@ -537,8 +509,6 @@
     </div>
 </div>
 
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="supabase.js"></script>
 <script src="base.js"></script>
