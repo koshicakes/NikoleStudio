@@ -434,16 +434,6 @@
     font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
-/* Make the grid responsive the same way you now have */
-/* Already defined in your CSS, just ensure it applies to .gallery-grid */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
 
 @media (max-width: 480px) {
     .hero-minimal {

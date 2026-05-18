@@ -14,10 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Studio / Self-Portrait', title: 'Self Portrait Packages',
             copy: 'Self-directed sessions for solo, couple, and small-group portraits inside the studio.',
             service: 'Studio / Self Portrait',
-<<<<<<< HEAD
             matchServices: ['Self Portrait Packages', 'Studio / Self Portrait'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Anaya','PHP 350','pax 4.jpg',['Good for 1 pax','8 minutes photo shoot','7 minutes photo selection','1 background color','1 pc. photo print (A6 size)','6 unedited photos']],
                 ['Mahiwaga','PHP 550','pax 4.jpg',['Good for 2 pax','15 minutes photo shoot','15 minutes photo selection','2 backgrounds','2 pc. photo print (A6 size)','10 unedited photos']],
@@ -33,10 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Professional Shoot', title: 'Mini Session Portrait Packages',
             copy: 'Quick professional portrait sessions with edited high-resolution files.',
             service: 'Professional',
-<<<<<<< HEAD
             matchServices: ['Mini Session Portrait Packages'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Package 1','PHP 1,800','pax 5.jpg',['1 look/outfit','Good for 1 pax','20 edited files in high resolution','30 minutes shoot','Studio location']],
                 ['Package 2','PHP 2,750','pax 5.jpg',['2 looks/outfits','Good for 2 pax','40 edited files in high resolution','45 minutes shoot','Studio location']],
@@ -50,10 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Professional Shoot', title: 'Mini Session Family Packages',
             copy: 'Family portraits with framed prints and edited high-resolution files.',
             service: 'Professional',
-<<<<<<< HEAD
             matchServices: ['Mini Session Family Packages'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Package 1','PHP 1,800','pax 6.jpg',['1 background','Good for 1-3 pax','5 edited files in high resolution','1 pc. 8R print with frame','2 pc. wallet size']],
                 ['Package 2','PHP 2,200','pax 6.jpg',['1 background','Good for 3-4 pax','5 edited files in high resolution','1 pc. A4 print with frame','1 pc. 8R print','4 pc. wallet size']],
@@ -67,10 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Pre-Birthday Packages', title: 'Peekaboo Sessions',
             copy: 'Playful milestone portraits for celebrants and family memories.',
             service: 'Professional',
-<<<<<<< HEAD
             matchServices: ['Peekaboo Sessions'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Tiny Triumphs','PHP 3,500','pax 1.jpg',['Celebrant only','2 set ups/layout (1 creative and 1 plain background)',"Studio session, depends on baby's mood",'10 edited photos','Online gallery for edited photos']],
                 ['Pre-Birthday Mini','PHP 4,500','pax 1.jpg',['Celebrant + family session','2 set ups/layout','With family picture on plain background',"Studio session, depends on baby's mood",'25 edited photos','Online gallery for edited photos']],
@@ -82,10 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Maternity Packages', title: 'Bump & Bliss Sessions',
             copy: 'Maternity packages for glowing solo, couple, and family portraits.',
             service: 'Professional',
-<<<<<<< HEAD
             matchServices: ['Bump & Bliss Sessions'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Mommy Glow','PHP 4,000','pax 2.jpg',['Mom session only','2 set ups/layout','Different poses','Studio session','12 edited photos','HMUA not included']],
                 ['Little Miracle','PHP 8,000','pax 2.jpg',['Mom + husband session only','2 set ups/layout','Studio session','25 edited photos','HMUA included']],
@@ -97,10 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Newborn Packages', title: 'Snuggle Sessions',
             copy: "Newborn packages for baby's first studio portraits.",
             service: 'Professional',
-<<<<<<< HEAD
             matchServices: ['Snuggle Sessions'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Little Wonders','PHP 4,000','pax 7.jpg',['Baby session only','2 set ups/layout','Different poses',"Studio session, depends on baby's mood",'10 edited photos','Online gallery for edited photos']],
                 ['First Moments','PHP 6,500','pax 7.jpg',['Baby session only','3 set ups/layout','With parents/sibling picture on plain background',"Studio session, depends on baby's mood",'25 edited photos','Online gallery for edited photos']],
@@ -112,10 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             eyebrow: 'Event Coverage', title: 'Event Photo & Video Packages',
             copy: 'Coverage packages for birthdays, launches, intimate celebrations, and studio events.',
             service: 'Event',
-<<<<<<< HEAD
             matchServices: ['Event Photo & Video Packages', 'Event'],
-=======
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             staticPackages: [
                 ['Photo Package 1','PHP 5,000','pax 3.jpg',['For 50 to 70 pax','1 photographer','Full photo coverage only','300 enhanced photos','All files stored in GDrive']],
                 ['Photo Package 2','PHP 8,000','pax 3.jpg',['For 75 to 120 pax','2 photographers','Full photo coverage only','550 enhanced photos','All files stored in GDrive']],
@@ -149,7 +128,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `booking.html?${p.toString()}`;
     };
 
-<<<<<<< HEAD
     const fallbackCover = (name, size = 400) =>
         `https://placehold.co/${size}x${Math.round(size * 0.75)}/e8e2db/7a1c2a?text=${encodeURIComponent(name || 'Photo')}`;
 
@@ -172,14 +150,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <img src="${groupCover || resolvePackageCover(pkg)}"
                      alt="${escapeHtml(pkg.name)} package cover" loading="lazy"
                      onerror="this.onerror=null;this.src='${fallbackCover('Photo')}'">
-=======
-    const renderDbPackage = (group, pkg) => `
-        <article class="package-card">
-            <div class="package-cover">
-                <img src="${pkg.cover_image_url || 'https://via.placeholder.com/400?text=' + encodeURIComponent(pkg.name)}"
-                     alt="${escapeHtml(pkg.name)} package cover" loading="lazy"
-                     onerror="this.src='https://via.placeholder.com/400?text=Photo'">
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 <span>${escapeHtml(group.eyebrow)}</span>
             </div>
             <div class="package-card-body">
@@ -189,11 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <ul>${pkg.pax ? '<li>Good for ' + escapeHtml(pkg.pax) + '</li>' : ''}
                     ${pkg.description ? '<li>' + escapeHtml(pkg.description) + '</li>' : ''}</ul>
-<<<<<<< HEAD
                 <a href="${makeHref(group.title, pkg.name, pkg.package_id)}" class="package-btn">Book this package</a>
-=======
-                <a href="${makeHref(group.service, pkg.name, pkg.package_id)}" class="package-btn">Book this package</a>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             </div>
         </article>`;
 
@@ -202,11 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `
         <article class="package-card">
             <div class="package-cover">
-<<<<<<< HEAD
                 <img src="${image}" alt="${escapeHtml(name)} package cover" loading="lazy" onerror="this.onerror=null;this.src='${fallbackCover('Photo')}'">
-=======
-                <img src="${image}" alt="${escapeHtml(name)} package cover" loading="lazy">
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
                 <span>${escapeHtml(group.eyebrow)}</span>
             </div>
             <div class="package-card-body">
@@ -215,11 +177,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <strong>${price}</strong>
                 </div>
                 <ul>${features.map(f => `<li>${f}</li>`).join('')}</ul>
-<<<<<<< HEAD
                 <a href="${makeHref(group.title, name, '')}" class="package-btn">Book this package</a>
-=======
-                <a href="${makeHref(group.service, name, '')}" class="package-btn">Book this package</a>
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             </div>
         </article>`;
     };
@@ -232,7 +190,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     mount.innerHTML = groups.map(group => {
         // Find DB packages for this service group
-<<<<<<< HEAD
         const matchServices = (group.matchServices || [group.service, group.title]).map(s => s.toLowerCase());
         const groupDbPkgs = dbPackages.filter(p =>
             p.service_type && matchServices.includes(p.service_type.toLowerCase())
@@ -246,14 +203,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const packagesHtml = groupDbPkgs.length > 0
             ? groupDbPkgs.map(p => renderDbPackage(group, p, groupCover)).join('')
-=======
-        const groupDbPkgs = dbPackages.filter(p =>
-            p.service_type && p.service_type.toLowerCase() === group.service.toLowerCase()
-        );
-
-        const packagesHtml = groupDbPkgs.length > 0
-            ? groupDbPkgs.map(p => renderDbPackage(group, p)).join('')
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae
             : group.staticPackages.map(p => renderStaticPackage(group, p)).join('');
 
         return `
@@ -267,8 +216,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             ${group.note ? `<p class="package-note">${group.note}</p>` : ''}
         </section>`;
     }).join('');
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 60ff1a6f774ded85328b7b27217c31b9e07732ae

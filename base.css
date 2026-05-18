@@ -1,13 +1,9 @@
 :root {
    --red-darkest:  #4A0505;
 
-    --red-deep:     #6B0808;
+     --red-deep:     #6B0808;
     --red-main:     rgb(186, 16, 16);
     --red-rich:     #D61E1E;
-
---red-deep:     #6B0808;
---red-main:     rgb(186, 16, 16);
---red-rich:     #D61E1E;
 
     --maroon-darkest: var(--red-darkest);
     --maroon-deep: var(--red-deep);
@@ -136,9 +132,7 @@ p {
 }
 
 .btn-center:hover {
-
-    color: var(--text-dark); 
-    color: var(--text-dark); /* adjusted from undefined --black */
+    color: var(--text-dark);
     transform: translateY(-3px);
 }
 
