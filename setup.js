@@ -127,11 +127,74 @@ document.addEventListener('DOMContentLoaded', async () => {
     let restoringHistory = false;
     const movingShadows = new WeakMap();
 
-    const wall  = new fabric.Rect({ left: 0, top: 0, width: currentW, height: currentH, fill: '#ded6ca', selectable: false, evented: false, name: 'wall' });
-    const floor = new fabric.Rect({ left: 0, top: currentH * 0.72, width: currentW, height: currentH * 0.28, fill: '#c8bba7', selectable: false, evented: false, name: 'floor' });
+    // Dynamic wall/floor that match the selected backdrop
+    let wallFill  = '#ded6ca';
+    let floorFill = '#c8bba7';
+
+    const wall  = new fabric.Rect({ left: 0, top: 0, width: currentW, height: currentH, fill: wallFill, selectable: false, evented: false, name: 'wall' });
+    const floor = new fabric.Rect({ left: 0, top: currentH * 0.72, width: currentW, height: currentH * 0.28, fill: floorFill, selectable: false, evented: false, name: 'floor' });
     canvas.add(wall, floor);
     canvas.renderAll();
     saveHistory();
+
+    /**
+     * Derive wall and floor colors from a backdrop image URL.
+     * Uses a hidden canvas to sample the dominant color, then
+     * generates a lighter wall tone and a darker floor tone.
+     */
+    function sampleBackdropColors(url, callback) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+            const c = document.createElement('canvas');
+            const ctx = c.getContext('2d');
+            const sampleW = 64, sampleH = 64;
+            c.width = sampleW; c.height = sampleH;
+            ctx.drawImage(img, 0, 0, sampleW, sampleH);
+
+            const data = ctx.getImageData(0, 0, sampleW, sampleH).data;
+            let r = 0, g = 0, b = 0, count = 0;
+            // Sample center area (avoid edges which may be vignetted)
+            for (let y = Math.floor(sampleH * 0.2); y < Math.floor(sampleH * 0.6); y++) {
+                for (let x = Math.floor(sampleW * 0.2); x < Math.floor(sampleW * 0.8); x++) {
+                    const i = (y * sampleW + x) * 4;
+                    r += data[i];
+                    g += data[i+1];
+                    b += data[i+2];
+                    count++;
+                }
+            }
+            r = Math.round(r / count);
+            g = Math.round(g / count);
+            b = Math.round(b / count);
+
+            // Wall: lighter, slightly desaturated version
+            const wallR = Math.min(255, Math.round(r * 1.08 + 18));
+            const wallG = Math.min(255, Math.round(g * 1.06 + 14));
+            const wallB = Math.min(255, Math.round(b * 1.04 + 10));
+
+            // Floor: darker, warmer version
+            const floorR = Math.max(0, Math.round(r * 0.82 - 8));
+            const floorG = Math.max(0, Math.round(g * 0.78 - 6));
+            const floorB = Math.max(0, Math.round(b * 0.76 - 4));
+
+            callback(
+                `rgb(${wallR},${wallG},${wallB})`,
+                `rgb(${floorR},${floorG},${floorB})`
+            );
+        };
+        img.onerror = function() {
+            // Fallback to neutral tones if image can't be sampled
+            callback('#ded6ca', '#c8bba7');
+        };
+        img.src = url;
+    }
+
+    function updateWallFloorColors(wallColor, floorColor) {
+        wall.set('fill', wallColor);
+        floor.set('fill', floorColor);
+        canvas.renderAll();
+    }
 
     function tuneObject(obj) {
         obj.set({ objectCaching: true, transparentCorners: false, cornerColor: '#ba1010', cornerStrokeColor: '#fff', borderColor: '#ba1010', cornerSize: 13, padding: 6 });
@@ -225,6 +288,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function selectBackdrop(url, cardEl, name) {
         const opts = imageOptionsFor(url);
+
+        // Sample colors from the backdrop image first
+        sampleBackdropColors(url, (wallColor, floorColor) => {
+            updateWallFloorColors(wallColor, floorColor);
+        });
+
         fabric.Image.fromURL(url, img => {
             if (!img) { showToast('Could not load backdrop.'); return; }
             const scaleX = currentW / img.width;
@@ -248,6 +317,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             canvas.remove(backdropImg);
             backdropImg = null;
             selectedBackdropName = '';
+            // Reset wall/floor to default neutrals
+            updateWallFloorColors('#ded6ca', '#c8bba7');
             canvas.renderAll();
             saveHistory();
             showToast('Backdrop removed');

@@ -57,18 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
             reviewBtn.textContent = 'Checking booking...';
 
             const formData = new FormData(reviewForm);
-            const payload = {
-                booking_id: Number(formData.get('booking_id')),
-                customer_name: formData.get('customer_name')?.trim(),
-                email: formData.get('email')?.trim().toLowerCase(),
-                service_type: formData.get('service_type'),
-                rating: Number(formData.get('rating')),
-                message: formData.get('message')?.trim()
-            };
 
             try {
-                const { error } = await nikoleDB.from('reviews').insert(payload);
+                const { data, error } = await nikoleDB.rpc('submit_review', {
+                    p_review_key: formData.get('review_key')?.trim(),
+                    p_customer_name: formData.get('customer_name')?.trim(),
+                    p_email: formData.get('email')?.trim().toLowerCase(),
+                    p_service_type: formData.get('service_type'),
+                    p_rating: Number(formData.get('rating')),
+                    p_message: formData.get('message')?.trim()
+                });
+
                 if (error) throw error;
+                if (!data?.success) throw new Error(data?.error || 'Unable to submit review');
 
                 reviewBtn.textContent = 'Review Submitted!';
                 reviewBtn.style.background = '#4a7c59';
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     reviewBtn.style.background = '';
                 }, 6000);
             } catch (err) {
-                alert('Review could not be submitted: ' + err.message + '\n\nOnly completed bookings can be reviewed, and each booking can only be reviewed once.');
+                alert('Review could not be submitted: ' + err.message);
                 reviewBtn.disabled = false;
                 reviewBtn.textContent = originalText;
             }

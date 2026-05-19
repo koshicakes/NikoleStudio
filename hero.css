@@ -1,48 +1,13 @@
 /* =========================
    hero.css
+   NOTE: .hero-fullscreen, .hero-overlay, .hero-content
+   are fully defined in home.css — only page-specific
+   overrides belong here.
 ========================= */
 
-.hero-fullscreen {
-    position: relative;
-    height: 100vh;
-    min-height: 760px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--maroon-darkest);
-    overflow: hidden;
-}
-
-.hero-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.60;
-    mix-blend-mode: luminosity;
-}
-
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(222, 8, 47, 0.4) 0%,
-       rgb(186, 16, 16) 100%
-    );
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    max-width: 900px;
-    padding: 0 20px;
-}
-
-.hero-content h1 {
-    color: var(--text-light);
-    font-style: italic;
-    font-size: clamp(40px, 6vw, 85px);
-    line-height: 1;
+.hero-tagline {
+    color: var(--text-soft);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
 }

@@ -637,3 +637,256 @@ textarea {
         overflow-wrap: anywhere;
     }
 }
+
+
+/* =========================
+   BOOKING SUCCESS MODAL
+   ========================= */
+
+.booking-success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(45, 36, 37, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.booking-success-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-success-overlay[hidden] {
+    display: none !important;
+}
+
+.booking-success-modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    padding: clamp(32px, 5vw, 48px);
+    border-radius: 22px;
+    border: 1px solid rgba(122, 28, 42, 0.12);
+    background:
+        radial-gradient(circle at top left, rgba(186, 16, 16, 0.08), transparent 40%),
+        linear-gradient(135deg, rgba(255, 250, 246, 0.98), rgba(244, 232, 222, 0.98));
+    box-shadow:
+        0 40px 100px rgba(74, 13, 23, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.booking-success-overlay.is-active .booking-success-modal {
+    transform: translateY(0) scale(1);
+}
+
+.success-modal-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a7c59, #3d6b4a);
+    font-size: 28px;
+    box-shadow: 0 12px 28px rgba(74, 124, 89, 0.28);
+}
+
+.success-modal-title {
+    margin: 0 0 8px;
+    color: var(--maroon-deep);
+    font-family: 'Libre Baskerville', 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.success-ref-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 28px 0;
+    padding: 18px 22px;
+    border-radius: 16px;
+    border: 1.5px dashed rgba(186, 16, 16, 0.25);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.success-ref-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.success-ref-code {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--maroon-deep);
+    word-break: break-all;
+}
+
+.success-copy-btn {
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 20px;
+    border: 1px solid rgba(122, 28, 42, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--maroon-main);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.success-copy-btn:hover {
+    border-color: rgba(186, 16, 16, 0.4);
+    background: rgba(186, 16, 16, 0.08);
+    transform: translateY(-1px);
+}
+
+.success-details {
+    margin: 0 0 24px;
+    padding: 18px 22px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--text-dark);
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.success-details strong {
+    color: var(--maroon-deep);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.success-notice {
+    margin: 0 0 28px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    background: rgba(74, 124, 89, 0.08);
+    border: 1px solid rgba(74, 124, 89, 0.15);
+    color: var(--text-dark);
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.success-notice strong {
+    color: #4a7c59;
+    font-weight: 700;
+}
+
+.success-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.success-messenger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 28px;
+    border-radius: 999px;
+    border: 0;
+    background: var(--maroon-main);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(186, 16, 16, 0.22);
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.success-messenger-btn:hover {
+    background: var(--maroon-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(186, 16, 16, 0.28);
+}
+
+.success-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(122, 28, 42, 0.2);
+    background: transparent;
+    color: var(--maroon-deep);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.success-close-btn:hover {
+    border-color: rgba(186, 16, 16, 0.35);
+    background: rgba(186, 16, 16, 0.06);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+    .booking-success-overlay {
+        padding: 16px;
+    }
+
+    .booking-success-modal {
+        padding: 28px 22px;
+        border-radius: 18px;
+    }
+
+    .success-ref-block {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .success-copy-btn {
+        width: 100%;
+    }
+
+    .success-modal-actions {
+        flex-direction: column;
+    }
+
+    .success-messenger-btn,
+    .success-close-btn {
+        width: 100%;
+    }
+}
