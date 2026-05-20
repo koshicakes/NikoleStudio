@@ -1,9 +1,4 @@
-/* =========================
-   hero.css
-   NOTE: .hero-fullscreen, .hero-overlay, .hero-content
-   are fully defined in home.css — only page-specific
-   overrides belong here.
-========================= */
+/* hero.css: page-specific overrides only */
 
 .hero-tagline {
     color: var(--text-soft);

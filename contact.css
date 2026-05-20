@@ -70,6 +70,13 @@
     box-shadow: 0 14px 28px rgba(186, 16, 16, 0.18);
 }
 
+.contact-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
 .contact-method h4 {
     margin: 0 0 6px;
     color: var(--text-dark);
@@ -299,8 +306,20 @@
         height: 46px;
     }
 
+    .contact-icon img {
+        width: 20px;
+        height: 20px;
+    }
+
     .contact-map-footer {
         align-items: flex-start;
         flex-direction: column;
     }
+    
+}
+
+.social-link img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }

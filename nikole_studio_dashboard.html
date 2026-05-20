@@ -43,6 +43,111 @@
         button i {
     pointer-events: none;
 }
+
+        /* ── Contact Message Modal ── */
+        .contact-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(45, 13, 13, 0.35);
+            backdrop-filter: blur(2px);
+            z-index: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .contact-modal-overlay.open { opacity: 1; visibility: visible; }
+        .contact-modal {
+            position: fixed;
+            top: 0; right: 0;
+            width: min(520px, 100vw);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            box-shadow: -12px 0 48px rgba(74, 13, 23, 0.1);
+            z-index: 501;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .contact-modal.open { transform: translateX(0); }
+        .contact-modal-header {
+            padding: 1.5rem 1.75rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+        .contact-modal-header h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        .contact-modal-close {
+            background: none; border: none;
+            color: var(--text-muted); font-size: 1.1rem;
+            cursor: pointer; padding: 0.25rem;
+            transition: color 0.2s; flex-shrink: 0; margin-top: 2px;
+        }
+        .contact-modal-close:hover { color: var(--accent); }
+        .contact-modal-meta {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 0.6rem;
+            flex-shrink: 0; background: var(--bg-tertiary);
+        }
+        .contact-modal-meta-row { display: flex; gap: 0.75rem; font-size: 0.85rem; }
+        .contact-modal-meta-row .label {
+            color: var(--text-muted); min-width: 64px; font-weight: 500;
+            text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; padding-top: 1px;
+        }
+        .contact-modal-meta-row .value { color: var(--text-primary); }
+        .contact-modal-meta-row a { color: var(--accent); text-decoration: none; }
+        .contact-modal-meta-row a:hover { text-decoration: underline; }
+        .contact-modal-body {
+            padding: 1.75rem; overflow-y: auto; flex: 1;
+            line-height: 1.75; font-size: 0.95rem;
+            color: var(--text-secondary); white-space: pre-wrap; word-break: break-word;
+        }
+        .contact-modal-footer {
+            padding: 1.25rem 1.75rem;
+            border-top: 1px solid var(--border);
+            display: flex; gap: 0.75rem; flex-shrink: 0; flex-wrap: wrap;
+        }
+        .contact-row-clickable { cursor: pointer; }
+        .contact-row-clickable:hover td { background: var(--bg-hover); }
+        .contact-modal-reply {
+            flex-shrink: 0;
+            border-top: 2px solid var(--border);
+            background: var(--bg-tertiary);
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-modal-reply-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.875rem 1rem 0;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .contact-modal-reply textarea {
+            border: none;
+            background: transparent;
+            resize: none;
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            outline: none;
+            line-height: 1.6;
+        }
+        .contact-modal-reply textarea::placeholder { color: var(--text-muted); opacity: 0.7; }
         body {
             font-family: var(--font-body);
             background: var(--bg-primary);
@@ -1595,6 +1700,12 @@
                     <i class="fas fa-gem"></i>
                     <span>Packages</span>
                 </a>
+
+                <a class="nav-item" onclick="switchTab('contacts', event)">
+                 <i class="fas fa-envelope"></i>
+                 <span>Messages</span>
+                </a>
+
                 <a class="nav-item" onclick="switchTab('reviews', event)">
                     <i class="fas fa-star"></i>
                     <span>Reviews</span>
@@ -1607,6 +1718,8 @@
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
+
+                
             </nav>
             <div class="sidebar-footer">
                 <div class="user-info">
@@ -1712,6 +1825,66 @@
                     <div class="pagination">
                         <div class="pagination-info">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="showingTotal">0</span> sessions</div>
                         <div class="pagination-buttons" id="paginationButtons"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages / Contacts View -->
+            <div id="view-contacts" class="tab-content" style="display:none;">
+                <div class="top-bar">
+                    <div>
+                        <h1 class="page-title">Contact Messages</h1>
+                        <p class="page-subtitle">Inquiries from the website contact form</p>
+                    </div>
+                    <div class="top-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="contactSearch" placeholder="Search name, email, subject..." oninput="filterContacts()">
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="loadData('contacts')">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));">
+                    <div class="stat-card total">
+                        <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="stat-value" id="contactTotal">0</div>
+                        <div class="stat-label">Total Messages</div>
+                    </div>
+                    <div class="stat-card pending">
+                        <div class="stat-icon"><i class="fas fa-envelope-open-text"></i></div>
+                        <div class="stat-value" id="contactNew">0</div>
+                        <div class="stat-label">Unread / New</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title"><i class="fas fa-inbox"></i> Inbox</div>
+                        <div class="section-actions">
+                            <span style="color: var(--text-muted); font-size: 0.8rem;"><span id="contactsCount">0</span> messages</span>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactTableBody">
+                                <tr><td colspan="8" class="empty-state"><div class="loading-spinner"></div></td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -2020,7 +2193,7 @@
         let currentStatusFilter = 'all';
         let galleryCategoryFilter = 'all';
         let assetTypeFilter = 'all';
-        let dataStore = { booking: [], gallery: [], packages: [], reviews: [], canvas_asset: [] };
+        let dataStore = { booking: [], gallery: [], packages: [],contacts: [], reviews: [], canvas_asset: [] };
         let editingId = null;
         let currentPage = 1;
         const itemsPerPage = 10;
@@ -2251,9 +2424,32 @@ const tableSchemas = {
                 ]
             }
         ]
+    },
+
+    contacts: {
+        title: 'Contact Message',
+        table: 'contacts',
+        fields: [
+            { name: 'name', label: 'Name', type: 'text', required: true },
+            { name: 'email', label: 'Email', type: 'email', required: true },
+            { name: 'phone', label: 'Phone', type: 'text', required: false },
+            { name: 'subject', label: 'Subject', type: 'text', required: false },
+            { name: 'message', label: 'Message', type: 'textarea', required: true },
+            {
+                name: 'status',
+                label: 'Status',
+                type: 'select',
+                required: false,
+                options: [
+                    { value: 'new', label: 'New' },
+                    { value: 'read', label: 'Read' },
+                    { value: 'replied', label: 'Replied' },
+                    { value: 'archived', label: 'Archived' }
+                ]
+            }
+        ]
     }
 };
-
         // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', () => {
             // Load saved credentials
@@ -2551,6 +2747,7 @@ const dbTableMap = {
     booking: 'bookings',
     gallery: 'gallery',
     packages: 'packages',
+    contacts: 'contacts',
     reviews: 'reviews',
     canvas_asset: 'canvas_assets'
 };  
@@ -2595,13 +2792,16 @@ const dbTableMap = {
                         }));
                     }
                 }
+                if (table === 'contacts') {
+                    document.getElementById('contactsCount').textContent = dataStore.contacts.length;
+                }
             } catch (err) {
                 showToast('Failed to load ' + table + ': ' + err.message, 'error');
             }
         }
 
         function setupRealtime() {
-            const tables = ['booking', 'gallery', 'packages', 'reviews', 'canvas_asset'];
+            const tables = ['booking', 'gallery', 'packages', 'reviews', 'canvas_asset', 'contacts'];
             tables.forEach(table => {
                 const tableName = dbTableMap[table];
                 supabaseClient
@@ -2627,10 +2827,11 @@ const dbTableMap = {
                 dataStore[table] = dataStore[table].filter(item => (item[delPkCol] || item.id) !== payload.old[delPkCol]);
                 showToast(table.slice(0, -1) + ' deleted', 'info');
             }
-            renderTable(table);
             if (table === 'booking') updateBookingStats();
             if (table === 'gallery') document.getElementById('galleryCount').textContent = dataStore.gallery.length;
             if (table === 'reviews') document.getElementById('reviewsCount').textContent = dataStore.reviews.length;
+            if (table === 'contacts') document.getElementById('contactsCount').textContent = dataStore.contacts.length;
+             renderTable(table);
         }
 
         function updateBookingStats() {
@@ -2665,6 +2866,7 @@ const dbTableMap = {
             else if (table === 'packages') renderPackages();
             else if (table === 'reviews') renderReviews();
             else if (table === 'canvas_asset') renderAssets();
+            else if (table === 'contacts') renderContacts();
         }
 
         function renderBookings() {
@@ -2820,9 +3022,9 @@ const dbTableMap = {
                     '<div class="action-btns"><button class="btn-action" onclick="updateReviewStatus(' + review.id + ', \'published\')" title="Publish Review"><i class="fas fa-check"></i></button><button class="btn-action" onclick="updateReviewStatus(' + review.id + ', \'rejected\')" title="Reject Review"><i class="fas fa-ban"></i></button><button class="btn-action delete" onclick="deleteItem(\'reviews\', ' + review.id + ')" title="Delete Review"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
 
-                return '<tr class="fade-in"><td>' + (review.review_key 
-                    ? '<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:monospace;font-size:0.82rem;background:var(--accent-glow);padding:5px 10px;border-radius:6px;color:var(--accent);font-weight:700;border:1px solid rgba(122,28,42,0.12);">' + escapeHtml(review.review_key) + '</span><button class="btn-action" onclick="copyToClipboard(\'' + (review.review_key || '') + '\')" title="Copy Code" style="width:28px;height:28px;"><i class="fas fa-copy"></i></button></div>' 
-                    : '<span style="color:var(--text-muted);font-size:0.75rem;">—</span>') + '</td>' + '<td><strong>' + escapeHtml(review.customer_name || '-') + '</strong><br><span style="font-size:0.75rem;color:var(--text-muted);">' + escapeHtml(review.email || '-') + '</span></td><td>' + escapeHtml(review.service_type || '-') + '</td><td><span class="badge badge-gold">' + stars + ' ' + Number(review.rating || 0) + '/5</span></td><td class="truncate">' + escapeHtml(review.message || '-') + '</td><td><span class="status-badge ' + statusClass + '"><span class="status-dot"></span> ' + escapeHtml(review.status || 'pending') + '</span></td><td>' + date + '</td><td>' + actions + '</td></tr>';
+                return '<tr class="fade-in contact-row-clickable" onclick="openReviewMessage(' + review.id + ')"><td>' + (review.review_key 
+                    ? '<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:monospace;font-size:0.82rem;background:var(--accent-glow);padding:5px 10px;border-radius:6px;color:var(--accent);font-weight:700;border:1px solid rgba(122,28,42,0.12);">' + escapeHtml(review.review_key) + '</span><button class="btn-action" onclick="event.stopPropagation();copyToClipboard(\'' + (review.review_key || '') + '\')" title="Copy Code" style="width:28px;height:28px;"><i class="fas fa-copy"></i></button></div>' 
+                    : '<span style="color:var(--text-muted);font-size:0.75rem;">—</span>') + '</td>' + '<td><strong>' + escapeHtml(review.customer_name || '-') + '</strong><br><span style="font-size:0.75rem;color:var(--text-muted);">' + escapeHtml(review.email || '-') + '</span></td><td>' + escapeHtml(review.service_type || '-') + '</td><td><span class="badge badge-gold">' + stars + ' ' + Number(review.rating || 0) + '/5</span></td><td class="truncate">' + escapeHtml(review.message || '-') + '</td><td><span class="status-badge ' + statusClass + '"><span class="status-dot"></span> ' + escapeHtml(review.status || 'pending') + '</span></td><td>' + date + '</td><td onclick="event.stopPropagation();">' + actions + '</td></tr>';
             }).join('');
         }
 
@@ -2901,6 +3103,79 @@ const dbTableMap = {
         function filterPackages() { renderPackages(); }
         function filterReviews() { renderReviews(); }
         function filterAssets() { renderAssets(); }
+
+        function renderContacts() {
+    const tbody = document.getElementById('contactTableBody');
+    if (!tbody) return;
+
+    let items = [...dataStore.contacts];
+    const isEditor = userRole === 'editor' || userRole === 'admin';
+
+    const search = document.getElementById('contactSearch')?.value.toLowerCase() || '';
+    if (search) {
+        items = items.filter(c =>
+            (c.name && c.name.toLowerCase().includes(search)) ||
+            (c.email && c.email.toLowerCase().includes(search)) ||
+            (c.subject && c.subject.toLowerCase().includes(search)) ||
+            (c.message && c.message.toLowerCase().includes(search))
+        );
+    }
+
+    // Update stats
+    const total = dataStore.contacts.length;
+    const unread = dataStore.contacts.filter(c => !c.status || c.status === 'new').length;
+    document.getElementById('contactTotal').textContent = total;
+    document.getElementById('contactNew').textContent = unread;
+    document.getElementById('contactsCount').textContent = total;
+
+    if (items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-inbox"></i><h3>No messages</h3><p>' + (search ? 'Try adjusting your search' : 'Contact form submissions will appear here') + '</p></div></td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = items.map(c => {
+        const date = c.created_at ? new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+        const status = c.status || 'new';
+        const statusClass = status === 'new' ? 'status-pending' : status === 'replied' ? 'status-completed' : status === 'archived' ? 'status-rejected' : 'status-confirmed';
+        const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+
+        const actions = isEditor ?
+            '<div class="action-btns">' +
+            '<button class="btn-action" onclick="updateContactStatus(' + c.id + ', \'read\')" title="Mark Read"><i class="fas fa-envelope-open"></i></button>' +
+            '<button class="btn-action" onclick="updateContactStatus(' + c.id + ', \'replied\')" title="Mark Replied"><i class="fas fa-reply"></i></button>' +
+            '<button class="btn-action" onclick="updateContactStatus(' + c.id + ', \'archived\')" title="Archive"><i class="fas fa-archive"></i></button>' +
+            '<button class="btn-action delete" onclick="deleteItem(\'contacts\', ' + c.id + ')" title="Delete"><i class="fas fa-trash"></i></button>' +
+            '</div>' :
+            '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
+
+        return '<tr class="fade-in contact-row-clickable" onclick="openContactMessage(' + c.id + ')"><td style="white-space:nowrap;font-size:0.8rem;color:var(--text-muted);">' + date + '</td>' +
+            '<td><strong>' + escapeHtml(c.name || '-') + '</strong></td>' +
+            '<td><a href="mailto:' + escapeHtml(c.email || '') + '" onclick="event.stopPropagation();" style="color:var(--accent);text-decoration:none;">' + escapeHtml(c.email || '-') + '</a></td>' +
+            '<td>' + escapeHtml(c.phone || '-') + '</td>' +
+            '<td><span class="badge badge-gold">' + escapeHtml(c.subject || 'General') + '</span></td>' +
+            '<td style="max-width:280px;"><div style="max-height:60px;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(c.message || '-') + '</div></td>' +
+            '<td><span class="status-badge ' + statusClass + '"><span class="status-dot"></span> ' + statusLabel + '</span></td>' +
+            '<td onclick="event.stopPropagation();">' + actions + '</td></tr>';
+    }).join('');
+}
+
+        function filterContacts() { renderContacts(); }
+
+        async function updateContactStatus(id, status) {
+            const isEditor = userRole === 'editor' || userRole === 'admin';
+            if (!isEditor) {
+                showToast('You need editor or admin permissions', 'error');
+                return;
+            }
+            try {
+                const { error } = await supabaseClient.from('contacts').update({ status }).eq('id', id);
+                if (error) throw error;
+                showToast('Message marked as ' + status, 'success');
+                await loadData('contacts');
+            } catch (err) {
+                showToast('Update failed: ' + err.message, 'error');
+            }
+        }
 
         // ==================== TAB SWITCHING ====================
         function switchTab(tab, evt) {
@@ -3342,6 +3617,112 @@ function generateBookingReference() {
     return `NKL-${date}-${seg()}`;
 }
 
+        // ==================== CONTACT MESSAGE MODAL ====================
+        let currentContactId = null;
+        let currentContactEmail = null;
+        let currentContactSubject = null;
+
+        function openContactMessage(id) {
+            const c = dataStore.contacts.find(x => x.id === id);
+            if (!c) return;
+            const isEditor = userRole === 'editor' || userRole === 'admin';
+            const date = c.created_at ? new Date(c.created_at).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+            const status = c.status || 'new';
+
+            currentContactId = id;
+            currentContactEmail = c.email || '';
+            currentContactSubject = c.subject || 'General Inquiry';
+
+            document.getElementById('cmSubject').textContent = currentContactSubject;
+            document.getElementById('cmName').textContent = c.name || '-';
+            document.getElementById('cmEmail').innerHTML = c.email ? '<a href="mailto:' + escapeHtml(c.email) + '" onclick="event.stopPropagation();">' + escapeHtml(c.email) + '</a>' : '-';
+            document.getElementById('cmPhone').textContent = c.phone || '-';
+            document.getElementById('cmDate').textContent = date;
+            document.getElementById('cmStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            document.getElementById('cmBody').textContent = c.message || '';
+            document.getElementById('cmReplyTo').textContent = c.name || c.email || 'sender';
+            document.getElementById('cmReplyText').value = '';
+
+            const showActions = isEditor;
+            document.getElementById('cmMarkRead').style.display = showActions ? '' : 'none';
+            document.getElementById('cmMarkReplied').style.display = showActions ? '' : 'none';
+
+            document.getElementById('contactModalOverlay').classList.add('open');
+            document.getElementById('contactModal').classList.add('open');
+
+            if (isEditor && (!status || status === 'new')) {
+                updateContactStatus(id, 'read');
+            }
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModalOverlay').classList.remove('open');
+            document.getElementById('contactModal').classList.remove('open');
+            currentContactId = null;
+        }
+
+        async function cmAction(status) {
+            if (!currentContactId) return;
+            await updateContactStatus(currentContactId, status);
+            document.getElementById('cmStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
+        function sendContactReply() {
+            const replyText = document.getElementById('cmReplyText').value.trim();
+            if (!replyText) { showToast('Please write a reply first', 'error'); return; }
+            if (!currentContactEmail) { showToast('No email address to reply to', 'error'); return; }
+
+            const subject = encodeURIComponent('Re: ' + currentContactSubject);
+            const body = encodeURIComponent(replyText + '\n\n---\nNikole Studio\nhello@nikolestudio.ph');
+            window.location.href = 'mailto:' + encodeURIComponent(currentContactEmail) + '?subject=' + subject + '&body=' + body;
+
+            cmAction('replied');
+            showToast('Email client opened — reply ready to send', 'success');
+        }
+
+        // ==================== REVIEW MESSAGE MODAL ====================
+        let currentReviewId = null;
+
+        function openReviewMessage(id) {
+            const r = dataStore.reviews.find(x => x.id === id);
+            if (!r) return;
+            const isEditor = userRole === 'editor' || userRole === 'admin';
+            const date = r.created_at ? new Date(r.created_at).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+            const stars = Array.from({ length: 5 }, (_, i) => i < Number(r.rating || 0) ? '★' : '☆').join('');
+            const status = r.status || 'pending';
+
+            currentReviewId = id;
+
+            document.getElementById('rmService').textContent = r.service_type || '-';
+            document.getElementById('rmName').textContent = r.customer_name || '-';
+            document.getElementById('rmEmail').textContent = r.email || '-';
+            document.getElementById('rmRef').textContent = r.review_key || '-';
+            document.getElementById('rmRating').textContent = stars + '  ' + Number(r.rating || 0) + '/5';
+            document.getElementById('rmDate').textContent = date;
+            document.getElementById('rmStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            document.getElementById('rmBody').textContent = r.message || '';
+
+            const publishBtn = document.getElementById('rmPublish');
+            const rejectBtn = document.getElementById('rmReject');
+            if (publishBtn) publishBtn.style.display = isEditor ? '' : 'none';
+            if (rejectBtn) rejectBtn.style.display = isEditor ? '' : 'none';
+
+            document.getElementById('reviewModalOverlay').classList.add('open');
+            document.getElementById('reviewModal').classList.add('open');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModalOverlay').classList.remove('open');
+            document.getElementById('reviewModal').classList.remove('open');
+            currentReviewId = null;
+        }
+
+        async function rmAction(status) {
+            if (!currentReviewId) return;
+            await updateReviewStatus(currentReviewId, status);
+            document.getElementById('rmStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
 function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
         }
@@ -3404,5 +3785,59 @@ function toggleSidebar() {
     }
 }   
     </script>
+        <!-- Contact Message Modal -->
+        <div class="contact-modal-overlay" id="contactModalOverlay" onclick="closeContactModal()"></div>
+        <div class="contact-modal" id="contactModal">
+            <div class="contact-modal-header">
+                <h3 id="cmSubject">Subject</h3>
+                <div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0;">
+                    <button class="btn btn-secondary btn-sm" id="cmMarkRead" onclick="cmAction('read')" title="Mark as Read"><i class="fas fa-envelope-open"></i> Read</button>
+                    <button class="btn btn-secondary btn-sm" id="cmMarkReplied" onclick="cmAction('replied')" title="Mark as Replied"><i class="fas fa-check-double"></i> Replied</button>
+                    <button class="btn btn-secondary btn-sm" onclick="cmAction('archived')" title="Archive"><i class="fas fa-archive"></i></button>
+                    <button class="contact-modal-close" onclick="closeContactModal()" title="Close"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="contact-modal-meta">
+                <div class="contact-modal-meta-row"><span class="label">From</span><span class="value" id="cmName"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Email</span><span class="value" id="cmEmail"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Phone</span><span class="value" id="cmPhone"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Date</span><span class="value" id="cmDate"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Status</span><span class="value" id="cmStatus"></span></div>
+            </div>
+            <div class="contact-modal-body" id="cmBody"></div>
+            <div class="contact-modal-reply">
+                <div class="contact-modal-reply-header">
+                    <i class="fas fa-reply" style="color:var(--accent);font-size:0.85rem;"></i>
+                    <span>Reply to <strong id="cmReplyTo"></strong></span>
+                </div>
+                <textarea id="cmReplyText" placeholder="Write your reply here..." rows="4"></textarea>
+                <div style="display:flex;justify-content:flex-end;gap:0.75rem;padding:0.75rem 1rem;border-top:1px solid var(--border);">
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('cmReplyText').value=''">Clear</button>
+                    <button class="btn btn-sm" style="background:var(--accent);color:#fff;" onclick="sendContactReply()"><i class="fas fa-paper-plane"></i> Send Reply</button>
+                </div>
+            </div>
+        </div>
+        <!-- Review Message Modal -->
+        <div class="contact-modal-overlay" id="reviewModalOverlay" onclick="closeReviewModal()"></div>
+        <div class="contact-modal" id="reviewModal">
+            <div class="contact-modal-header">
+                <h3 id="rmService">Review</h3>
+                <div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0;">
+                    <button class="btn btn-secondary btn-sm" id="rmPublish" onclick="rmAction('published')" title="Publish"><i class="fas fa-check"></i> Publish</button>
+                    <button class="btn btn-secondary btn-sm" id="rmReject" onclick="rmAction('rejected')" title="Reject"><i class="fas fa-ban"></i> Reject</button>
+                    <button class="contact-modal-close" onclick="closeReviewModal()" title="Close"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="contact-modal-meta">
+                <div class="contact-modal-meta-row"><span class="label">From</span><span class="value" id="rmName"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Email</span><span class="value" id="rmEmail"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Ref</span><span class="value" id="rmRef" style="font-family:monospace;font-size:0.85rem;"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Rating</span><span class="value" id="rmRating" style="color:var(--warning);letter-spacing:2px;"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Date</span><span class="value" id="rmDate"></span></div>
+                <div class="contact-modal-meta-row"><span class="label">Status</span><span class="value" id="rmStatus"></span></div>
+            </div>
+            <div class="contact-modal-body" id="rmBody"></div>
+        </div>
+
 </body>
 </html>

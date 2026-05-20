@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<nav>
+<<nav>
     <a href="home.html" class="logo" aria-label="Nikole Studio Home"><img src="nikole red no bg.png" alt="Nikole Studio"></a>
     <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation">
         <span></span>
@@ -27,9 +27,7 @@
     </div>
 </nav>
 
-<main>
-    
-
+<<main>
     <section class="page-section contact-page">
         <div class="section-head">
             <p class="eyebrow">Contact Us</p>
@@ -40,9 +38,8 @@
         <div class="contacts-grid">
             <section class="contact-info-card" aria-labelledby="contact-info-title">
                 <h2 id="contact-info-title">Contact Information</h2>
-
                 <div class="contact-method">
-                    <div class="contact-icon" aria-hidden="true">AD</div>
+                    <div class="contact-icon" aria-hidden="true"><img src="store.png" alt=""></div>
                     <div>
                         <h4>Studio Area</h4>
                         <p>Valenzuela City, Philippines</p>
@@ -50,7 +47,7 @@
                 </div>
 
                 <div class="contact-method">
-                    <div class="contact-icon" aria-hidden="true">MS</div>
+                    <div class="contact-icon" aria-hidden="true"><img src="messenger.png" alt=""></div>
                     <div>
                         <h4>Messenger</h4>
                         <a href="https://m.me/nikolestudio" target="_blank" rel="noopener">@nikolestudio</a>
@@ -58,25 +55,24 @@
                 </div>
 
                 <div class="contact-method">
-                    <div class="contact-icon" aria-hidden="true">EM</div>
+                    <div class="contact-icon" aria-hidden="true"><img src="mail.png" alt=""></div>
                     <div>
                         <h4>Email</h4>
-                        <a href="mailto:hello@nikolestudio.ph">hello@nikolestudio.ph</a>
+                        <a href="mailto:nikolestudio@gmail.com">nikolestudio@gmail.com</a>
                     </div>
                 </div>
 
                 <div class="contact-method">
-                    <div class="contact-icon" aria-hidden="true">HR</div>
+                    <div class="contact-icon" aria-hidden="true"><img src="clock.png" alt=""></div>
                     <div>
                         <h4>Business Hours</h4>
-                        <p>Monday to Saturday<br>10:00 AM to 7:00 PM</p>
+                        <p>Monday to Saturday<br>9:00 AM to 7:00 PM</p>
                     </div>
                 </div>
 
                 <div class="social-links" aria-label="Social links">
-                    <a href="https://www.facebook.com/nikolestudio" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">FB</a>
-                    <a href="https://www.instagram.com/nikolestudio" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">IG</a>
-                    <a href="https://www.facebook.com/nikolestudio/reviews" target="_blank" rel="noopener" class="social-link" aria-label="Reviews">RV</a>
+                    <a href="https://www.facebook.com/nikolestudio" target="_blank" rel="noopener" class="social-link" aria-label="Facebook"><img src="facebook.png" alt="Facebook"></a>
+                    <a href="https://www.instagram.com/nikolestudio" target="_blank" rel="noopener" class="social-link" aria-label="Instagram"><img src="instagram.png" alt="Instagram"></a>
                 </div>
             </section>
 
@@ -135,7 +131,9 @@
                             <textarea id="contact-message" name="message" placeholder="Tell us about your inquiry, preferred date, package, theme, or references." required></textarea>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <div class="h-captcha" id="contact-captcha" data-sitekey="03d05d70-6ff2-4b70-96ea-8a64540e9c30" data-callback="onContactCaptcha" data-expired-callback="onContactCaptchaExpired"></div>
+                    </div>
                     <div class="form-actions contact-actions">
                         <button class="btn-action" type="submit">Send Message</button>
                         <p class="description">For urgent booking questions, Messenger is usually the quickest way to reach the studio.</p>
@@ -150,7 +148,7 @@
                         <h2 id="review-form-title">Send a Review</h2>
                     </div>
                 </div>
-
+                
                 <form id="review-form" class="form-shell" novalidate>
                     <div class="form-grid">
                         <div class="form-group">
@@ -196,6 +194,10 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="h-captcha" id="review-captcha" data-sitekey="03d05d70-6ff2-4b70-96ea-8a64540e9c30" data-callback="onReviewCaptcha" data-expired-callback="onReviewCaptchaExpired"></div>
+                    </div>
+
                     <div class="form-actions contact-actions">
                         <button class="btn-action" type="submit">Submit Review</button>
                         <p class="description">Reviews are checked against completed bookings and published after studio approval.</p>
@@ -206,12 +208,14 @@
     </section>
 </main>
 
-<footer class="page-footer">
+<<footer class="page-footer">
     <p>&copy; 2026 Nikole Studio.</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="supabase.js"></script>
 <script src="base.js"></script>
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <script src="contact.js"></script>
+
 </body>
 </html>

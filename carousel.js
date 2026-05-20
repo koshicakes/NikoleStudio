@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── TESTIMONIALS CAROUSEL (.carousel-container) ──────────────
+    // Testimonials carousel (.carousel-container)
     const carousel = document.querySelector('.carousel-container');
     if (carousel) {
         const cards = document.querySelectorAll('.testimonial-card');
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }
 
-    // ── REVIEW PAGES CAROUSEL (.carousel-track) ──────────────────
+    // Review pages carousel (.carousel-track)
     const track = document.querySelector('.carousel-track');
     const pages = Array.from(document.querySelectorAll('.carousel-page'));
     const dotsContainer = document.querySelector('.carousel-dots');
