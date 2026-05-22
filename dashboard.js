@@ -1736,7 +1736,7 @@ function toggleSidebar() {
             }
         }
 
-    async function sendBookingConfirmationEmail(bookingId, status) {
+async function sendBookingConfirmationEmail(bookingId, status) {
     try {
         const booking = dataStore.booking.find(b => b.id === bookingId);
         if (!booking || !booking.email) {
@@ -1752,7 +1752,7 @@ function toggleSidebar() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 service_id: 'service_1ofsddp',
-                template_id: 'template_6spuq1e',
+                template_id: 'template_hfiatdm',
                 user_id: 'yGKpG_4PY58S5ID6x',
                 template_params: {
                     booking_reference: booking.booking_reference || ('NKL-' + booking.id),
