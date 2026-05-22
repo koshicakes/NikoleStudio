@@ -543,3 +543,546 @@
         flex: 0 0 auto;
     }
 }
+/* =========================
+   LIGHTWEIGHT PACKAGE CARDS
+========================= */
+.pkg-lite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.pkg-lite-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 28px 26px 24px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 12px 36px rgba(33, 18, 20, 0.09);
+    cursor: pointer;
+    transition: transform 0.26s cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 0.26s cubic-bezier(0.23, 1, 0.32, 1),
+                border-color 0.26s ease;
+    outline: none;
+}
+
+.pkg-lite-card:hover,
+.pkg-lite-card:focus-visible {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 60px rgba(33, 18, 20, 0.16);
+    border-color: rgba(122, 28, 42, 0.22);
+}
+
+.pkg-lite-top {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.pkg-lite-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--maroon-main);
+    opacity: 0.75;
+    margin: 0;
+}
+
+.pkg-lite-name {
+    font-family: 'Playfair Display', 'Libre Baskerville', serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--maroon-deep);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.pkg-lite-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pkg-lite-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pkg-lite-price {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--maroon-deep);
+    letter-spacing: -0.01em;
+}
+
+.pkg-lite-view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 20px;
+    border-radius: 999px;
+    border: 1.5px solid var(--maroon-main);
+    background: transparent;
+    color: var(--maroon-main);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    pointer-events: none; /* card handles the click */
+    transition: background 0.22s ease, color 0.22s ease;
+    white-space: nowrap;
+}
+
+.pkg-lite-card:hover .pkg-lite-view-btn,
+.pkg-lite-card:focus-visible .pkg-lite-view-btn {
+    background: var(--maroon-main);
+    color: #fff;
+}
+
+/* =========================
+   SCRIM
+========================= */
+.pkg-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: rgba(26, 10, 12, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.38s ease, visibility 0.38s ease;
+}
+
+.pkg-scrim.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* =========================
+   PACKAGE PREVIEW PANEL
+========================= */
+.pkg-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1200;
+    width: min(480px, 100vw);
+    background: var(--off-white);
+    box-shadow: -24px 0 80px rgba(26, 10, 12, 0.22);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(100%);
+    transition: transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
+    /* scrollbar polish */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(122, 28, 42, 0.18) transparent;
+}
+
+.pkg-panel.is-open {
+    transform: translateX(0);
+}
+
+/* Close button */
+.pkg-panel-close {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 16px 0 -56px 16px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--maroon-deep);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(26, 10, 12, 0.14);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.pkg-panel-close:hover {
+    background: #fff;
+    transform: rotate(90deg);
+}
+
+/* Hero image */
+.pkg-panel-hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e8e2db;
+    flex-shrink: 0;
+}
+
+.pkg-panel-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.pkg-panel-hero:hover img {
+    transform: scale(1.03);
+}
+
+.pkg-panel-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26, 10, 12, 0.35) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+.pkg-panel-eyebrow-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--maroon-deep);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+/* Thumbnail strip */
+.pkg-panel-thumbs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.pkg-panel-thumbs::-webkit-scrollbar { display: none; }
+
+.pkg-panel-thumb {
+    width: 64px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    border: 2px solid transparent;
+    transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.pkg-panel-thumb:hover { opacity: 0.85; transform: translateY(-2px); }
+.pkg-panel-thumb.is-active { opacity: 1; border-color: var(--maroon-main); }
+
+/* Body content */
+.pkg-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 26px 28px 40px;
+}
+
+.pkg-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pkg-panel-title {
+    font-family: 'Playfair Display', 'Libre Baskerville', serif;
+    font-size: clamp(26px, 4vw, 34px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--maroon-deep);
+    margin: 0;
+    flex: 1;
+}
+
+.pkg-panel-price {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--maroon-main);
+    letter-spacing: -0.02em;
+    margin: 4px 0 0;
+    white-space: nowrap;
+}
+
+.pkg-panel-description {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 0;
+    font-style: italic;
+}
+
+/* Sections inside body */
+.pkg-panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pkg-panel-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--maroon-main);
+    opacity: 0.75;
+    margin: 0;
+}
+
+.pkg-panel-inclusions {
+    display: grid;
+    gap: 7px;
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.pkg-panel-inclusions li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-dark);
+}
+
+.pkg-panel-inclusions li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 5px;
+    height: 5px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: var(--maroon-main);
+    opacity: 0.6;
+}
+
+.pkg-panel-bestfor {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-dark);
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: rgba(122, 28, 42, 0.05);
+    border-left: 2.5px solid var(--maroon-main);
+}
+
+.pkg-panel-note {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Book button */
+.pkg-panel-book-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 24px;
+    margin-top: 4px;
+    border-radius: 999px;
+    background: var(--maroon-main);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 10px 28px rgba(122, 28, 42, 0.22);
+}
+
+.pkg-panel-book-btn:hover {
+    background: var(--maroon-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(74, 13, 23, 0.28);
+}
+
+.pkg-panel-book-btn.is-confirming {
+    background: var(--maroon-deep);
+    box-shadow: 0 10px 28px rgba(74, 13, 23, 0.22);
+    transform: none;
+    cursor: default;
+    pointer-events: none;
+    letter-spacing: 1px;
+    opacity: 0.88;
+    /* subtle pulse to signal something is happening */
+    animation: bookingConfirmPulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes bookingConfirmPulse {
+    from { opacity: 0.88; }
+    to   { opacity: 0.68; }
+}
+
+/* Prevent body scroll when panel is open */
+body.pkg-panel-active {
+    overflow: hidden;
+}
+
+/* =========================
+   PANEL — MOBILE FULL SCREEN
+========================= */
+@media (max-width: 540px) {
+    .pkg-panel {
+        width: 100vw;
+        border-radius: 0;
+    }
+
+    .pkg-panel-body {
+        padding: 20px 20px 36px;
+    }
+}
+
+/* =========================
+   PKG-LITE GRID — RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .pkg-lite-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pkg-lite-card {
+        padding: 22px 20px 20px;
+    }
+}
+/* =========================
+   MOOD OVERLAY TONES
+   Applied to .pkg-panel-hero-overlay via JS based on overlayTone value.
+   Each tone creates a different emotional reading of the same base photo.
+========================= */
+
+/* Default / fallback — subtle lift from bottom */
+.pkg-panel-hero-overlay {
+    background: linear-gradient(to top, rgba(26, 10, 12, 0.35) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+/* warm-light — Anaya, Package 1, intimate/solo tones: barely-there warmth */
+.pkg-panel-hero-overlay.overlay-warm-light {
+    background:
+        linear-gradient(to top,  rgba(26, 10, 12, 0.22) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(180, 120, 80, 0.08) 0%, transparent 35%);
+}
+
+/* warm-mid — Mahiwaga, Puhon, duo/trio: warmer amber cast */
+.pkg-panel-hero-overlay.overlay-warm-mid {
+    background:
+        linear-gradient(to top,  rgba(26, 10, 12, 0.30) 0%, transparent 50%),
+        linear-gradient(to bottom, rgba(160, 90, 40, 0.14) 0%, transparent 40%);
+}
+
+/* neutral — Palagi, mid-range packages: clean, no cast */
+.pkg-panel-hero-overlay.overlay-neutral {
+    background: linear-gradient(to top, rgba(26, 10, 12, 0.30) 0%, transparent 52%);
+}
+
+/* rich — Araw-Araw, fuller packages: deeper lift, slight red-maroon cast */
+.pkg-panel-hero-overlay.overlay-rich {
+    background:
+        linear-gradient(to top,  rgba(74, 13, 23, 0.45) 0%, transparent 58%),
+        linear-gradient(to bottom, rgba(100, 20, 30, 0.10) 0%, transparent 40%);
+}
+
+/* deep — Ginugma, premium packages: bold vignette, cinematic */
+.pkg-panel-hero-overlay.overlay-deep {
+    background:
+        linear-gradient(to top,    rgba(26, 10, 12, 0.58) 0%, transparent 60%),
+        linear-gradient(to bottom, rgba(26, 10, 12, 0.22) 0%, transparent 40%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(26, 10, 12, 0.28) 100%);
+}
+
+/* =========================
+   MOOD LINE — HERO OVERLAY TEXT
+   A one-liner inside the panel hero, above the eyebrow badge.
+========================= */
+.pkg-panel-mood {
+    position: absolute;
+    bottom: 52px;               /* sits above the eyebrow badge */
+    left: 16px;
+    right: 16px;
+    margin: 0;
+    font-family: 'Playfair Display', 'Libre Baskerville', serif;
+    font-size: clamp(13px, 2.4vw, 15px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 8px rgba(26, 10, 12, 0.55);
+    pointer-events: none;
+}
+
+/* =========================
+   MOOD LINE — PACKAGE CARD
+   Italic one-liner between the name and the full description.
+========================= */
+.pkg-lite-mood {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--maroon-main);
+    opacity: 0.72;
+    margin: 0;
+}
+
+/* =========================
+   PAX BADGE — CARD BOTTOM ROW
+   Small pill showing scale (e.g. "1 pax", "1–5 pax")
+   Sits left of the "View Package" button.
+========================= */
+.pkg-lite-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pkg-lite-pax {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid rgba(122, 28, 42, 0.22);
+    background: rgba(122, 28, 42, 0.06);
+    color: var(--maroon-deep);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+}
