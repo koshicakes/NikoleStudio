@@ -1745,28 +1745,30 @@ function toggleSidebar() {
         }
 
         const pkg = dataStore.packages.find(p => (p.package_id || p.id) == booking.package_id);
+        const packageName = pkg ? pkg.name : 'Custom Package';
 
-        // Call your own Vercel API (same domain)
-        const res = await fetch('/api/send_email', {
+        await fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                to: booking.email,
-                customerName: booking.customer_name,
-                bookingRef: booking.booking_reference || ('NKL-' + booking.id),
-                bookingDate: booking.booking_date,
-                bookingTime: booking.booking_time || '',
-                serviceType: booking.service_type || 'Photo Session',
-                packageName: pkg ? pkg.name : 'Custom Package'
+                service_id: 'service_1ofsddp',
+                template_id: 'template_6spuq1e',
+                user_id: 'yGKpG_4PY58S5ID6x',
+                template_params: {
+                    booking_reference: booking.booking_reference || ('NKL-' + booking.id),
+                    customer_name: booking.customer_name,
+                    email: booking.email,
+                    service_type: booking.service_type || 'Photo Session',
+                    booking_date: booking.booking_date,
+                    booking_time: booking.booking_time || '',
+                    notes: status === 'confirmed' ? 'Your booking has been CONFIRMED!' : 'Your session has been COMPLETED. Thank you!'
+                }
             })
         });
-
-        const result = await res.json();
-        if (!res.ok) throw new Error(result.error);
 
         showToast('Confirmation email sent to ' + booking.email, 'success');
     } catch (err) {
         console.warn('Email failed:', err);
-        showToast('Booking confirmed but email failed: ' + err.message, 'warning');
+        showToast('Booking ' + status + ' but email failed: ' + err.message, 'warning');
     }
 }
