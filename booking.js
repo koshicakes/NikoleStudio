@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
             (staticOptions[serviceType] || []).forEach(name => {
                 const opt = document.createElement('option');
-                opt.value = name;
+                opt.value = '';
                 opt.dataset.name = name;
                 opt.textContent = name;
                 packageSelect.appendChild(opt);
@@ -447,11 +447,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 packageSelect.value = matchByName.value;
             } else {
                 const opt = document.createElement('option');
-                opt.value = preferredPackage;
+                opt.value = '';
                 opt.dataset.name = preferredPackage;
                 opt.textContent = preferredPackage;
                 packageSelect.appendChild(opt);
-                packageSelect.value = preferredPackage;
+                packageSelect.value = ' ';
             }
         }
 
