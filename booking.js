@@ -273,20 +273,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             throw error;
         }
-        // ── Trigger email notifications ──
+        
+       // ── Trigger email notifications via EmailJS ──
         try {
-            await nikoleDB.functions.invoke(NIKOLE_EMAIL_FUNCTION, {
-                body: {
-                    booking_reference: bookingRef,
-                    customer_name    : formData.get('firstName') + ' ' + formData.get('lastName'),
-                    email            : formData.get('email'),
-                    contact_number   : normalizeContactNumber(formData.get('phone')),
-                    service_type     : formData.get('sessionCategory') || '',
-                    booking_date     : bookingDate,
-                    booking_time     : bookingTime,
-                    notes            : formData.get('notes') || ''
-                }
+            await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    service_id: 'service_1ofsddp',
+                    template_id: 'template_6spuq1e',
+                    user_id: 'yGKpG_4PY58S5ID6x',
+                    template_params: {
+                        booking_reference: bookingRef,
+                        customer_name: formData.get('firstName') + ' ' + formData.get('lastName'),
+                        email: formData.get('email'),
+                        service_type: formData.get('sessionCategory') || '',
+                        booking_date: bookingDate,
+                        booking_time: bookingTime,
+                        notes: formData.get('notes') || 'None'
+                    }
+                })
             });
+            console.log('Email notification sent');
         } catch (emailErr) {
             console.warn('Email notification failed (booking still saved):', emailErr.message);
         }
