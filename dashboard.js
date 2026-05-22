@@ -1658,7 +1658,7 @@ function generateBookingReference() {
             if (!currentContactEmail) { showToast('No email address to reply to', 'error'); return; }
 
             const subject = encodeURIComponent('Re: ' + currentContactSubject);
-            const body = encodeURIComponent(replyText + '\n\n---\nNikole Studio\nhello@nikolestudio.ph');
+            const body = encodeURIComponent(replyText + '\n\n---\nNikole Studio\nbooking@nikolestudio.me');
             window.location.href = 'mailto:' + encodeURIComponent(currentContactEmail) + '?subject=' + subject + '&body=' + body;
 
             cmAction('replied');

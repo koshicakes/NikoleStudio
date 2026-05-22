@@ -219,6 +219,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
+        
+
         // ── 2. Generate reference code ──
         const bookingRef = generateBookingRef();
 
@@ -271,6 +273,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             throw error;
         }
+        // ── Trigger email notifications ──
+        try {
+            await nikoleDB.functions.invoke(NIKOLE_EMAIL_FUNCTION, {
+                body: {
+                    booking_reference: bookingRef,
+                    customer_name    : formData.get('firstName') + ' ' + formData.get('lastName'),
+                    email            : formData.get('email'),
+                    contact_number   : normalizeContactNumber(formData.get('phone')),
+                    service_type     : formData.get('sessionCategory') || '',
+                    booking_date     : bookingDate,
+                    booking_time     : bookingTime,
+                    notes            : formData.get('notes') || ''
+                }
+            });
+        } catch (emailErr) {
+            console.warn('Email notification failed (booking still saved):', emailErr.message);
+        }
+
 
         return bookingRef;
     }
