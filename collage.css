@@ -62,7 +62,6 @@
     box-shadow: 0 20px 40px rgba(74, 13, 23, 0.22);
 }
 
-/* Collage */
 .studio-collage {
     position: relative;
     width: 400px;
@@ -125,7 +124,6 @@
     box-shadow: 0 20px 50px rgba(0,0,0,0.18), 0 40px 80px rgba(0,0,0,0.12);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .studio-container {
         flex-direction: column;

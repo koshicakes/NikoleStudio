@@ -6,7 +6,6 @@
     <title>Gallery | Nikole Studio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
 <nav>
@@ -48,23 +47,23 @@
             </div>
         </div>
 
-        <!-- Loading state -->
+        
         <div id="category-loading" style="text-align:center;padding:4rem 0;color:#9a7a7a;">
             Loading photos...
         </div>
 
         <div class="category-grid" id="category-grid" style="display:none;">
-            <!-- Inserted by JS -->
+            
         </div>
 
-        <!-- Empty state -->
+        
         <div id="category-empty" style="display:none;text-align:center;padding:4rem 0;color:#9a7a7a;">
             No photos in this category yet. Check back soon.
         </div>
     </section>
 </main>
 
-<!-- Lightbox overlay -->
+
 <div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
     <button id="lightbox-close" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
     <button id="lightbox-prev" style="position:absolute;left:1.5rem;background:none;border:none;color:#fff;font-size:2.5rem;cursor:pointer;line-height:1;" aria-label="Previous">&#8249;</button>

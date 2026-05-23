@@ -638,11 +638,6 @@ textarea {
     }
 }
 
-
-/* =========================
-   BOOKING SUCCESS MODAL
-   ========================= */
-
 .booking-success-overlay {
     position: fixed;
     inset: 0;

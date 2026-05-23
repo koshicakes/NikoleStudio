@@ -1,6 +1,3 @@
-/* =========================
-   SERVICES DISCOVERY
-========================= */
 .services-discovery {
     padding: 100px 6% 80px 6%;
     background: var(--off-white);
@@ -11,7 +8,7 @@
     display: grid;
     grid-template-columns: 1fr 0.8fr;
     gap: 30px;
-    max-width: 1200px;            /* narrower container */
+    max-width: 1200px;            
     margin: 0 auto;
     align-items: start;
 }
@@ -22,9 +19,9 @@
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(74, 13, 23, 0.08);
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    max-width: 480px;             /* 👈 card width limit */
+    max-width: 480px;             
     background: var(--off-white);
-    margin: 0 auto;                   /* center cards in their column */
+    margin: 0 auto;                   
 }
 
 .service-item:hover {
@@ -36,9 +33,9 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: auto;                /* 👈 adjusts to photo */
-    background: #e8e2db;        /* fallback while loading */
-    line-height: 0;             /* removes extra spacing below image */
+    height: auto;                
+    background: #e8e2db;        
+    line-height: 0;             
 }
 
 .service-item.professional .service-image {
@@ -46,8 +43,8 @@
 }
 .service-image img {
     width: 100%;
-    height: auto;               /* natural height */
-    display: block;             /* removes inline gap */
+    height: auto;               
+    display: block;             
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -64,7 +61,7 @@
 }
 
 .service-item:hover .service-image img {
-    transform: scale(1.02);  /* subtle zoom, no crop because contain */
+    transform: scale(1.02);  
 }
 
 .service-content {
@@ -96,7 +93,6 @@
     color: var(--text-dark);
 }
 
-/* Service Card (used in service listings) - unchanged */
 .service-card {
     display: grid;
     gap: 22px;
@@ -241,7 +237,6 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* Offset for asymmetrical layout */
 .service-item.studio-rental {
     margin-top: 20px;
 }
@@ -278,9 +273,6 @@
     }
 }
 
-/* =========================
-   PACKAGE CATALOG
-========================= */
 .packages-page {
     background:
         radial-gradient(circle at top left, rgba(186, 16, 16, 0.08), transparent 30%),
@@ -543,9 +535,7 @@
         flex: 0 0 auto;
     }
 }
-/* =========================
-   LIGHTWEIGHT PACKAGE CARDS
-========================= */
+
 .pkg-lite-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -645,7 +635,7 @@
     letter-spacing: 1.2px;
     text-transform: uppercase;
     cursor: pointer;
-    pointer-events: none; /* card handles the click */
+    pointer-events: none; 
     transition: background 0.22s ease, color 0.22s ease;
     white-space: nowrap;
 }
@@ -656,9 +646,6 @@
     color: #fff;
 }
 
-/* =========================
-   SCRIM
-========================= */
 .pkg-scrim {
     position: fixed;
     inset: 0;
@@ -676,9 +663,6 @@
     visibility: visible;
 }
 
-/* =========================
-   PACKAGE PREVIEW PANEL
-========================= */
 .pkg-panel {
     position: fixed;
     top: 0;
@@ -692,7 +676,7 @@
     overscroll-behavior: contain;
     transform: translateX(100%);
     transition: transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
-    /* scrollbar polish */
+    
     scrollbar-width: thin;
     scrollbar-color: rgba(122, 28, 42, 0.18) transparent;
 }
@@ -701,7 +685,6 @@
     transform: translateX(0);
 }
 
-/* Close button */
 .pkg-panel-close {
     position: sticky;
     top: 0;
@@ -727,7 +710,6 @@
     transform: rotate(90deg);
 }
 
-/* Hero image */
 .pkg-panel-hero {
     position: relative;
     width: 100%;
@@ -770,7 +752,6 @@
     text-transform: uppercase;
 }
 
-/* Thumbnail strip */
 .pkg-panel-thumbs {
     display: flex;
     gap: 8px;
@@ -796,7 +777,6 @@
 .pkg-panel-thumb:hover { opacity: 0.85; transform: translateY(-2px); }
 .pkg-panel-thumb.is-active { opacity: 1; border-color: var(--maroon-main); }
 
-/* Body content */
 .pkg-panel-body {
     display: flex;
     flex-direction: column;
@@ -841,7 +821,6 @@
     font-style: italic;
 }
 
-/* Sections inside body */
 .pkg-panel-section {
     display: flex;
     flex-direction: column;
@@ -907,7 +886,6 @@
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* Book button */
 .pkg-panel-book-btn {
     display: flex;
     align-items: center;
@@ -942,7 +920,7 @@
     pointer-events: none;
     letter-spacing: 1px;
     opacity: 0.88;
-    /* subtle pulse to signal something is happening */
+    
     animation: bookingConfirmPulse 0.7s ease-in-out infinite alternate;
 }
 
@@ -951,14 +929,10 @@
     to   { opacity: 0.68; }
 }
 
-/* Prevent body scroll when panel is open */
 body.pkg-panel-active {
     overflow: hidden;
 }
 
-/* =========================
-   PANEL — MOBILE FULL SCREEN
-========================= */
 @media (max-width: 540px) {
     .pkg-panel {
         width: 100vw;
@@ -970,9 +944,6 @@ body.pkg-panel-active {
     }
 }
 
-/* =========================
-   PKG-LITE GRID — RESPONSIVE
-========================= */
 @media (max-width: 768px) {
     .pkg-lite-grid {
         grid-template-columns: 1fr;
@@ -982,45 +953,34 @@ body.pkg-panel-active {
         padding: 22px 20px 20px;
     }
 }
-/* =========================
-   MOOD OVERLAY TONES
-   Applied to .pkg-panel-hero-overlay via JS based on overlayTone value.
-   Each tone creates a different emotional reading of the same base photo.
-========================= */
 
-/* Default / fallback — subtle lift from bottom */
 .pkg-panel-hero-overlay {
     background: linear-gradient(to top, rgba(26, 10, 12, 0.35) 0%, transparent 55%);
     pointer-events: none;
 }
 
-/* warm-light — Anaya, Package 1, intimate/solo tones: barely-there warmth */
 .pkg-panel-hero-overlay.overlay-warm-light {
     background:
         linear-gradient(to top,  rgba(26, 10, 12, 0.22) 0%, transparent 45%),
         linear-gradient(to bottom, rgba(180, 120, 80, 0.08) 0%, transparent 35%);
 }
 
-/* warm-mid — Mahiwaga, Puhon, duo/trio: warmer amber cast */
 .pkg-panel-hero-overlay.overlay-warm-mid {
     background:
         linear-gradient(to top,  rgba(26, 10, 12, 0.30) 0%, transparent 50%),
         linear-gradient(to bottom, rgba(160, 90, 40, 0.14) 0%, transparent 40%);
 }
 
-/* neutral — Palagi, mid-range packages: clean, no cast */
 .pkg-panel-hero-overlay.overlay-neutral {
     background: linear-gradient(to top, rgba(26, 10, 12, 0.30) 0%, transparent 52%);
 }
 
-/* rich — Araw-Araw, fuller packages: deeper lift, slight red-maroon cast */
 .pkg-panel-hero-overlay.overlay-rich {
     background:
         linear-gradient(to top,  rgba(74, 13, 23, 0.45) 0%, transparent 58%),
         linear-gradient(to bottom, rgba(100, 20, 30, 0.10) 0%, transparent 40%);
 }
 
-/* deep — Ginugma, premium packages: bold vignette, cinematic */
 .pkg-panel-hero-overlay.overlay-deep {
     background:
         linear-gradient(to top,    rgba(26, 10, 12, 0.58) 0%, transparent 60%),
@@ -1028,13 +988,9 @@ body.pkg-panel-active {
         radial-gradient(ellipse at center, transparent 40%, rgba(26, 10, 12, 0.28) 100%);
 }
 
-/* =========================
-   MOOD LINE — HERO OVERLAY TEXT
-   A one-liner inside the panel hero, above the eyebrow badge.
-========================= */
 .pkg-panel-mood {
     position: absolute;
-    bottom: 52px;               /* sits above the eyebrow badge */
+    bottom: 52px;               
     left: 16px;
     right: 16px;
     margin: 0;
@@ -1048,10 +1004,6 @@ body.pkg-panel-active {
     pointer-events: none;
 }
 
-/* =========================
-   MOOD LINE — PACKAGE CARD
-   Italic one-liner between the name and the full description.
-========================= */
 .pkg-lite-mood {
     font-size: 12px;
     font-style: italic;
@@ -1061,11 +1013,6 @@ body.pkg-panel-active {
     margin: 0;
 }
 
-/* =========================
-   PAX BADGE — CARD BOTTOM ROW
-   Small pill showing scale (e.g. "1 pax", "1–5 pax")
-   Sits left of the "View Package" button.
-========================= */
 .pkg-lite-bottom-right {
     display: flex;
     align-items: center;

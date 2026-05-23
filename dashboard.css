@@ -34,7 +34,7 @@
     pointer-events: none;
 }
 
-        /* ── Contact Message Modal ── */
+        
         .contact-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1399,7 +1399,7 @@
 
         .toggle.active::after { transform: translateX(20px); }
 
-                /* Sidebar Collapse Styles */
+                
         .sidebar {
             transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
         }

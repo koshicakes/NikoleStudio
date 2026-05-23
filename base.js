@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     const collageItems = document.querySelectorAll('.collage-item');
     if (collageItems.length) {
         const observer = new IntersectionObserver((entries) => {

@@ -1,5 +1,3 @@
-/* ===== STATIC TESTIMONIAL CARDS ===== */
-
 .testimonials-static {
     max-width: 1320px;
     margin: 0 auto;
@@ -15,7 +13,6 @@
     margin-bottom: 40px;
 }
 
-/* GRID FIX */
 .testimonials-grid-cards {
     display: grid;
 
@@ -26,7 +23,6 @@
     align-items: stretch;
 }
 
-/* CARD */
 .testimonial-card-item {
     background: #ffffff;
 
@@ -62,7 +58,6 @@
     line-height: 1;
 }
 
-/* REVIEW TEXT */
 .card-quote {
     flex: 1;
 
@@ -76,7 +71,6 @@
     margin: 22px 0 34px;
 }
 
-/* REVIEWER */
 .card-reviewer {
     display: flex;
     align-items: center;
@@ -127,8 +121,6 @@
     color: var(--text-muted);
 }
 
-/* ===== FACEBOOK REVIEW HEADER ===== */
-
 .facebook-badge-large {
     display: inline-flex;
     align-items: center;
@@ -158,8 +150,6 @@
     display: inline-block;
     transform: translateY(1px);
 }
-
-/* CTA BUTTON */
 
 .testimonials-cta {
     margin-top: 50px;
@@ -200,8 +190,6 @@
 
     box-shadow: 0 12px 26px rgba(24,119,242,0.32);
 }
-
-/* ===== RESPONSIVE ===== */
 
 @media (max-width: 1100px) {
 

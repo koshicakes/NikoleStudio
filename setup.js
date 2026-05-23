@@ -1,6 +1,3 @@
-// setup.js — Fabric-based studio setup planner, assets from Supabase
-// Requires: supabase.js loaded before this script
-
 document.addEventListener('DOMContentLoaded', async () => {
     const editorEl = document.getElementById('editor');
     const toastEl  = document.getElementById('toast');
@@ -42,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // ── Static fallbacks (used when Supabase has no data) ─────────
+    
     const STATIC_BACKDROPS = [
         { id: 'b1', name: 'Soft Neutral',   category: 'Classic',   image_url: 'a.jpg' },
         { id: 'b2', name: 'Warm Linen',     category: 'Classic',   image_url: 'a2.jpg' },
@@ -63,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'p8', name: 'Studio Accent',  category: 'Furniture', image_url: 'pax 4.jpg' }
     ];
 
-    // ── Fetch assets from Supabase ────────────────────────────────
+    
     async function fetchAssets() {
         try {
             const { data, error } = await nikoleDB
@@ -104,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         allProps     = STATIC_PROPS;
     }
 
-    // ── Canvas setup ──────────────────────────────────────────────
+    
     const canvas = new fabric.Canvas('editor', {
         preserveObjectStacking: true,
         selectionColor:         'rgba(186,16,16,0.12)',
@@ -120,14 +117,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const PROTECTED = ['wall', 'floor', 'backdropImg'];
     let currentW = 900, currentH = 540;
     let gradEnabled = false;
-    // Fixed: renamed from `history` to avoid shadowing window.history
+    
     let undoStack = [];
     let backdropImg = null;
     let selectedBackdropName = '';
     let restoringHistory = false;
     const movingShadows = new WeakMap();
 
-    // Dynamic wall/floor that match the selected backdrop
+    
     let wallFill  = '#ded6ca';
     let floorFill = '#c8bba7';
 
@@ -137,11 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     canvas.renderAll();
     saveHistory();
 
-    /**
-     * Derive wall and floor colors from a backdrop image URL.
-     * Uses a hidden canvas to sample the dominant color, then
-     * generates a lighter wall tone and a darker floor tone.
-     */
+    
     function sampleBackdropColors(url, callback) {
         const img = new Image();
         img.crossOrigin = 'anonymous';
@@ -154,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const data = ctx.getImageData(0, 0, sampleW, sampleH).data;
             let r = 0, g = 0, b = 0, count = 0;
-            // Sample center area (avoid edges which may be vignetted)
+            
             for (let y = Math.floor(sampleH * 0.2); y < Math.floor(sampleH * 0.6); y++) {
                 for (let x = Math.floor(sampleW * 0.2); x < Math.floor(sampleW * 0.8); x++) {
                     const i = (y * sampleW + x) * 4;
@@ -168,12 +161,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             g = Math.round(g / count);
             b = Math.round(b / count);
 
-            // Wall: lighter, slightly desaturated version
+            
             const wallR = Math.min(255, Math.round(r * 1.08 + 18));
             const wallG = Math.min(255, Math.round(g * 1.06 + 14));
             const wallB = Math.min(255, Math.round(b * 1.04 + 10));
 
-            // Floor: darker, warmer version
+            
             const floorR = Math.max(0, Math.round(r * 0.82 - 8));
             const floorG = Math.max(0, Math.round(g * 0.78 - 6));
             const floorB = Math.max(0, Math.round(b * 0.76 - 4));
@@ -184,7 +177,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
         };
         img.onerror = function() {
-            // Fallback to neutral tones if image can't be sampled
+            
             callback('#ded6ca', '#c8bba7');
         };
         img.src = url;
@@ -200,7 +193,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         obj.set({ objectCaching: true, transparentCorners: false, cornerColor: '#ba1010', cornerStrokeColor: '#fff', borderColor: '#ba1010', cornerSize: 13, padding: 6 });
         return obj;
     }
-    function imageOptionsFor(url) { return /^https?:\/\//i.test(url) ? { crossOrigin: 'anonymous' } : {}; }
+    function imageOptionsFor(url) { return /^https?:\/\
     function clearNode(node) { if (node) node.replaceChildren(); }
 
     function showToast(msg) {
@@ -289,7 +282,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function selectBackdrop(url, cardEl, name) {
         const opts = imageOptionsFor(url);
 
-        // Sample colors from the backdrop image first
+        
         sampleBackdropColors(url, (wallColor, floorColor) => {
             updateWallFloorColors(wallColor, floorColor);
         });
@@ -317,7 +310,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             canvas.remove(backdropImg);
             backdropImg = null;
             selectedBackdropName = '';
-            // Reset wall/floor to default neutrals
+            
             updateWallFloorColors('#ded6ca', '#c8bba7');
             canvas.renderAll();
             saveHistory();
@@ -462,7 +455,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function saveHistory() {
         if (restoringHistory) return;
-        // Fixed: was `history` (shadows window.history), now `undoStack`
+        
         undoStack.push(JSON.stringify(canvas));
         if (undoStack.length > 30) undoStack.shift();
     }
@@ -515,18 +508,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateSelectionPanel();
         });
 
-        // Fixed: merged two separate mouse:down handlers into one to avoid double-firing
+        
         canvas.on('mouse:down', e => {
             const obj = e.target;
 
-            // Alt+drag clone
+            
             if (e.e.altKey) {
                 const active = selectedObject();
                 if (active && !PROTECTED.includes(active.name)) duplicateSelected(20);
                 return;
             }
 
-            // Shadow removal during drag
+            
             if (!obj || PROTECTED.includes(obj.name) || movingShadows.has(obj)) return;
             movingShadows.set(obj, obj.shadow || null);
             obj.set('shadow', null);
