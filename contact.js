@@ -1,7 +1,3 @@
-// contact.js - submits contact and review forms to Supabase
-// Requires: Supabase CDN and supabase.js loaded before this script
-
-// ADD THIS HELPER (only addition)
 const withTimeout = (promise, ms) => Promise.race([
     promise,
     new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms))
@@ -46,22 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const subject = document.getElementById('contact-subject')?.value || null;
                 const message = document.getElementById('contact-message')?.value.trim();
 
-                const hCaptchaToken = gContactCaptchaToken;
-
-                if (!hCaptchaToken) {
-                    alert('Please complete the CAPTCHA verification.');
-                    btn.disabled = false;
-                    btn.textContent = originalText;
-                    return;
-                }
-
-                // WRAPPED WITH TIMEOUT
-                const { error } = await withTimeout(
-                    nikoleDB.functions.invoke('submit-contact', {
-                        body: { name, email, phone, subject, message, hCaptchaToken }
-                    }),
-                    10000
-                );
+                // Save directly to Supabase contacts table
+                const { error } = await nikoleDB
+                    .from('contacts')
+                    .insert({ name, email, phone, subject, message });
                 if (error) throw error;
 
                 btn.textContent = 'Message Sent!';
