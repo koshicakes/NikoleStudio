@@ -1,12 +1,19 @@
+/* ==============================================
+   mobile.css — Nikole Studio
+   Add this LAST in main.css:
+   @import url('mobile.css');
+   ============================================== */
+
+/* ── Shared base fixes ───────────────────────── */
 @media (max-width: 768px) {
 
-    
+    /* Prevent horizontal overflow on all pages */
     body, html {
         overflow-x: hidden;
         max-width: 100vw;
     }
 
-    
+    /* Page sections padding */
     .page-section {
         padding: 80px 5% 80px;
     }
@@ -23,7 +30,7 @@
         font-size: 14px;
     }
 
-    
+    /* Buttons full-width on small screens */
     .btn-action {
         width: 100%;
         justify-content: center;
@@ -31,6 +38,7 @@
     }
 }
 
+/* ── NAV ─────────────────────────────────────── */
 @media (max-width: 768px) {
 
     nav {
@@ -41,17 +49,18 @@
         height: 36px;
     }
 
-    
+    /* Make sure hamburger is visible on all page backgrounds */
     .nav-toggle span {
         background: currentColor;
     }
 
-    
+    /* When nav is on a light background page */
     nav:not(.scrolled) .nav-toggle span {
         background: var(--maroon-deep, #5a0e18);
     }
 }
 
+/* ── HOME PAGE ───────────────────────────────── */
 @media (max-width: 768px) {
 
     .intro {
@@ -63,6 +72,7 @@
     }
 }
 
+/* ── SERVICES PAGE ───────────────────────────── */
 @media (max-width: 768px) {
 
     .services-discovery {
@@ -84,7 +94,7 @@
         margin: 0;
     }
 
-    
+    /* Fix service content — always visible on mobile, no hover needed */
     .service-content {
         position: relative;
         transform: none !important;
@@ -96,7 +106,7 @@
         display: none;
     }
 
-    
+    /* Steps section */
     .service-steps {
         grid-template-columns: 1fr;
         gap: 16px;
@@ -108,7 +118,7 @@
         border-radius: 16px;
     }
 
-    
+    /* Highlight bar */
     .service-highlight-bar {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -117,7 +127,7 @@
         text-align: left;
     }
 
-    
+    /* Package sections */
     .packages-page .page-section {
         padding: 80px 5%;
     }
@@ -160,6 +170,7 @@
     }
 }
 
+/* ── GALLERY PAGE ────────────────────────────── */
 @media (max-width: 768px) {
 
     .gallery-section {
@@ -191,7 +202,7 @@
         font-size: 0.78rem;
     }
 
-    
+    /* Gallery category cards */
     .gallery-cards {
         grid-template-columns: 1fr;
         max-width: 100%;
@@ -210,6 +221,7 @@
     }
 }
 
+/* ── BOOKING PAGE ────────────────────────────── */
 @media (max-width: 768px) {
 
     .booking-section {
@@ -234,7 +246,7 @@
         grid-template-columns: 1fr;
     }
 
-    
+    /* Calendar */
     .calendar-board {
         grid-template-columns: 1fr;
         gap: 28px;
@@ -263,7 +275,7 @@
         text-align: center;
     }
 
-    
+    /* Time slots */
     .time-slots {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -274,7 +286,7 @@
         font-size: 13px;
     }
 
-    
+    /* Side panel */
     .booking-side-panel {
         position: static;
         grid-template-columns: 1fr;
@@ -284,7 +296,7 @@
         padding: 20px 16px;
     }
 
-    
+    /* Summary info rows */
     .info-row {
         flex-direction: column;
         gap: 4px;
@@ -295,12 +307,13 @@
         word-break: break-word;
     }
 
-    
+    /* Setup design card */
     #setupDesignCard {
         padding: 16px;
     }
 }
 
+/* ── CONTACT PAGE ────────────────────────────── */
 @media (max-width: 768px) {
 
     .contacts-grid {
@@ -347,12 +360,12 @@
         padding: 18px 0;
     }
 
-    
+    /* Review form */
     .review-form-card .form-grid {
         grid-template-columns: 1fr;
     }
 
-    
+    /* Form actions */
     .contact-actions {
         flex-direction: column;
         gap: 12px;
@@ -364,6 +377,7 @@
     }
 }
 
+/* ── FORMS (shared) ──────────────────────────── */
 @media (max-width: 768px) {
 
     .form-grid {
@@ -377,7 +391,7 @@
     input,
     select,
     textarea {
-        font-size: 16px; 
+        font-size: 16px; /* prevents iOS zoom on focus */
         padding: 14px 16px;
     }
 
@@ -387,6 +401,7 @@
     }
 }
 
+/* ── PAGE HERO (section hero banners) ────────── */
 @media (max-width: 768px) {
 
     .page-hero,
@@ -404,6 +419,7 @@
     }
 }
 
+/* ── FOOTER ──────────────────────────────────── */
 @media (max-width: 768px) {
 
     .page-footer {
@@ -412,6 +428,7 @@
     }
 }
 
+/* ── VERY SMALL SCREENS (≤ 380px) ───────────── */
 @media (max-width: 380px) {
 
     .calendar-day {
@@ -444,20 +461,22 @@
     }
 }
 
+/* ── SETUP / CUSTOMIZE PAGE — TABLET (≤ 920px) ─ */
 @media (max-width: 920px) {
 
-    
+    /* Sidebar scroll height is unconstrained at this width */
     .setup-sidebar-scroll {
         max-height: none;
     }
 
-    
+    /* Expand grid to 3 columns while there's still room */
     .backdrop-grid,
     .prop-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
+/* ── SETUP / CUSTOMIZE PAGE ──────────────────── */
 @media (max-width: 768px) {
 
     .setup-planner {
@@ -466,9 +485,9 @@
         gap: 16px;
     }
 
-    
+    /* Sidebar full width on mobile */
     .setup-sidebar {
-        order: 2; 
+        order: 2; /* show canvas first, then sidebar */
     }
 
     .setup-composer {
@@ -476,7 +495,7 @@
         min-height: 480px;
     }
 
-    
+    /* Scale canvas to fit screen */
     .workspace {
         min-height: 380px;
         padding: 14px;
@@ -490,7 +509,7 @@
         border-radius: 14px;
     }
 
-    
+    /* Header actions wrap nicely */
     .composer-header {
         flex-direction: column;
         align-items: flex-start;
@@ -509,7 +528,7 @@
         font-size: 10px;
     }
 
-    
+    /* Footer stacks */
     .composer-footer {
         flex-direction: column;
         gap: 10px;
@@ -525,19 +544,19 @@
         justify-content: center;
     }
 
-    
+    /* Hide keyboard hints on mobile — not useful on touch */
     .canvas-hints {
         display: none;
     }
 
-    
+    /* Backdrop/prop grid — 3 columns on medium mobile */
     .backdrop-grid,
     .prop-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
     }
 
-    
+    /* Brand card tighter horizontal padding */
     .setup-brand-card {
         padding-left: 16px;
         padding-right: 16px;
@@ -547,7 +566,7 @@
         font-size: 18px;
     }
 
-    
+    /* Canvas — tighter border radii on small screens */
     #editor {
         border-radius: 10px;
     }
@@ -557,7 +576,7 @@
         border-radius: 10px;
     }
 
-    
+    /* Ensure sidebar scrolls freely on mobile */
     .setup-sidebar-scroll {
         overflow-y: auto;
         max-height: none;
@@ -566,13 +585,13 @@
 
 @media (max-width: 400px) {
 
-    
+    /* Very small phones — 2 col grid */
     .backdrop-grid,
     .prop-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    
+    /* Size buttons stack to single column on tiny screens */
     .size-grid {
         grid-template-columns: 1fr;
         gap: 8px;
@@ -588,6 +607,7 @@
     }
 }
 
+/* ── TOUCH DEVICE: disable hover transforms ──── */
 @media (hover: none) and (pointer: coarse) {
 
     .service-item:hover,
@@ -598,7 +618,7 @@
         transform: none;
     }
 
-    
+    /* Show service content always on touch */
     .service-content {
         transform: translateY(0) !important;
     }

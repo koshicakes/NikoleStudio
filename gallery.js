@@ -1,12 +1,15 @@
+// gallery.js — one card per category (folder view), loads from Supabase
+// Requires: supabase.js loaded before this script
+
 document.addEventListener('DOMContentLoaded', async () => {
     const galleryGrid   = document.getElementById('gallery-grid');
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     let currentFilter = 'all';
-    let categoryMap   = {}; 
+    let categoryMap   = {}; // { 'Peekaboo Sessions': { cover, count }, ... }
     let dbLoaded      = false;
 
-    
+    // ── Category display metadata ─────────────────────────────────
     const CATEGORY_META = {
         'Self Portrait Packages':         { label: 'Self Portrait' },
         'Mini Session Portrait Packages': { label: 'Mini Portrait' },
@@ -17,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Event Photo & Video Packages':   { label: 'Events' }
     };
 
-    
+    // Static fallback covers (one per category, if DB fails)
     const STATIC_COVERS = {
         'Self Portrait Packages':         'ak.jpg',
         'Mini Session Portrait Packages': 'a.jpg',
@@ -28,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Event Photo & Video Packages':   'as.jpg'
     };
 
-    
+    // ── Fetch from Supabase ───────────────────────────────────────
     async function fetchGallery() {
         try {
             const { data, error } = await nikoleDB
@@ -43,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    
+    // ── Build category map: first photo = cover, track count ──────
     function buildCategoryMap(items) {
         const map = {};
         items.forEach(item => {
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return map;
     }
 
-    
+    // ── Render one folder card per category ───────────────────────
     function renderFolders(map, filter) {
         if (!galleryGrid) return;
         galleryGrid.innerHTML = '';
@@ -100,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         bindClicks();
     }
 
-    
+    // ── Static fallback folders ───────────────────────────────────
     function renderStaticFolders(filter) {
         if (!galleryGrid) return;
         galleryGrid.innerHTML = '';
@@ -154,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return d.innerHTML;
     }
 
-    
+    // ── Filter buttons ────────────────────────────────────────────
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             filterButtons.forEach(b => b.classList.remove('active'));
@@ -166,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    
+    // ── Init ──────────────────────────────────────────────────────
     const dbItems = await fetchGallery();
 
     if (dbItems && dbItems.length > 0) {

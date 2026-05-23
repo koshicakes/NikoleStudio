@@ -1,3 +1,6 @@
+/* =========================
+   NAVIGATION
+========================= */
 nav {
     position: fixed;
     top: 0;
@@ -90,6 +93,7 @@ nav .logo:hover img {
     font-weight: 700;
 }
 
+/* Hamburger (hidden above 960px) */
 .nav-toggle {
     display: none;
     position: relative;
@@ -125,6 +129,7 @@ nav .logo:hover img {
     transform: translateY(-11px) rotate(-45deg);
 }
 
+/* Page Footer */
 .page-footer {
     padding: 32px 6%;
     text-align: center;
@@ -133,6 +138,9 @@ nav .logo:hover img {
     background: rgba(250, 243, 236, 0.92);
 }
 
+/* =========================
+   PAGE HERO (shared)
+========================= */
 .page-hero {
     position: relative;
     isolation: isolate;
@@ -205,6 +213,7 @@ nav .logo:hover img {
     line-height: 1.9;
 }
 
+/* Dark variant */
 .page-hero.page-hero-dark {
     color: var(--text-light);
 }
@@ -213,6 +222,9 @@ nav .logo:hover img {
     color: var(--text-light);
 }
 
+/* =========================
+   SECTION HEADERS (shared)
+========================= */
 .section-head,
 .studio-head,
 .services-head {
@@ -249,6 +261,9 @@ nav .logo:hover img {
     margin: 0 auto;
 }
 
+/* =========================
+   GRID LAYOUTS (generic)
+========================= */
 .gallery-grid,
 .services-grid,
 .setup-grid {
@@ -277,6 +292,7 @@ nav .logo:hover img {
     align-items: start;
 }
 
+/* Cards (shared appearance) */
 .gallery-card,
 .service-card,
 .setup-card,
@@ -351,6 +367,9 @@ nav .logo:hover img {
     text-transform: uppercase;
 }
 
+/* =========================
+   RESPONSIVE OVERRIDES
+========================= */
 @media (max-width: 1024px) {
     .booking-layout,
     .contact-layout {

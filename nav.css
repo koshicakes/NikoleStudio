@@ -1,3 +1,4 @@
+/* Synced with the navbar design from nikole_studio.html */
 :root {
     --nav-red: var(--red-main, rgb(186, 16, 16));
     --nav-red-dark: var(--red-deep, rgb(140, 10, 10));

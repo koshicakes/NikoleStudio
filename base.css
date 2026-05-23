@@ -61,6 +61,9 @@ p {
     color: var(--text-muted);
 }
 
+
+/* Buttons (shared base) */
+
 .btn-center,
 .btn-action {
     display: inline-flex;
@@ -155,6 +158,53 @@ p {
     border-color: var(--maroon-main);
     transform: translateY(-3px);
 }
+/*
+.studio-messenger-float {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1200;
+    display: inline-flex;
+    width: 58px;
+    height: 58px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0084ff, #0066d9);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 18px 42px rgba(0, 95, 214, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.studio-messenger-float::before {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border-radius: inherit;
+    border: 1px solid rgba(0, 132, 255, 0.32);
+    animation: messengerPulse 2.4s ease-out infinite;
+}
+
+.studio-messenger-float span {
+    position: relative;
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    color: #0084ff;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.studio-messenger-float:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 24px 54px rgba(0, 95, 214, 0.36);
+}*/
 
 .page-footer a,
 .privacy-footer-link {
@@ -212,6 +262,8 @@ p {
     color: var(--text-dark);
     line-height: 1.7;
 }
+
+/* Lightbox */
 
 .lightbox {
     position: fixed;

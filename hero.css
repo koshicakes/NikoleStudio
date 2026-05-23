@@ -1,3 +1,5 @@
+/* hero.css: page-specific overrides only */
+
 .hero-tagline {
     color: var(--text-soft);
     letter-spacing: 4px;

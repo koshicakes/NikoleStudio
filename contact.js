@@ -1,3 +1,7 @@
+// contact.js - submits contact and review forms to Supabase
+// Requires: Supabase CDN and supabase.js loaded before this script
+
+// ADD THIS HELPER (only addition)
 const withTimeout = (promise, ms) => Promise.race([
     promise,
     new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms))
@@ -51,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                
+                // WRAPPED WITH TIMEOUT
                 const { error } = await withTimeout(
                     nikoleDB.functions.invoke('submit-contact', {
                         body: { name, email, phone, subject, message, hCaptchaToken }
@@ -103,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const formData = new FormData(reviewForm);
 
-                
+                // WRAPPED WITH TIMEOUT
                 const { data, error } = await withTimeout(
                     nikoleDB.rpc('submit_review', {
                         p_review_key: formData.get('review_key')?.trim(),
