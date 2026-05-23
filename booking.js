@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const allSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
 
     // ── Custom time picker helpers ─────────────────────────────────
-    // Converts "10:00 AM" → minutes since midnight
     function slotLabelToMinutes(label) {
         const [time, mer] = label.split(' ');
         let [h, m] = time.split(':').map(Number);
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return h * 60 + m;
     }
 
-    // Converts minutes since midnight → "10:30 AM"
     function minutesToLabel(total) {
         let h = Math.floor(total / 60);
         const m = total % 60;
@@ -60,23 +58,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${h}:${String(m).padStart(2, '0')} ${mer}`;
     }
 
-    // Given a clicked available slot, return the window the customer can freely
-    // pick within: [slotStart, slotStart + SESSION_DURATION_MIN) capped by the
-    // next booked block.
     function getCustomTimeRange(dateKey, slotLabel) {
         const duration = getCurrentSessionDuration();
         const buffer   = BUFFER_MIN;
         const start    = slotLabelToMinutes(slotLabel);
-        const booked   = getBookedSlots(dateKey); // [{time, duration}, ...]
+        const booked   = getBookedSlots(dateKey);
 
-        // Latest start time so session ends before hitting the next booked block
-        let latest = start + duration; // exclusive upper bound for the start minute
+        let latest = start + duration;
         booked.forEach(b => {
             const bMin = slotToMinutes(b.time);
             if (bMin > start) latest = Math.min(latest, bMin - buffer);
         });
-        // Clamp to studio closing (e.g. 7 PM = 1140 min)
-        const studioClose = 19 * 60; // 7:00 PM
+        const studioClose = 19 * 60;
         latest = Math.min(latest, studioClose - duration);
 
         return { start, end: Math.max(start, latest) };
@@ -94,8 +87,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const SESSION_DURATION_MIN = 60;
     const BUFFER_MIN = 30;
 
-    // FIX: getCurrentSessionDuration was called but never defined.
-    // Returns session duration in minutes from selected package (falls back to SESSION_DURATION_MIN).
     function getCurrentSessionDuration() {
         const selOpt = packageSelect ? packageSelect.options[packageSelect.selectedIndex] : null;
         if (selOpt && selOpt.dataset.duration) {
@@ -119,6 +110,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         const ts   = Date.now().toString(36).slice(-4).toUpperCase();
         const rand = Math.random().toString(36).slice(2, 8).toUpperCase();
         return 'NKL-' + date + '-' + ts + rand;
+    }
+
+    // ── Email helper via Edge Function ─────────────────────────
+    async function sendBookingEmail(payload) {
+        try {
+            await nikoleDB.functions.invoke('send-booking-email', { body: payload });
+            return true;
+        } catch (err) {
+            console.warn('Email failed:', err.message);
+            return false;
+        }
     }
 
     // ── Supabase helpers ──────────────────────────────────────────
@@ -161,7 +163,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
 
-            // FIX: guard before calling in case booking page hasn't mounted yet
             if (typeof window.setNikoleBookedSlots === 'function') {
                 window.setNikoleBookedSlots(bookedSlotsMap);
             }
@@ -177,8 +178,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isEvent      = serviceType.length > 0 && serviceType.toLowerCase().includes('event');
 
         // ── 1. Fresh concurrency check ──
-        // Select only columns guaranteed to exist. If session_duration_min is missing,
-        // the query still works and we fall back to SESSION_DURATION_MIN.
         const { data: existing, error: checkErr } = await nikoleDB
             .from('bookings')
             .select('booking_time, service_type, status, session_duration_min')
@@ -219,12 +218,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        
-
         // ── 2. Generate reference code ──
         const bookingRef = generateBookingRef();
 
-        // ── 3. Proceed with insert ──
+        // ── 3. Build insert payload ──
         let canvasDesign = null;
         const rawSetup = formData.get('setupDesignData');
         const rawBackdrop = formData.get('backdrop');
@@ -251,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             booking_reference   : bookingRef
         };
 
-        // Try with session_duration_min first; if column doesn't exist yet, retry without it
+        // Try with session_duration_min first; fallback if column missing
         let { error } = await nikoleDB.from('bookings').insert({
             ...insertPayload,
             session_duration_min: sessionDurationMin
@@ -273,39 +270,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             throw error;
         }
-        
-       // ── Trigger email notifications via EmailJS ──
-        try {
-            await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    service_id: 'service_1ofsddp',
-                    template_id: 'template_6spuq1e',
-                    user_id: 'yGKpG_4PY58S5ID6x',
-                    template_params: {
-                        booking_reference: bookingRef,
-                        customer_name: formData.get('firstName') + ' ' + formData.get('lastName'),
-                        email: formData.get('email'),
-                        service_type: formData.get('sessionCategory') || '',
-                        booking_date: bookingDate,
-                        booking_time: bookingTime,
-                        notes: formData.get('notes') || 'None'
-                    }
-                })
-            });
-            console.log('Email notification sent');
-        } catch (emailErr) {
-            console.warn('Email notification failed (booking still saved):', emailErr.message);
-        }
 
+        // ── 4. Send emails (non-blocking) ──
+        const customerName = formData.get('firstName') + ' ' + formData.get('lastName');
+        const customerEmail = formData.get('email');
+        const selOpt = packageSelect.options[packageSelect.selectedIndex];
+        const packageName = (selOpt && selOpt.dataset.name) || 'Custom';
+
+        // Client confirmation
+        sendBookingEmail({
+            to: customerEmail,
+            customerName: customerName,
+            bookingRef: bookingRef,
+            bookingDate: bookingDate,
+            bookingTime: bookingTime,
+            serviceType: serviceType || 'Photo Session',
+            packageName: packageName,
+            notes: formData.get('notes') || 'None',
+            isAdminCopy: false
+        });
+
+        // Admin notification
+        sendBookingEmail({
+            customerName: customerName,
+            bookingRef: bookingRef,
+            bookingDate: bookingDate,
+            bookingTime: bookingTime,
+            serviceType: serviceType || 'Photo Session',
+            packageName: packageName,
+            phone: formData.get('phone') || 'Not provided',
+            notes: formData.get('notes') || 'None',
+            isAdminCopy: true,
+            adminEmail: 'contact@nikolestudio.me'
+        });
 
         return bookingRef;
     }
 
     function normalizeContactNumber(value) {
         let digits = String(value || '').replace(/\D/g, '');
-        // Convert +63 format to 09 format
         if (digits.startsWith('63') && digits.length === 12) {
             digits = '0' + digits.slice(2);
         }
@@ -387,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (refEl)  refEl.textContent = bookingRef;
         if (detEl)  detEl.innerHTML =
             `<strong>${escHtml(summary.name)}</strong><br>
-             ${escHtml(summary.serviceType)} &mdash; ${escHtml(summary.package)}<br>
+             ${escHtml(summary.serviceType)} &mdash; ${escHtml(summary.package)}<<br>
              ${escHtml(summary.date)} &bull; ${escHtml(summary.time)}`;
 
         if (msgLink) {
@@ -403,10 +406,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // FIX 7: inline error display — replaces alert() for validation failures
     function showFormError(msg) {
         const el = document.querySelector('#formError');
-        if (!el) { alert(msg); return; } // graceful fallback
+        if (!el) { alert(msg); return; }
         el.textContent = msg;
         el.hidden = false;
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -475,19 +477,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const pad = v => String(v).padStart(2,'0');
     const toDateKey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-    // Parse date key as LOCAL time — never use new Date(isoString) directly,
-    // as ISO strings parse as UTC midnight which shows the previous day in UTC+8.
     const parseDateKey = k => { const [y,m,d] = k.split('-').map(Number); return new Date(y,m-1,d); };
     const formatLongDate = k => parseDateKey(k).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
     const getBookedSlots = key => bookedSlotsMap[key] || [];
     const isEventBlockedDay = key => !!(bookedSlotsMap[key + '__event']);
 
-    // FIX: bidirectional buffer — blocks slots that are too close before OR after a booked slot
-    // FIX: uses per-booking duration from {time, duration} objects and overlap check handles custom times
     const getAvailableSlotsForDate = key => {
         if (isEventBlockedDay(key)) return [];
-        const booked = getBookedSlots(key); // now [{time, duration}, ...]
+        const booked = getBookedSlots(key);
         if (!booked.length) return [...allSlots];
 
         return allSlots.filter(slot => {
@@ -496,7 +494,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const tooClose = booked.some(b => {
                 const bookedMin = slotToMinutes(b.time);
                 const bookedBlock = b.duration + BUFFER_MIN;
-                // Overlap: [slotMin, slotMin+slotBlock) vs [bookedMin, bookedMin+bookedBlock)
                 return slotMin < bookedMin + bookedBlock && bookedMin < slotMin + slotBlock;
             });
             return !tooClose;
@@ -506,7 +503,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getRemainingSlots = key => {
         if (isEventBlockedDay(key)) return [];
         if (isEventPackage()) return [];
-        return getAvailableSlotsForDate(key);
+
+        const slots = getAvailableSlotsForDate(key);
+
+        // If today is selected, filter out slots that have already passed
+        const todayKey = toDateKey(today);
+        if (key === todayKey) {
+            const now = new Date();
+            const nowMinutes = now.getHours() * 60 + now.getMinutes();
+            return slots.filter(slot => slotToMinutes(slot) > nowMinutes);
+        }
+
+        return slots;
     };
 
     const isFullyBooked = key => isEventBlockedDay(key) || getAvailableSlotsForDate(key).length === 0;
@@ -528,7 +536,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const firstDay    = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month+1, 0).getDate();
 
-        // FIX: disable the prev-month button when we're already on the current month
         const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
         if (prevMonth) prevMonth.disabled = isCurrentMonth;
 
@@ -563,7 +570,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // Tracks which available slot window the customer clicked (e.g. "10:00 AM")
     let selectedSlotWindow = '';
 
     const renderTimeSlots = () => {
@@ -589,7 +595,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // ── Step 1: show available slot windows ──
         const slotHeader = document.createElement('p');
         slotHeader.className = 'slot-section-label';
         slotHeader.textContent = 'Available windows — pick one to set your exact time:';
@@ -604,7 +609,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (slot === selectedSlotWindow) btn.classList.add('is-selected');
             btn.addEventListener('click', () => {
                 selectedSlotWindow = slot;
-                // Default exact time to the window start
                 selectedTime = slot;
                 timeInput.value = slot;
                 renderTimeSlots();
@@ -613,13 +617,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             timeSlots.appendChild(btn);
         });
 
-        // ── Step 2: custom time picker (shown after a window is picked) ──
         if (!selectedSlotWindow) return;
 
         const { start, end } = getCustomTimeRange(selectedDate, selectedSlotWindow);
 
         if (start === end) {
-            // Only one valid minute — no picker needed
             selectedTime = minutesToLabel(start);
             timeInput.value = selectedTime;
             updateSummary();
@@ -641,7 +643,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const select = document.createElement('select');
         select.style.cssText = 'padding:.45rem .75rem;border:1.5px solid #d4c5b0;border-radius:8px;font-size:.95rem;font-family:inherit;background:#fff;cursor:pointer;';
 
-        // Build 15-minute options from start → end (inclusive)
         for (let m = start; m <= end; m += 15) {
             const opt = document.createElement('option');
             opt.value = minutesToLabel(m);
@@ -649,7 +650,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (opt.value === selectedTime) opt.selected = true;
             select.appendChild(opt);
         }
-        // If selectedTime isn't in range yet, pre-select start
         if (!select.value || select.value !== selectedTime) {
             select.value = minutesToLabel(start);
             selectedTime = select.value;
@@ -733,7 +733,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     prevMonth.addEventListener('click', () => {
-        // FIX: guard — cannot go before the current month
         const prevDate = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
         const currentMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
         if (prevDate < currentMonthStart) return;
@@ -797,7 +796,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const bookingRef = await submitBooking(fd);
 
-            // Build summary for the success modal
             const summary = {
                 name       : (fd.get('firstName') + ' ' + fd.get('lastName')).trim(),
                 serviceType: fd.get('sessionCategory') || '',
@@ -826,7 +824,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             await fetchBookedSlots();
             startCooldown();
 
-            // Show success modal with reference code
             showSuccessModal(bookingRef, summary);
 
         } catch (err) {

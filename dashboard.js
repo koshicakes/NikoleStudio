@@ -1453,7 +1453,7 @@ const dbTableMap = {
         }
 
         // Send confirmation email via Supabase Edge Function (with HMAC signature)
-        async function sendBookingConfirmationEmail(bookingId, status) {
+              async function sendBookingConfirmationEmail(bookingId, status) {
             try {
                 const booking = dataStore.booking.find(b => b.id === bookingId);
                 if (!booking || !booking.email) {
@@ -1463,55 +1463,70 @@ const dbTableMap = {
 
                 const pkg = dataStore.packages.find(p => (p.package_id || p.id) == booking.package_id);
                 const packageName = pkg ? pkg.name : 'Custom Package';
+                const statusText = status === 'confirmed' ? 'CONFIRMED' : 'COMPLETED';
+                const statusMessage = status === 'confirmed'
+                    ? 'Your booking has been CONFIRMED! We look forward to seeing you.'
+                    : 'Your session has been COMPLETED. Thank you for choosing Nikole Studio!';
 
-                // Build the payload
-                const payload = {
-                    to: booking.email,
-                    customerName: booking.customer_name,
-                    bookingRef: booking.booking_reference || ('NKL-' + booking.id),
-                    bookingDate: booking.booking_date,
-                    bookingTime: booking.booking_time || '',
-                    serviceType: booking.service_type || 'Photo Session',
-                    packageName: packageName,
-                    status: status,
-                    studioName: 'Nikole Studio',
-                    bookingReference: booking.booking_reference || null
-                };
-                const payloadJson = JSON.stringify(payload);
-
-                // ── SECURITY: Fetch webhook secret from Supabase Secrets via Edge Function ──
-                // We use a separate Edge Function to get the secret so it's never in client code
-                let signature = '';
+                // 1. Client confirmation
                 try {
-                    const { data: secretData, error: secretErr } = await supabaseClient.functions.invoke('get-webhook-secret', {
-                        body: {}
+                    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            service_id: 'service_1ofsddp',
+                            template_id: 'template_hfiatdm',   // CLIENT confirmation template
+                            user_id: 'yGKpG_4PY58S5ID6x',
+                            template_params: {
+                                booking_reference: booking.booking_reference || ('NKL-' + booking.id),
+                                customer_name: booking.customer_name,
+                                email: booking.email,
+                                service_type: booking.service_type || 'Photo Session',
+                                package_name: packageName,
+                                booking_date: booking.booking_date,
+                                booking_time: booking.booking_time || '',
+                                status: statusText,
+                                message: statusMessage
+                            }
+                        })
                     });
-                    if (!secretErr && secretData?.secret) {
-                        signature = await generateHmacSignature(payloadJson, secretData.secret);
-                    }
-                } catch (secretErr) {
-                    console.warn('Could not fetch webhook secret, proceeding without signature:', secretErr);
-                }
-
-                // Send the signed request
-                const headers = signature ? { 'x-webhook-signature': signature } : {};
-                const { data, error } = await supabaseClient.functions.invoke('send-booking-email', {
-                    body: payload,
-                    headers: headers
-                });
-
-                if (error) {
-                    console.warn('Email send failed:', error);
-                    showToast('Booking ' + status + ' but email failed to send', 'warning');
-                } else {
                     showToast('Confirmation email sent to ' + booking.email, 'success');
+                } catch (err) {
+                    console.warn('Client confirmation email failed:', err);
+                    showToast('Booking ' + status + ' but client email failed', 'warning');
                 }
+
+                // 2. Admin alert (optional — remove if you don't want an admin copy on status change)
+                try {
+                    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            service_id: 'service_1ofsddp',
+                            template_id: 'template_6spuq1e',   // ADMIN template
+                            user_id: 'yGKpG_4PY58S5ID6x',
+                            template_params: {
+                                booking_reference: booking.booking_reference || ('NKL-' + booking.id),
+                                customer_name: booking.customer_name,
+                                email: booking.email,
+                                service_type: booking.service_type || 'Photo Session',
+                                package_name: packageName,
+                                booking_date: booking.booking_date,
+                                booking_time: booking.booking_time || '',
+                                status: statusText,
+                                to_email: 'contact@nikolestudio.me'
+                            }
+                        })
+                    });
+                } catch (err) {
+                    console.warn('Admin alert email failed:', err);
+                }
+
             } catch (err) {
                 console.warn('Email function error:', err);
                 showToast('Booking ' + status + ' but email could not be sent', 'warning');
             }
         }
-
         async function updateReviewStatus(id, status) {
             const isAdmin = userRole === 'admin';
             const isStaff = userRole === 'staff';
@@ -1736,39 +1751,3 @@ function toggleSidebar() {
             }
         }
 
-async function sendBookingConfirmationEmail(bookingId, status) {
-    try {
-        const booking = dataStore.booking.find(b => b.id === bookingId);
-        if (!booking || !booking.email) {
-            console.warn('No email found for booking', bookingId);
-            return;
-        }
-
-        const pkg = dataStore.packages.find(p => (p.package_id || p.id) == booking.package_id);
-        const packageName = pkg ? pkg.name : 'Custom Package';
-
-        await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                service_id: 'service_1ofsddp',
-                template_id: 'template_hfiatdm',
-                user_id: 'yGKpG_4PY58S5ID6x',
-                template_params: {
-                    booking_reference: booking.booking_reference || ('NKL-' + booking.id),
-                    customer_name: booking.customer_name,
-                    email: booking.email,
-                    service_type: booking.service_type || 'Photo Session',
-                    booking_date: booking.booking_date,
-                    booking_time: booking.booking_time || '',
-                    notes: status === 'confirmed' ? 'Your booking has been CONFIRMED!' : 'Your session has been COMPLETED. Thank you!'
-                }
-            })
-        });
-
-        showToast('Confirmation email sent to ' + booking.email, 'success');
-    } catch (err) {
-        console.warn('Email failed:', err);
-        showToast('Booking ' + status + ' but email failed: ' + err.message, 'warning');
-    }
-}
