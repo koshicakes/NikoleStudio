@@ -1,7 +1,5 @@
 // ==================== CONFIG ====================
-        // Default Supabase credentials - users can override in the UI
-        const DEFAULT_SUPABASE_URL = '';
-        const DEFAULT_SUPABASE_KEY = '';
+        // Supabase client initialized in supabase.js
 
         // ==================== GLOBAL STATE ====================
         let supabaseClient = null;
@@ -270,16 +268,13 @@ const tableSchemas = {
 };
         // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // Load saved credentials
-            const savedUrl = localStorage.getItem('sb_url') || DEFAULT_SUPABASE_URL;
-            const savedKey = localStorage.getItem('sb_key') || DEFAULT_SUPABASE_KEY;
-            if (savedUrl) document.getElementById('sbUrl').value = savedUrl;
-            if (savedKey) document.getElementById('sbKey').value = savedKey;
+            // Supabase initialized via supabase.js
+            initSupabase(true);
 
             // Check for password recovery link before normal session check
-            if (savedUrl && savedKey && window.location.hash.includes('type=recovery')) {
+            if (window.location.hash.includes('type=recovery')) {
                 checkForPasswordRecovery();
-            } else if (savedUrl && savedKey) {
+            } else {
                 checkExistingSession();
             }
 
@@ -302,25 +297,12 @@ const tableSchemas = {
       // ==================== SUPABASE INIT ====================
 function initSupabase(silent = false) {
     if (supabaseClient) return true;
-    const url = document.getElementById('sbUrl').value.trim() || localStorage.getItem('sb_url');
-    const key = document.getElementById('sbKey').value.trim() || localStorage.getItem('sb_key');
-
-    if (!url || !key) {
-        if (!silent) showToast('Please enter your Supabase URL and Anon Key below first', 'error');
-        return false;
-    }
-
-    try {
-        // THE FIX: We must use window.supabase when using the CDN script tag
-        supabaseClient = window.supabase.createClient(url, key);
-        
-        localStorage.setItem('sb_url', url);
-            localStorage.setItem('sb_key', key);
+    if (window.nikoleDB) {
+        supabaseClient = window.nikoleDB;
         return true;
-    } catch (err) {
-        if (!silent) showToast('Failed to initialize: ' + err.message, 'error');
-        return false;
     }
+    if (!silent) showToast('Database connection not available. Contact the administrator.', 'error');
+    return false;
 }
         // ==================== AUTH FUNCTIONS ====================
         async function checkExistingSession() {
@@ -766,24 +748,134 @@ const dbTableMap = {
         function handleRealtimeChange(table, payload) {
             if (payload.eventType === 'INSERT') {
                 dataStore[table].unshift(payload.new);
-                showToast('New ' + table.slice(0, -1) + ' added', 'info');
+                if (table === 'booking') {
+                    addBookingNotification(payload.new);
+                } else {
+                    showToast('New ' + table + ' added', 'info');
+                }
             } else if (payload.eventType === 'UPDATE') {
                 const pkCol = table === 'packages' ? 'package_id' : 'id';
                 const pkVal = payload.new[pkCol];
                 const idx = dataStore[table].findIndex(item => (item[pkCol] || item.id) === pkVal);
                 if (idx !== -1) dataStore[table][idx] = payload.new;
-                showToast(table.slice(0, -1) + ' updated', 'info');
+                showToast(table + ' updated', 'info');
             } else if (payload.eventType === 'DELETE') {
                 const delPkCol = table === 'packages' ? 'package_id' : 'id';
                 dataStore[table] = dataStore[table].filter(item => (item[delPkCol] || item.id) !== payload.old[delPkCol]);
-                showToast(table.slice(0, -1) + ' deleted', 'info');
+                showToast(table + ' deleted', 'info');
             }
             if (table === 'booking') updateBookingStats();
             if (table === 'gallery') document.getElementById('galleryCount').textContent = dataStore.gallery.length;
             if (table === 'reviews') document.getElementById('reviewsCount').textContent = dataStore.reviews.length;
             if (table === 'contacts') document.getElementById('contactsCount').textContent = dataStore.contacts.length;
-             renderTable(table);
+            renderTable(table);
         }
+
+        // ==================== NOTIFICATIONS ====================
+        let notifications = [];
+
+        function addBookingNotification(booking) {
+            const notif = {
+                id: booking.id || Date.now(),
+                name: booking.customer_name || 'Unknown',
+                service: booking.service_type || 'Session',
+                date: booking.booking_date || '',
+                time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+                read: false
+            };
+            notifications.unshift(notif);
+            updateNotifBadge();
+            renderNotifList();
+            playNotifSound();
+            showToast('New booking from ' + notif.name + ' — ' + notif.service, 'success');
+            shakeBell();
+        }
+
+        function updateNotifBadge() {
+            const unread = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notifBadge');
+            if (!badge) return;
+            if (unread > 0) {
+                badge.textContent = unread > 9 ? '9+' : unread;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function renderNotifList() {
+            const list = document.getElementById('notifList');
+            if (!list) return;
+            if (notifications.length === 0) {
+                list.innerHTML = '<div class="notif-empty">No new bookings</div>';
+                return;
+            }
+            list.innerHTML = notifications.map(n => `
+                <div class="notif-item ${n.read ? 'read' : ''}" onclick="goToBooking('${n.id}')">
+                    <div class="notif-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="notif-content">
+                        <div class="notif-name">${escapeHtml(n.name)}</div>
+                        <div class="notif-detail">${escapeHtml(n.service)}${n.date ? ' · ' + n.date : ''}</div>
+                        <div class="notif-time">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleNotifPanel() {
+            const panel = document.getElementById('notifPanel');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            if (!isOpen) {
+                // Mark all as read when opened
+                notifications.forEach(n => n.read = true);
+                updateNotifBadge();
+                renderNotifList();
+            }
+        }
+
+        function clearNotifications() {
+            notifications = [];
+            updateNotifBadge();
+            renderNotifList();
+            document.getElementById('notifPanel').classList.remove('open');
+        }
+
+        function goToBooking(id) {
+            document.getElementById('notifPanel').classList.remove('open');
+            switchTab('booking', null);
+        }
+
+        function shakeBell() {
+            const bell = document.querySelector('.notif-bell');
+            if (!bell) return;
+            bell.classList.add('shake');
+            setTimeout(() => bell.classList.remove('shake'), 600);
+        }
+
+        function playNotifSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                osc.frequency.setValueAtTime(660, ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.4);
+            } catch(e) {}
+        }
+
+        // Close notif panel when clicking outside
+        document.addEventListener('click', function(e) {
+            const wrapper = document.getElementById('notifWrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                document.getElementById('notifPanel')?.classList.remove('open');
+            }
+        });
 
         function updateBookingStats() {
             const bookings = dataStore.booking;
@@ -1751,3 +1843,8 @@ function toggleSidebar() {
             }
         }
 
+addBookingNotification({
+    customer_name: 'Test Client',
+    service_type: 'Peekaboo Sessions',
+    booking_date: '2026-06-01'
+});

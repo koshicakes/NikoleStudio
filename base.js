@@ -37,11 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!nav) return;
 
         const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        const isVisible = currentScroll > revealScrollY || nav.classList.contains('nav-open');
+        const isScrolled = currentScroll > revealScrollY;
 
-        nav.classList.toggle('nav-visible', isVisible);
-        nav.classList.toggle('nav-scrolled', isVisible);
-        nav.classList.toggle('nav-hidden', !isVisible);
+        // Always visible — never hide at the top
+        nav.classList.add('nav-visible');
+        nav.classList.remove('nav-hidden');
+
+        // Switch between transparent (top) and white (scrolled)
+        nav.classList.toggle('nav-scrolled', isScrolled);
     };
 
     if (navToggle && nav && navLinks) {

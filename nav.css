@@ -20,12 +20,14 @@ body > nav:not(.nav),
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: transparent;
-    border-bottom: 0;
-    box-shadow: none;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-120%);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(44, 44, 44, 0.06);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
     transition: var(--nav-transition);
 }
 
@@ -33,7 +35,8 @@ body > nav:not(.nav).nav-visible,
 body > nav:not(.nav).nav-open,
 .navbar.nav-visible,
 .navbar.nav-open,
-.navbar.scrolled {
+.navbar.scrolled,
+nav {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
@@ -57,7 +60,7 @@ body > nav:not(.nav) > .logo,
 .logo-text {
     display: inline-flex;
     align-items: center;
-    color: var(--nav-white);
+    color: var(--nav-charcoal);
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     font-weight: 600;
@@ -108,7 +111,7 @@ body > nav:not(.nav) > .nav-links a,
 .navbar > .nav-links a {
     position: relative;
     margin: 0;
-    color: var(--nav-white);
+    color: var(--nav-charcoal);
     font-size: 0.85rem;
     font-weight: 400;
     letter-spacing: 2.5px;
