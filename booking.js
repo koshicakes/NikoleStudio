@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (refEl)  refEl.textContent = bookingRef;
         if (detEl)  detEl.innerHTML =
             `<strong>${escHtml(summary.name)}</strong><br>
-             ${escHtml(summary.serviceType)} &mdash; ${escHtml(summary.package)}<<br>
+             ${escHtml(summary.serviceType)} &mdash; ${escHtml(summary.package)}<br>
              ${escHtml(summary.date)} &bull; ${escHtml(summary.time)}`;
 
         if (msgLink) {
@@ -457,11 +457,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 packageSelect.value = matchByName.value;
             } else {
                 const opt = document.createElement('option');
-                opt.value = '';
+                opt.value = preferredPackage;
                 opt.dataset.name = preferredPackage;
                 opt.textContent = preferredPackage;
                 packageSelect.appendChild(opt);
-                packageSelect.value = ' ';
+                packageSelect.value = preferredPackage;
             }
         }
 
@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         return allSlots.filter(slot => {
             const slotMin = slotToMinutes(slot);
-            const slotBlock = SESSION_DURATION_MIN + BUFFER_MIN;
+            const slotBlock = getCurrentSessionDuration() + BUFFER_MIN;
             const tooClose = booked.some(b => {
                 const bookedMin = slotToMinutes(b.time);
                 const bookedBlock = b.duration + BUFFER_MIN;

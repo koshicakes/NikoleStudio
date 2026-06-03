@@ -696,7 +696,8 @@ const dbTableMap = {
                 loadData('gallery'),
                 loadData('packages'),
                 loadData('reviews'),
-                loadData('canvas_asset')
+                loadData('canvas_asset'),
+                loadData('contacts')
             ]);
         }
 
@@ -1413,6 +1414,10 @@ const dbTableMap = {
                     const { data: result, error } = await supabaseClient.from(dbTable).insert(data).select();
                     if (error) throw error;
                     showToast(schema.title + ' created successfully', 'success');
+                    // Trigger notification for new bookings created from the dashboard
+                    if (currentTab === 'booking' && result && result[0]) {
+                        addBookingNotification(result[0]);
+                    }
                 }
 
                 closeModalDirect();
@@ -1842,9 +1847,3 @@ function toggleSidebar() {
                 }
             }
         }
-
-addBookingNotification({
-    customer_name: 'Test Client',
-    service_type: 'Peekaboo Sessions',
-    booking_date: '2026-06-01'
-});
