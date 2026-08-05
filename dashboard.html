@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikole Studio | Admin Dashboard</title>
+    <title>Nikole Studio | Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 <base target="_blank">
 </head>
 <body>
@@ -16,9 +20,9 @@
     <div class="auth-overlay" id="authOverlay">
         <div class="auth-card">
             <div class="brand-logo">
-                <h1>Nikole</h1>
+                <h1>Nikole Studio</h1>
                 <div class="brand-divider"></div>
-                <span>Studio Management</span>
+                <span>Admin/Staff Dashboard</span>
             </div>
 
             <div class="auth-tabs">
@@ -471,7 +475,6 @@
                                     <th>Pax</th>
                                     <th>Cover</th>
                                     <th>Status</th>
-                                    <th>Reference Code</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -635,6 +638,20 @@
             </div>
         </div>
     </div>
+    
+    <div class="profile-modal-overlay" id="profileModalOverlay" onclick="closeProfileModal()"></div>
+    <div class="profile-modal" id="profileModal">
+        <button class="profile-modal-close" onclick="closeProfileModal()" aria-label="Close">
+            <i class="fas fa-xmark"></i>
+        </button>
+        <div class="profile-modal-avatar" id="profileModalAvatar">N</div>
+        <h3 class="profile-modal-name" id="profileModalName">Admin</h3>
+        <p class="profile-modal-role" id="profileModalRole">admin</p>
+        <button class="btn btn-danger" onclick="signOut()" style="width:100%;margin-top:20px;">
+            <i class="fas fa-right-from-bracket"></i> Log Out
+        </button>
+    </div>
+
     <script src="supabase.js"></script>
     <script src="dashboard.js"></script>
 
@@ -716,7 +733,6 @@
                 <h3 id="cmSubject">Subject</h3>
                 <div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0;">
                     <button class="btn btn-secondary btn-sm" id="cmMarkRead" onclick="cmAction('read')" title="Mark as Read"><i class="fas fa-envelope-open"></i> Read</button>
-                    <button class="btn btn-secondary btn-sm" id="cmMarkReplied" onclick="cmAction('replied')" title="Mark as Replied"><i class="fas fa-check-double"></i> Replied</button>
                     <button class="btn btn-secondary btn-sm" onclick="cmAction('archived')" title="Archive"><i class="fas fa-archive"></i></button>
                     <button class="contact-modal-close" onclick="closeContactModal()" title="Close"><i class="fas fa-times"></i></button>
                 </div>

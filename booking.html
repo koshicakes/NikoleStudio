@@ -7,7 +7,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="services.css">
+    <link rel="stylesheet" href="gallery.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="booking.css">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     
 </head>
 <body>
@@ -24,7 +36,7 @@
         <a href="services.html">Services</a>
         <a href="setup.html">Customize the Space</a>
         <a href="contact.html">Contact</a>
-        <a href="booking.html" class="is-active nav-cta">Booking</a>
+        <a href="booking.html" class="nav-cta is-active">Booking</a>
     </div>
 </nav>
 
@@ -40,8 +52,7 @@
 
            <section class="booking-policy-mustread" id="booking-policy" aria-labelledby="general-guidelines-title">
     <div>
-        <p class="eyebrow">Nikole Studio</p>
-        <h2 id="general-guidelines-title">General Guidelines</h2>
+        <h2 id="booking-policy-mustread">General Guidelines</h2>
         <p>
             Please review these guidelines before sending your request so the
             studio can reserve, prepare, and confirm your session smoothly.
@@ -148,7 +159,7 @@
                             <input id="email" name="email" type="email" placeholder="ana@email.com" required>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone / Messenger Contact *</label>
+                            <label for="phone">Contact Number *</label>
                             <input id="phone" name="phone" type="tel" placeholder="09XXXXXXXXX" inputmode="numeric" pattern="09[0-9]{9}" required aria-describedby="phone-error">
                             <p class="field-error" id="phone-error" aria-live="polite"></p>
                         </div>

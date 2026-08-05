@@ -448,15 +448,16 @@ function initSupabase(silent = false) {
         function updateRoleBasedUI() {
             const isAdmin = userRole === 'admin';
             const isStaff = userRole === 'staff';
+            const canManageContent = isAdmin || isStaff;
 
             // Show settings nav for admin only
             document.getElementById('settingsNav').style.display = isAdmin ? 'flex' : 'none';
 
-            // Hide add buttons for staff (staff cannot insert packages/gallery/assets)
+            // Show content management buttons for both admin and staff
             const addButtons = ['addGalleryBtn', 'addPackageBtn', 'addAssetBtn'];
             addButtons.forEach(id => {
                 const btn = document.getElementById(id);
-                if (btn) btn.style.display = isAdmin ? 'inline-flex' : 'none';
+                if (btn) btn.style.display = canManageContent ? 'inline-flex' : 'none';
             });
 
             // Update role badge style
@@ -520,11 +521,19 @@ const dbTableMap = {
     canvas_asset: 'canvas_assets'
 };  
 
-        function showProfile() {
-            const display = currentUser.user_metadata?.username || currentUser.user_metadata?.full_name || currentUser.email;
-            showToast('Profile: ' + display + ' (' + userRole + ')', 'info');
-        }
+       function showProfile() {
+        const display = currentUser.user_metadata?.full_name || currentUser.user_metadata?.username || currentUser.email;
+        document.getElementById('profileModalName').textContent = display;
+        document.getElementById('profileModalRole').textContent = userRole;
+        document.getElementById('profileModalAvatar').textContent = display[0].toUpperCase();
+        document.getElementById('profileModalOverlay').classList.add('open');
+        document.getElementById('profileModal').classList.add('open');
+    }
 
+    function closeProfileModal() {
+        document.getElementById('profileModalOverlay').classList.remove('open');
+        document.getElementById('profileModal').classList.remove('open');
+    }
         // ==================== ADD STAFF PANEL ====================
         function openStaffPanel() {
             if (userRole !== 'admin') {
@@ -972,7 +981,7 @@ const dbTableMap = {
                     'Snuggle Sessions': 'fa-baby-carriage'
                 };
                 const icon = sessionTypeIcon[booking.service_type] || 'fa-camera';
-                const actions = isAdmin ?
+                const actions = (isAdmin || userRole === 'staff') ?
                     '<div class="action-btns"><button class="btn-action" onclick="editItem(\'booking\', ' + booking.id + ')" title="Edit Session"><i class="fas fa-edit"></i></button><select class="status-select" onchange="updateBookingStatus(' + booking.id + ', this.value)" title="Change Status"><option value="pending"' + (booking.status==='pending'?' selected':'') + '>Pending</option><option value="confirmed"' + (booking.status==='confirmed'?' selected':'') + '>Confirm</option><option value="completed"' + (booking.status==='completed'?' selected':'') + '>Complete</option><option value="cancelled"' + (booking.status==='cancelled'?' selected':'') + '>Cancel</option></select><button class="btn-action delete" onclick="deleteItem(\'booking\', ' + booking.id + ')" title="Delete"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
                 const timeDisplay = booking.booking_time ? escapeHtml(booking.booking_time) : '-';
@@ -1005,7 +1014,7 @@ const dbTableMap = {
             }
 
             grid.innerHTML = items.map(item => {
-                const overlay = isAdmin ?
+                const overlay = (isAdmin || userRole === 'staff') ?
                     '<div class="gallery-item-overlay"><button class="btn-action" onclick="editItem(\'gallery\', ' + item.id + ')" title="Edit Photo"><i class="fas fa-edit"></i></button><button class="btn-action delete" onclick="deleteItem(\'gallery\', ' + item.id + ')" title="Remove Photo"><i class="fas fa-trash"></i></button></div>' : '';
                 return '<div class="gallery-item fade-in"><img src="' + (item.image_url || 'https://via.placeholder.com/400?text=No+Image') + '" alt="' + escapeHtml(item.description || '') + '" onerror="this.src=\'https://via.placeholder.com/400?text=Error\'">' + overlay + '<div class="gallery-item-info"><h4>' + (item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'Uncategorized') + '</h4><p>' + escapeHtml(item.description || '') + '</p></div></div>';
             }).join('');
@@ -1028,7 +1037,7 @@ const dbTableMap = {
             }
             tbody.innerHTML = items.map(pkg => {
                 const pkVal = pkg.package_id || pkg.id;
-                const actions = isAdmin ?
+                const actions = (isAdmin || userRole === 'staff') ?
                     '<div class="action-btns"><button class="btn-action" onclick="editItem(\'packages\', ' + pkVal + ')" title="Edit Package"><i class="fas fa-edit"></i></button><button class="btn-action delete" onclick="deleteItem(\'packages\', ' + pkVal + ')" title="Delete Package"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
                 return '<tr class="fade-in"><td><strong style="font-family:var(--font-display); font-size:1rem;">' + escapeHtml(pkg.name || '-') + '</strong><div style="font-size:0.75rem;color:var(--text-muted);text-transform:capitalize;">' + (pkg.service_type || '') + '</div></td><td class="truncate">' + escapeHtml(pkg.description || '-') + '</td><td><span class="badge badge-gold" style="font-size:0.9rem;">₱' + (pkg.price || 0) + '</span></td><td>' + (pkg.pax ? pkg.pax + ' pax' : '-') + '</td><td><img src="' + (pkg.cover_image_url || 'https://via.placeholder.com/56?text=No+Img') + '" style="width:48px;height:48px;object-fit:cover;border-radius:8px;" onerror="this.src=\'https://via.placeholder.com/56?text=?\'" alt=""></td><td><span class="badge ' + (pkg.is_active ? 'badge-green' : 'badge-gold') + '">' + (pkg.is_active ? 'Active' : 'Archived') + '</span></td><td>' + actions + '</td></tr>';
@@ -1062,7 +1071,7 @@ const dbTableMap = {
                 const statusClass = 'status-' + (review.status || 'pending');
                 const date = review.created_at ? new Date(review.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
                 const stars = Array.from({ length: 5 }, (_, index) => index < Number(review.rating || 0) ? '&#9733;' : '&#9734;').join('');
-                const actions = isAdmin ?
+                const actions = (isAdmin || userRole === 'staff') ?
                     '<div class="action-btns"><button class="btn-action" onclick="updateReviewStatus(' + review.id + ', \'published\')" title="Publish Review"><i class="fas fa-check"></i></button><button class="btn-action" onclick="updateReviewStatus(' + review.id + ', \'rejected\')" title="Reject Review"><i class="fas fa-ban"></i></button><button class="btn-action delete" onclick="deleteItem(\'reviews\', ' + review.id + ')" title="Delete Review"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
 
@@ -1080,10 +1089,12 @@ const dbTableMap = {
             if (search) {
                 items = items.filter(item =>
                     (item.name && item.name.toLowerCase().includes(search)) ||
-                    (item.category && item.category.toLowerCase().includes(search))
+                    (item.asset_type && item.asset_type.toLowerCase().includes(search))
                 );
             }
-            if (assetTypeFilter !== 'all') {
+            if (assetTypeFilter === 'props') {
+                items = items.filter(item => item.asset_type !== 'background');
+            } else if (assetTypeFilter !== 'all') {
                 items = items.filter(item => item.asset_type === assetTypeFilter);
             }
             if (items.length === 0) {
@@ -1092,14 +1103,14 @@ const dbTableMap = {
             }
             tbody.innerHTML = items.map(asset => {
                 const typeIcons = {
-                    background: 'fa-image', overlay: 'fa-adjust', frame: 'fa-border-all',
-                    sticker: 'fa-sticky-note', text: 'fa-font', watermark: 'fa-copyright', logo: 'fa-camera'
+                    background: 'fa-image', chair: 'fa-chair', lamp: 'fa-lightbulb', table: 'fa-table', frame: 'fa-border-all', decor: 'fa-palette'
                 };
                 const icon = typeIcons[asset.asset_type] || 'fa-file';
-                const actions = isAdmin ?
+                const categoryLabel = asset.asset_type === 'background' ? 'Backgrounds' : 'Props';
+                const actions = (isAdmin || userRole === 'staff') ?
                     '<div class="action-btns"><button class="btn-action" onclick="editItem(\'canvas_asset\', ' + asset.id + ')" title="Edit Asset"><i class="fas fa-edit"></i></button><button class="btn-action delete" onclick="deleteItem(\'canvas_asset\', ' + asset.id + ')" title="Delete Asset"><i class="fas fa-trash"></i></button></div>' :
                     '<span style="color:var(--text-muted);font-size:0.75rem;">View only</span>';
-                return '<tr class="fade-in"><td><img src="' + (asset.image_url || 'https://via.placeholder.com/56') + '" class="thumbnail" onerror="this.src=\'https://via.placeholder.com/56?text=?\'" alt=""></td><td><strong>' + escapeHtml(asset.name || '-') + '</strong></td><td><span class="badge badge-purple"><i class="fas ' + icon + '" style="margin-right:4px;"></i>' + (asset.asset_type ? asset.asset_type.charAt(0).toUpperCase() + asset.asset_type.slice(1) : '-') + '</span></td><td>' + (asset.created_at ? new Date(asset.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-') + '</td><td>' + actions + '</td></tr>';
+                return '<tr class="fade-in"><td><img src="' + (asset.image_url || 'https://via.placeholder.com/56') + '" class="thumbnail" onerror="this.src=\'https://via.placeholder.com/56?text=?\'" alt=""></td><td><strong>' + escapeHtml(asset.name || '-') + '</strong></td><td><span class="badge badge-purple"><i class="fas ' + icon + '" style="margin-right:4px;"></i>' + (asset.asset_type ? asset.asset_type.charAt(0).toUpperCase() + asset.asset_type.slice(1) : '-') + '</span></td><td>' + categoryLabel + '</td><td>' + (asset.created_at ? new Date(asset.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-') + '</td><td>' + actions + '</td></tr>';
             }).join('');
         }
 
@@ -1249,12 +1260,6 @@ const dbTableMap = {
                 return;
             }
 
-            // Staff can only edit bookings, reviews, contacts — not packages/gallery/assets
-            if (isStaff && ['packages', 'gallery', 'canvas_asset'].includes(table)) {
-                showToast('Only admin can modify packages, gallery, or design assets', 'error');
-                return;
-            }
-
             editingId = id;
             currentTab = table;
             const schema = tableSchemas[table];
@@ -1325,9 +1330,8 @@ const dbTableMap = {
             const isAdmin = userRole === 'admin';
             const isStaff = userRole === 'staff';
 
-            // Staff cannot create or edit packages, gallery, or assets
-            if (isStaff && ['packages', 'gallery', 'canvas_asset'].includes(currentTab)) {
-                showToast('Only admin can modify packages, gallery, or design assets', 'error');
+            if (!isAdmin && !isStaff) {
+                showToast('You do not have permission to save changes', 'error');
                 return;
             }
 
@@ -1476,9 +1480,10 @@ const dbTableMap = {
 
         async function deleteItem(table, id) {
             const isAdmin = userRole === 'admin';
+            const isStaff = userRole === 'staff';
 
-            if (!isAdmin) {
-                showToast('Only admin can delete records', 'error');
+            if (!isAdmin && !isStaff) {
+                showToast('You do not have permission to delete records', 'error');
                 return;
             }
 
@@ -1639,6 +1644,7 @@ const dbTableMap = {
                     .eq('id', id);
                 if (error) throw error;
                 showToast('Review marked as ' + status, 'success');
+                // Reload reviews to pick up the updated row
                 await loadData('reviews');
             } catch (err) {
                 showToast('Review update failed: ' + err.message, 'error');
@@ -1742,7 +1748,6 @@ function generateBookingReference() {
 
             const showActions = isAdmin || isStaff;
             document.getElementById('cmMarkRead').style.display = showActions ? '' : 'none';
-            document.getElementById('cmMarkReplied').style.display = showActions ? '' : 'none';
 
             document.getElementById('contactModalOverlay').classList.add('open');
             document.getElementById('contactModal').classList.add('open');

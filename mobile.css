@@ -70,11 +70,29 @@
     .intro-title {
         font-size: clamp(26px, 7vw, 38px);
     }
+
+    .studio-feature-row--reverse .studio-feature-img {
+    order: 1;
+    }
+
+    .studio-feature-row--reverse .studio-feature-text {
+    order: 2;
+    }
+    .studio-feature-img img {
+    height: 240px;
+}
 }
 
 /* ── SERVICES PAGE ───────────────────────────── */
 @media (max-width: 768px) {
 
+    .studio-feature-row--reverse .studio-feature-img {
+    order: 1;
+    }
+
+    .studio-feature-row--reverse .studio-feature-text {
+    order: 2;
+    }
     .services-discovery {
         padding: 80px 5% 60px;
     }

@@ -254,8 +254,9 @@
 .messenger-pill {
     flex-shrink: 0;
     border: 1px solid rgba(0, 132, 255, 0.24);
-    background: #0084ff;
+    background: linear-gradient(135deg, var(--maroon-main), var(--maroon-deep));
     color: #fff;
+
 }
 
 .contact-actions {

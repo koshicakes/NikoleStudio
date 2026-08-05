@@ -1,6 +1,3 @@
-/* =============================================
-   STUDIO AURA — NEW ALTERNATING LAYOUT
-   ============================================= */
 
 .studio-aura {
     background: var(--off-white, #f8f4f0);
@@ -466,6 +463,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     transition: transform 0.55s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -819,6 +817,13 @@
     font-size: clamp(24px, 6vw, 32px);
   }
 
+  .studio-feature-row--reverse .studio-feature-img {
+    order: 1;
+}
+
+  .studio-feature-row--reverse .studio-feature-text {
+    order: 2;
+}
   .studio-aura-video-block {
     flex-direction: column;
     gap: 40px;

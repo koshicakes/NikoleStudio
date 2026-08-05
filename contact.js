@@ -35,7 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.textContent = 'Sending...';
 
-            try {
+            try {   
+                     if (!gContactCaptchaToken) {
+                        alert('Please complete the CAPTCHA verification.');
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                        return;
+                     }
                 const name = document.getElementById('contact-name')?.value.trim();
                 const email = document.getElementById('contact-email')?.value.trim();
                 const phone = document.getElementById('contact-phone')?.value.trim() || null;
@@ -91,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const formData = new FormData(reviewForm);
 
-                // WRAPPED WITH TIMEOUT
+                //TIMEOUT
                 const { data, error } = await withTimeout(
                     nikoleDB.rpc('submit_review', {
                         p_review_key: formData.get('review_key')?.trim(),

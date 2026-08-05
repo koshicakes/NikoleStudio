@@ -548,9 +548,9 @@
 ========================= */
 .pkg-lite-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    align-items: stretch;
+    align-items: absolute;
 }
 
 .pkg-lite-card {
@@ -558,8 +558,9 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
-    padding: 28px 26px 24px;
+    padding: 42px 30px 38px;
     border-radius: 14px;
+    min-height: 300px;
     background: rgba(255, 255, 255, 0.96);
     border: 1px solid rgba(255, 255, 255, 0.75);
     box-shadow: 0 12px 36px rgba(33, 18, 20, 0.09);
@@ -681,24 +682,27 @@
 ========================= */
 .pkg-panel {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    top: 50%;
+    left: 50%;  
     z-index: 1200;
     width: min(480px, 100vw);
+    max-height: 88vh;
     background: var(--off-white);
-    box-shadow: -24px 0 80px rgba(26, 10, 12, 0.22);
+    box-shadow: 0 32px 90px rgba(26, 10, 12, 0.28);
     overflow-y: auto;
     overscroll-behavior: contain;
-    transform: translateX(100%);
-    transition: transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
-    /* scrollbar polish */
+    transform: translate(-50%, -50%) scale(0.94);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.36s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s ease, visibility 0.3s ease;
     scrollbar-width: thin;
     scrollbar-color: rgba(122, 28, 42, 0.18) transparent;
 }
 
 .pkg-panel.is-open {
-    transform: translateX(0);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Close button */
@@ -956,13 +960,9 @@ body.pkg-panel-active {
     overflow: hidden;
 }
 
-/* =========================
-   PANEL — MOBILE FULL SCREEN
-========================= */
 @media (max-width: 540px) {
     .pkg-panel {
         width: 100vw;
-        border-radius: 0;
     }
 
     .pkg-panel-body {
@@ -970,9 +970,6 @@ body.pkg-panel-active {
     }
 }
 
-/* =========================
-   PKG-LITE GRID — RESPONSIVE
-========================= */
 @media (max-width: 768px) {
     .pkg-lite-grid {
         grid-template-columns: 1fr;
@@ -982,11 +979,6 @@ body.pkg-panel-active {
         padding: 22px 20px 20px;
     }
 }
-/* =========================
-   MOOD OVERLAY TONES
-   Applied to .pkg-panel-hero-overlay via JS based on overlayTone value.
-   Each tone creates a different emotional reading of the same base photo.
-========================= */
 
 /* Default / fallback — subtle lift from bottom */
 .pkg-panel-hero-overlay {
@@ -1028,10 +1020,6 @@ body.pkg-panel-active {
         radial-gradient(ellipse at center, transparent 40%, rgba(26, 10, 12, 0.28) 100%);
 }
 
-/* =========================
-   MOOD LINE — HERO OVERLAY TEXT
-   A one-liner inside the panel hero, above the eyebrow badge.
-========================= */
 .pkg-panel-mood {
     position: absolute;
     bottom: 52px;               /* sits above the eyebrow badge */
@@ -1048,10 +1036,7 @@ body.pkg-panel-active {
     pointer-events: none;
 }
 
-/* =========================
-   MOOD LINE — PACKAGE CARD
-   Italic one-liner between the name and the full description.
-========================= */
+
 .pkg-lite-mood {
     font-size: 12px;
     font-style: italic;
